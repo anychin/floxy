@@ -1,0 +1,21 @@
+h1.page-header
+  | Задачи
+
+= simple_form_for(@new_task, url: tasks_path(@new_task), method: 'POST', :html => { :method => :put, class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :title, label: false, placeholder: 'Название задачи'
+    .col-sm-4
+      .form-group
+        .input-group
+          = f.input :estimated_time, label: false, placeholder: 'Оцениваемое время'
+          .input-group-addon
+            | в часах
+    .col-sm-2
+      .form-group
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Добавить
+
+

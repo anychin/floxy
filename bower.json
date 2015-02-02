@@ -1,34 +1,24 @@
 {
-  "name": "convead",
-  "version": "0.3",
+  "name": "floxy",
+  "version": "0.1",
   "dependencies": {
-    "backbone": "latest",
-    "backbone.marionette": "latest",
-    "purl": "latest",
-    "moment": "latest",
-    "bootstrap-notify": "latest",
-    "history.js": "latest",
-    "jquery.cookie": "latest",
-    "actual_time": "git://github.com/BrandyMint/actual_time.git",
-    "jquery.pagevisibility": "git@github.com:dcherman/jquery.pagevisibility.git",
-    "jquery-utils": "git://github.com/BrandyMint/jquery-utils.git",
-    "typeahead.js-bootstrap.css": "latest",
-    "Backbone.ModelBinder": "latest",
-    "backbone-forms": "latest",
-    "backbone-validation": "latest",
-    "backbone-relational": "latest",
-    "layoutmanager": "latest",
-    "backbone.collectionView": "latest",
-    "backbone-eventbroker": "latest",
-    "editable-bootstrap": "git://github.com/BrandyMint/bootstrap-editable.git"
+    "jquery": "latest",
+    "jquery.role": "git://github.com/kossnocorp/role",
+    "modernizr": "latest"
   },
   "ignore": [
     "**/.*",
+    "components",
     "node_modules",
-    "components"
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
   ],
-  "resolutions": {
-      "jquery": "1.9.1",
-      "backbone": "~1.0"
-  }
+  "homepage": "https://github.com/sibsfinx/floxy-rails",
+  "authors": [
+    "Alexander Mescheryakov <sibsfinx@ya.ru>"
+  ],
+  "license": "MIT",
+  "private": true
 }

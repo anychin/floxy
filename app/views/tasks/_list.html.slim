@@ -1,0 +1,17 @@
+- columns = [:id, :title, :estimated_time]
+
+- if @tasks.present?
+  table.table.table-striped
+    thead
+      - columns.each_with_index do |col, i|
+        th(style="#{'width: 40px;' if i == 0}")
+          = col
+
+    tbody
+      - @tasks.each do |t|
+        tr
+          - columns.each do |col|
+            td= t[col]
+
+- else
+  | Задач пока нет

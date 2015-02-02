@@ -10,7 +10,7 @@ gem 'pg'
 
 # Authentication & Authorisation
 # gem 'devise'
-gem 'authority'
+# gem 'authority'
 # gem 'rolify'
 # gem 'switch_user'
 # gem "cancan"
@@ -38,7 +38,7 @@ gem 'settingslogic'
 
 # Views Core
 gem 'slim-rails'
-# gem 'haml-rails'
+gem 'haml-rails'
 
 # View Helpers
 gem 'simple-navigation', :git => 'git://github.com/andi/simple-navigation.git'
@@ -70,7 +70,7 @@ gem 'uglifier', '~> 1.3'
 gem 'coffee-rails'
 
 # Css
-gem 'bootstrap-sass', '~> 3.0.2.0'
+gem 'bootstrap-sass', '~> 3.2.0'
 gem 'compass'
 gem 'compass-rails'
 gem 'sprockets-rails'

@@ -5,12 +5,13 @@ Floxy::Application.routes.draw do
   #mount GrapeSwaggerRails::Engine => '/api'
   #mount API => '/api'
  
-  devise_for :admin_users, ActiveAdmin::Devise.config
+  #devise_for :admin_users, ActiveAdmin::Devise.config
 
-  ActiveAdmin.routes(self)
+  #ActiveAdmin.routes(self)
 
-  root 'welcome#index'
+  root 'tasks#index'
 
+  resources :tasks, only: [:show, :index, :create, :edit, :update, :new]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
