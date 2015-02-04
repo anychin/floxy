@@ -1,6 +1,21 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @tasks = Task.ordered_by_id
+    @new_task = Task.new
+  end
+
+  def show
+    @task = Task.find(params[:id])
+    not_found unless @task.present?
+  end
+
+  def edit
+    @task = Task.find(params[:id])
+    not_found unless @task.present?
+  end
+
   def create
     params[:task][:owner_id] = current_user.id
     @task = Task.new(permitted_params)
@@ -12,14 +27,14 @@ class TasksController < ApplicationController
     redirect_to tasks_path
   end
 
-  def index
-    @tasks = Task.all
-    @new_task = Task.new
-  end
-
-  def show
+  def update
     @task = Task.find(params[:id])
-    not_found unless @task.present?
+    if @task.update_attributes(permitted_params)
+      flash[:notice] = 'Задача обновлена'
+    else
+      flash[:alert] = 'Ошибочка вышла, задача не обновлена'
+    end
+    redirect_to task_path(@task)
   end
 
   private

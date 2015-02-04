@@ -1,4 +1,4 @@
-= simple_form_for(@new_project, url: projects_path(@new_project), method: 'POST', :html => { :method => :put, class: 'form-vertical' }) do |f|
+= simple_form_for(project, :html => { class: 'form-vertical' }) do |f|
   = f.error_notification
   .row
     .col-sm-4
@@ -7,7 +7,7 @@
     .col-sm-2
       .form-group
         = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
-          | Добавить
+          | Сохранить
   .row
     .col-sm-4
       .form-group

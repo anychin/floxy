@@ -2,9 +2,9 @@
   h2
     | Добавить задачу
   br
-  = render 'tasks/form'
+  = render 'tasks/form', task: @new_task
   hr
   h2
     | Все задачи
-  = render 'tasks/list', tasks: @tasks
+  = render 'tasks/list', tasks: @tasks, show_project: true
 

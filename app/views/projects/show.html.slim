@@ -1,6 +1,13 @@
 .container
   small.text-muted= "Проект ##{@project.id}"
-  h1= @project.title
+  h1
+    .pull-left
+      = @project.title
+      | &nbsp;&nbsp;
+    .pull-left
+      = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-default'
+    .clearfix
+
   p= @project.description
 
   hr
@@ -8,4 +15,4 @@
   h2
     | Задачи проекта
 
-  = render 'tasks/list', tasks: @project.tasks
+  = render 'tasks/list', tasks: @project.tasks, show_project: false

@@ -1,14 +1,20 @@
 .container
   small.text-muted= "Задача ##{@task.id}"
   | &nbsp;&bull;&nbsp;
-  strong= link_to @task.project.title if @task.project.present?
-  h1= @task.title
-  - task_attrs = [:owner, :assignee, :estimated_time, :elapsed_time]
-  .row
-    - task_attrs.each do |attr|
-      - if @task[attr].present?
-        .col-sm-3
-          = "#{attr}: "
-          = @task[attr]
-          hr
-
+  strong= link_to @task.project.title, @task.project if @task.project.present?
+  h1
+    .pull-left
+      = @task.title
+      | &nbsp;&nbsp;
+    .pull-left
+      = link_to 'Изменить', edit_task_path(@task), class: 'btn btn-default'
+    .clearfix
+  hr
+  p
+    = "owner: #{@task.owner}"
+  p
+    = "assignee: #{@task.assignee}"
+  p
+    = "estimated_time: #{@task.estimated_time}"
+  p
+    = "elapsed_time: #{@task.elapsed_time}"

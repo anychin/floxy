@@ -1,4 +1,7 @@
-- columns = [:project, :title, :estimated_time, :assignee]
+- if show_project
+  - columns = [:project, :title, :estimated_time, :assignee]
+- else
+  - columns = [:title, :estimated_time, :assignee]
 
 - if tasks.present?
   table.table.table-striped
@@ -10,23 +13,22 @@
     tbody
       - tasks.each do |t|
         tr
-          td
-            = link_to t.project.title, project_path(t.project) if t.project.present?
+          - if show_project
+            td
+              = link_to t.project.title, project_path(t.project) if t.project.present?
           td
             = link_to task_path(t) do
-              small.text-muted
-                = "##{t.id}"
-              | &nbsp;&nbsp;
               = t.title
           td
             = t.estimated_time
           td
-            = t.assignee if t.assignee.present?
-            - if t.owner.present?
+            - if t.assignee.present?
+              = t.assignee
               | &nbsp;&nbsp;
-              small.text-muted
-                | от&nbsp;
-                = t.owner
+              - if t.owner.present?
+                small.text-muted
+                  | от&nbsp;
+                  = t.owner
 
 
 - else

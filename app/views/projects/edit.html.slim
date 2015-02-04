@@ -1,2 +1,7 @@
-h1 Tasks#edit
-p Find me in app/views/tasks/edit.html.slim
+.container
+  small.text-muted= "Проект ##{@project.id}"
+  h1
+    | Редактирование проекта
+  hr
+  = render 'projects/form', project: @project
+
