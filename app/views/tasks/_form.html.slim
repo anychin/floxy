@@ -17,9 +17,9 @@
   .row
     .col-sm-3
       .form-group
-        = f.association :project, as: :select, label: false, prompt: 'Проект'
+        = f.association :project, as: :select, include_blank: true
     .col-sm-3
       .form-group
-        = f.association :assignee, as: :select, label: false, prompt: 'Исполнитель'
+        = f.association :assignee, as: :select, include_blank: true
 
 
