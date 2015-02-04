@@ -53,7 +53,8 @@ namespace :deploy do
       # end
     end
   end
-
+  
+  before :compile_assets, 'bower:install'
   after :publishing, :restart
   after :finishing, 'deploy:cleanup'
   after :finishing, 'deploy:notify'
