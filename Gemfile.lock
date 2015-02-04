@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/airbrake/airbrake.git
-  revision: b192f3dcff54f135c3702b8b10ad7384844139e9
-  specs:
-    airbrake (4.1.0)
-      builder
-      multi_json
-
-GIT
   remote: git://github.com/andi/simple-navigation.git
   revision: d9a1a5dadb7dd030b6987a177647ce028dfbae5c
   specs:
@@ -20,6 +12,19 @@ GIT
     simple_form (3.1.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
+
+GIT
+  remote: https://github.com/plataformatec/devise.git
+  revision: 394d69d9584fea1d9cceb3930be833cbc4425f4c
+  branch: master
+  specs:
+    devise (3.4.1)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
 
 GEM
   remote: http://rubygems.org/
@@ -63,6 +68,7 @@ GEM
       tzinfo (~> 1.1)
     arel (6.0.0)
     awesome_print (1.6.1)
+    bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -166,6 +172,7 @@ GEM
     multi_json (1.10.1)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
+    orm_adapter (0.5.0)
     pg (0.18.1)
     poltergeist (1.5.1)
       capybara (~> 2.1)
@@ -227,6 +234,8 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    responders (2.1.0)
+      railties (>= 4.2.0, < 5)
     role-rails (1.4.0)
       rails (>= 3.1.0)
     rspec-core (3.1.7)
@@ -310,6 +319,8 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    warden (1.2.3)
+      rack (>= 1.0)
     websocket-driver (0.5.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.1)
@@ -322,7 +333,6 @@ PLATFORMS
 
 DEPENDENCIES
   active_link_to
-  airbrake!
   awesome_print
   better_errors
   bootstrap-sass (~> 3.2.0)
@@ -332,6 +342,7 @@ DEPENDENCIES
   compass
   compass-rails
   database_cleaner
+  devise!
   haml-rails
   jquery-rails
   jquery-turbolinks

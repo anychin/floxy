@@ -9,7 +9,8 @@ gem 'pg'
 # gem 'friendly_id', '~> 5.0.0'
 
 # Authentication & Authorisation
-# gem 'devise'
+#gem 'devise'
+gem 'devise', :git => 'https://github.com/plataformatec/devise.git', :branch => 'master'
 # gem 'authority'
 # gem 'rolify'
 # gem 'switch_user'
@@ -86,7 +87,7 @@ gem 'sass-rails'
 
 # Errors
 #gem 'airbrake_user_attributes'
-gem 'airbrake', :github => 'airbrake/airbrake'
+#gem 'airbrake', :github => 'airbrake/airbrake'
 
 # Api
 # gem 'grape', github: 'intridea/grape'

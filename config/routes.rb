@@ -13,6 +13,8 @@ Floxy::Application.routes.draw do
 
   resources :tasks, only: [:show, :index, :create, :edit, :update, :new]
 
+  devise_for :users
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
