@@ -10,13 +10,10 @@
     = yield(:head)
   %body{:class => "#{controller_name} #{action_name}"}
     = render 'layouts/navigation'
-    #main{:role => "main"}
+    .application-container
+      = render 'layouts/messages'
+      = yield
+
+    %footer.footer
       .container
-        .content
-          .row
-            .col-md-12
-              = render 'layouts/messages'
-              = yield
-      %footer.footer
-        .container
-          -#%small.muted= app_version
+        -#%small.muted= app_version

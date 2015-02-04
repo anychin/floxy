@@ -5,12 +5,13 @@ SimpleNavigation::Configuration.run do |navigation|
   navigation.items do |primary|
     #primary.item :hotels, I18n.t("admin.menu.hotels"), root_url, if: proc { current_user.admin? }
 
-    primary.dom_class = 'nav navbar-nav'
+    primary.dom_class = 'nav navbar-nav pull-right'
 
-    primary.item :tasks, 'Задачи', tasks_url, highlights_on: %r(/tasks)
-    primary.item :projects, 'Проекты', projects_url, highlights_on: %r(/projects)
+    if current_user.present?
+      primary.item :user, current_user, "/me", highlights_on: %r(/me)
+    end
 
-    #primary.item :users, 'Люди', users_url
+    #primary.item :tasks, 'Люди', users_url
 
     # you can turn off auto highlighting for a specific level
     primary.auto_highlight = true

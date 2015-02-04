@@ -1,0 +1,11 @@
+.container
+  small.text-muted= "Проект ##{@project.id}"
+  h1= @project.title
+  p= @project.description
+
+  hr
+
+  h2
+    | Задачи проекта
+
+  = render 'tasks/list', tasks: @project.tasks

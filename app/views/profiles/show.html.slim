@@ -1,0 +1,17 @@
+.container
+  - if @user == current_user
+    h1
+      | Мой профиль
+  - else
+    h1
+      = @user
+  - user_attrs = [:email]
+  .row
+    - user_attrs.each do |attr|
+      - if @user[attr].present?
+        .col-sm-3
+          = "#{attr}: "
+          = @user[attr]
+          hr
+  = link_to 'Выйти', destroy_user_session_path, method: "delete", class: 'btn btn-danger'
+

@@ -1,17 +1,33 @@
-- columns = [:id, :title, :estimated_time]
+- columns = [:project, :title, :estimated_time, :assignee]
 
-- if @tasks.present?
+- if tasks.present?
   table.table.table-striped
     thead
       - columns.each_with_index do |col, i|
-        th(style="#{'width: 40px;' if i == 0}")
+        th(style="#{'width: 120px;' if i == 0}")
           = col
 
     tbody
-      - @tasks.each do |t|
+      - tasks.each do |t|
         tr
-          - columns.each do |col|
-            td= t[col]
+          td
+            = link_to t.project.title, project_path(t.project) if t.project.present?
+          td
+            = link_to task_path(t) do
+              small.text-muted
+                = "##{t.id}"
+              | &nbsp;&nbsp;
+              = t.title
+          td
+            = t.estimated_time
+          td
+            = t.assignee if t.assignee.present?
+            - if t.owner.present?
+              | &nbsp;&nbsp;
+              small.text-muted
+                | от&nbsp;
+                = t.owner
+
 
 - else
   | Задач пока нет

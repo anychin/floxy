@@ -1,5 +1,10 @@
 .container
+  h2
+    | Добавить задачу
+  br
   = render 'tasks/form'
   hr
-  = render 'tasks/list'
+  h2
+    | Все задачи
+  = render 'tasks/list', tasks: @tasks
 

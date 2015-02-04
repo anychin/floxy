@@ -12,8 +12,12 @@ Floxy::Application.routes.draw do
   root 'tasks#index'
 
   resources :tasks, only: [:show, :index, :create, :edit, :update, :new]
+  resources :projects, only: [:show, :index, :create, :edit, :update, :new]
+  resources :profiles, only: [:show, :index]
 
   devise_for :users
+
+  get 'me' => 'profiles#show_current'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

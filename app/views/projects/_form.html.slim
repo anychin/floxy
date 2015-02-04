@@ -1,0 +1,17 @@
+= simple_form_for(@new_project, url: projects_path(@new_project), method: 'POST', :html => { :method => :put, class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :title, label: false, placeholder: 'Название проекта'
+    .col-sm-2
+      .form-group
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Добавить
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :description, label: false, placeholder: 'Описание'
+
+
+

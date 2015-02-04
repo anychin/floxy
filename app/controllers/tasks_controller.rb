@@ -1,5 +1,8 @@
 class TasksController < ApplicationController
+  before_action :authenticate_user!
+
   def create
+    params[:task][:owner_id] = current_user.id
     @task = Task.new(permitted_params)
     if @task.save
       flash[:notice] = 'Задача добавлена'
@@ -14,10 +17,15 @@ class TasksController < ApplicationController
     @new_task = Task.new
   end
 
+  def show
+    @task = Task.find(params[:id])
+    not_found unless @task.present?
+  end
+
   private
 
   def permitted_params
-    params.require(:task).permit(:title, :estimated_time)
+    params.require(:task).permit!
   end
 
 end

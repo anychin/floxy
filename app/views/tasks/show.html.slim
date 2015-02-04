@@ -1,2 +1,14 @@
-h1 Tasks#show
-p Find me in app/views/tasks/show.html.slim
+.container
+  small.text-muted= "Задача ##{@task.id}"
+  | &nbsp;&bull;&nbsp;
+  strong= link_to @task.project.title if @task.project.present?
+  h1= @task.title
+  - task_attrs = [:owner, :assignee, :estimated_time, :elapsed_time]
+  .row
+    - task_attrs.each do |attr|
+      - if @task[attr].present?
+        .col-sm-3
+          = "#{attr}: "
+          = @task[attr]
+          hr
+

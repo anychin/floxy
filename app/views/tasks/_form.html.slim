@@ -1,13 +1,10 @@
-h1.page-header
-  | Задачи
-
 = simple_form_for(@new_task, url: tasks_path(@new_task), method: 'POST', :html => { :method => :put, class: 'form-vertical' }) do |f|
   = f.error_notification
   .row
-    .col-sm-4
+    .col-sm-6
       .form-group
         = f.input :title, label: false, placeholder: 'Название задачи'
-    .col-sm-4
+    .col-sm-3
       .form-group
         .input-group
           = f.input :estimated_time, label: false, placeholder: 'Оцениваемое время'
@@ -17,5 +14,12 @@ h1.page-header
       .form-group
         = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
           | Добавить
+  .row
+    .col-sm-3
+      .form-group
+        = f.association :project, as: :select, label: false, prompt: 'Проект'
+    .col-sm-3
+      .form-group
+        = f.association :assignee, as: :select, label: false, prompt: 'Исполнитель'
 
 
