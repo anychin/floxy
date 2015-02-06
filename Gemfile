@@ -119,6 +119,7 @@ gem 'sass-rails'
 # gem 'semver2'
 
 # Usefull Stuff
+gem 'hashie'
 # gem 'tinymce-rails'
 # gem "jquery-fileupload-rails"
 # gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
@@ -127,6 +128,8 @@ gem 'sass-rails'
 # gem 'x-editable-rails'
 # gem 'select2-rails'
 # gem 'rubylight', :git=>'git://github.com/azfire/rubylight.git'
+
+gem 'puma'
 
 group :development do
   # gem 'ruby-graphviz'
@@ -211,6 +214,5 @@ end
 # end
 
 group :production do
-  gem 'puma'
   # gem 'newrelic_rpm'
 end

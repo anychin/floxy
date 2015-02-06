@@ -132,6 +132,7 @@ GEM
       haml (>= 3.1, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
+    hashie (2.1.1)
     hike (1.2.3)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
@@ -351,6 +352,7 @@ DEPENDENCIES
   database_cleaner
   devise!
   haml-rails
+  hashie
   jquery-rails
   jquery-turbolinks
   kaminari
