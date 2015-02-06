@@ -8,6 +8,7 @@ set :rails_env, 'production'
 set :domain, '188.226.198.167'
 set :port, 523
 set :user, 'deploy'
+set :term_mode, nil
 
 set :deploy_to, "/home/#{user}/floxy/#{rails_env}"
 set :app_path, "#{deploy_to}/#{current_path}"
