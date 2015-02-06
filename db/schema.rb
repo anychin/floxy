@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150204115408) do
+ActiveRecord::Schema.define(version: 20150206142634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(version: 20150204115408) do
     t.string   "title"
   end
 
+  create_table "task_levels", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "rate_type",  default: 0
+    t.decimal  "rate_value"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string   "title"
     t.decimal  "estimated_time"
@@ -48,6 +56,7 @@ ActiveRecord::Schema.define(version: 20150204115408) do
     t.integer  "owner_id"
     t.integer  "assignee_id"
     t.integer  "project_id"
+    t.integer  "task_level_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -21,5 +21,8 @@
     .col-sm-3
       .form-group
         = f.association :assignee, as: :select, include_blank: true
+    .col-sm-3
+      .form-group
+        = f.association :task_level, as: :select, include_blank: true
 
 

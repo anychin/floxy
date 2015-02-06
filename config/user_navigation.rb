@@ -8,6 +8,7 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.dom_class = 'nav navbar-nav pull-right'
 
     if current_user.present?
+      primary.item :settings, 'Настройки', settings_url
       primary.item :user, current_user, "/me", highlights_on: %r(/me)
     end
 
