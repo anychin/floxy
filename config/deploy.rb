@@ -1,62 +1,53 @@
-lock '3.1.0'
+require 'mina/bundler'
+require 'mina/rails'
+require 'mina/git'
+require 'mina/rvm'
+require 'mina/puma'
 
-set :application, 'HOSTNAME'
-set :repo_url, 'REPO' #git@github.com:BrandyMint/zagorod.git'
+set :rails_env, 'production'
+set :domain, '188.226.198.167'
+set :port, 523
+set :user, 'deploy'
 
-#ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+set :deploy_to, "/home/#{user}/floxy/#{rails_env}"
+set :app_path, "#{deploy_to}/#{current_path}"
+set :repository, 'git@bitbucket.org:webiumdigital/floxy_prototype.git'
+set :branch, 'master'
+set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'tmp']
+set :keep_releases, 10
+set :rvm_path, "/home/#{user}/.rvm/scripts/rvm"
 
-set :deploy_to, ->{"/home/USERNAME/#{fetch(:application)}"}
-set :scm, :git
+task :environment do
+  invoke 'rvm:use[ruby-2.2.0@default]'
+end
 
-# set :format, :pretty
-# set :log_level, :debug
-# set :pty, true
+#delay. Setup task
+# ==============================================================================
+task :setup do
+  queue! %{
+mkdir -p "#{deploy_to}/shared/tmp/pids"
+}
+  queue! %{
+mkdir -p "#{deploy_to}/shared/tmp/sockets"
+}
+  queue! %{
+mkdir -p "#{deploy_to}/shared/config"
+}
+end
 
-set :linked_files, %w{config/database.yml}
-set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
+# Deploy task
+# ==============================================================================
+desc "deploys the current version to the server."
+task deploy: :environment do
+  deploy do
+    invoke 'git:clone'
+    invoke 'bundle:install'
+    invoke 'deploy:link_shared_paths'
+    invoke 'rails:db_migrate'
+    invoke 'rails:assets_precompile'
 
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
-
-set :rbenv_type, :user
-set :rbenv_ruby, '2.1.1'
-
-set :bundle_without, %w{development test deploy}.join(' ')
-
-namespace :deploy do
-
-  desc 'Restart application'
-  task :restart do
-    on roles(:web), in: :sequence, wait: 5 do
-      execute "/etc/init.d/unicorn-#{fetch(:application)} upgrade"
-      # Your restart mechanism here, for example:
-      # execute :touch, release_path.join('tmp/restart.txt')
+    to :launch do
+      invoke :'puma:restart'
     end
   end
-
-  desc 'Notify airbrake'
-  task :notify do
-    on roles(:all) do
-      within release_path do
-        execute :rake, 'airbrake:deploy', "TO=#{fetch(:rails_env)}",
-          "REVISION=\"`head -n1 #{repo_path}/FETCH_HEAD | cut -f1`\"",
-          "REPO=#{fetch(:repo_url)}",
-          "USER=#{ENV['USER'] || ENV['USERNAME']}"
-      end
-    end
-  end
-
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
-  
-  before :compile_assets, 'bower:install'
-  after :publishing, :restart
-  after :finishing, 'deploy:cleanup'
-  after :finishing, 'deploy:notify'
-
 end

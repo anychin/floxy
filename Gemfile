@@ -150,6 +150,11 @@ group :development do
   gem 'ruby-progressbar'
 
   # gem 'foreman'
+  
+  # Deploy
+  gem 'mina'
+  # Tasks for mina
+  gem 'mina-puma', :require => false
 end
 
 gem 'rspec-rails', :group => [:development, :test]
@@ -203,6 +208,6 @@ end
 # end
 
 group :production do
-  gem 'unicorn'
+  gem 'puma'
   # gem 'newrelic_rpm'
 end
