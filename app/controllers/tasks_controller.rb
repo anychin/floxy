@@ -2,7 +2,11 @@ class TasksController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @tasks = Task.ordered_by_id
+    if params[:assignee].present?
+      @tasks = Task.ordered_by_id.select{|t| t.assignee == current_user}
+    else
+      @tasks = Task.ordered_by_id
+    end
     @new_task = Task.new
   end
 
