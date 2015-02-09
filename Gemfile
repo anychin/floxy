@@ -116,7 +116,7 @@ gem 'sass-rails'
 # gem 'gctools'
 
 # Versions
-# gem 'semver2'
+gem 'semver2'
 
 # Usefull Stuff
 gem 'hashie'

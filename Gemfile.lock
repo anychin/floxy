@@ -273,6 +273,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
+    semver2 (3.4.1)
     settingslogic (2.0.9)
     sexp_processor (4.4.5)
     simple-navigation-bootstrap (1.0.0)
@@ -374,6 +375,7 @@ DEPENDENCIES
   rspec-rails
   ruby-progressbar
   sass-rails
+  semver2
   settingslogic
   simple-navigation!
   simple-navigation-bootstrap
