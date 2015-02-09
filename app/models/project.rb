@@ -5,4 +5,8 @@ class Project < ActiveRecord::Base
 
   scope :ordered_by_id, -> { order("id asc") }
 
+  def to_s
+    title
+  end
+
 end

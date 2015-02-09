@@ -37,6 +37,18 @@ class ProjectsController < ApplicationController
     redirect_to project_path(@project)
   end
 
+  def destroy
+    @project = Project.find(params[:id])
+    if @project.destroy
+      flash[:notice] = 'Проект удален'
+    else
+      flash[:alert] = 'Ошибочка вышла, проект не удален'
+    end
+    redirect_to projects_path
+  end
+
+
+
   private
 
   def permitted_params

@@ -6,6 +6,7 @@
       - columns.each_with_index do |col, i|
         th(style="#{'width: 40px;' if i == 0}")
           = col
+      th
 
     tbody
       - @projects.each do |p|
@@ -16,6 +17,10 @@
             = link_to p.title, project_path(p)
           td
             = p.description
+          td.text-right
+            = link_to 'edit', edit_project_path(p), class: 'btn btn-link'
+            = link_to 'delete', project_path(p), method: :delete, confirm: "Удалить проект #{p}?", class: 'btn btn-link'
+
 
 - else
   | Проектов пока нет

@@ -1,7 +1,6 @@
-- if show_project
-  - columns = [:project, :title, :estimated_time, :assignee]
-- else
-  - columns = [:title, :estimated_time, :assignee]
+- columns = [:title, :estimated_time, :level, :assignee]
+- columns.unshift(:project) if show_project
+
 
 - if tasks.present?
   table.table.table-striped
@@ -9,18 +8,21 @@
       - columns.each_with_index do |col, i|
         th(style="#{'width: 120px;' if i == 0}")
           = col
+      th
 
     tbody
       - tasks.each do |t|
         tr
           - if show_project
             td
-              = link_to t.project.title, project_path(t.project) if t.project.present?
+              = link_to t.project, project_path(t.project) if t.project.present?
           td
             = link_to task_path(t) do
               = t.title
           td
             = t.estimated_time
+          td
+            = t.task_level if t.task_level.present?
           td
             - if t.assignee.present?
               = t.assignee
@@ -29,7 +31,13 @@
                 small.text-muted
                   | от&nbsp;
                   = t.owner
+          td.text-right
+            = link_to 'edit', edit_task_path(t), class: 'btn btn-link'
+            = link_to 'delete', task_path(t), method: :delete, confirm: "Удалить задачу #{t}?", class: 'btn btn-link'
 
 
 - else
-  | Задач пока нет
+  p
+    | Задач пока нет
+  p
+    = link_to 'Добавить задачу', new_task_path, class: 'btn btn-primary'
