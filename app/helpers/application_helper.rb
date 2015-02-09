@@ -25,4 +25,8 @@ module ApplicationHelper
     content_tag :span, count, options
   end
 
+  def is_current_user_tasks_page?
+    params[:assignee] == current_user.id.to_s
+  end
+
 end

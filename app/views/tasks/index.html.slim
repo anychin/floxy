@@ -1,15 +1,14 @@
-.container
-  h2
-    | Добавить задачу
-  br
-  = render 'tasks/form', task: @new_task
+- unless is_current_user_tasks_page?
+  .container
+    h2
+      | Добавить задачу
+    br
+    = render 'tasks/form', task: @new_task
   hr
-  //h2.pull-left
-    | Задачи
-  .btn-group
-    = link_to 'Все задачи', tasks_path, class: "btn btn-lg btn-primary--outline #{params[:assignee] != current_user.id.to_s ? 'active' : ''}"
-    = link_to 'Мои задачи', tasks_path(assignee: current_user), class: "btn-lg btn btn-primary--outline #{params[:assignee] == current_user.id.to_s ? 'active' : ''}"
-  br
-  br
+  .container
+    h2.pull-left
+      | Задачи
+.container
   = render 'tasks/list', tasks: @tasks, show_project: true
+
 
