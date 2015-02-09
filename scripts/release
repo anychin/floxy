@@ -12,4 +12,4 @@ git commit -m `semver`
 git push --tags
 
 # sudo pip instal gitchangelog
-#gitchangelog > Changelog.txt
+git log > CHANGELOG.md
