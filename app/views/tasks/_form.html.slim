@@ -24,10 +24,10 @@
     .col-sm-3
       .form-group
         = f.association :task_level, as: :select, include_blank: true
-  .row
     .col-sm-3
       .form-group
         = f.input :status, as: :select, include_blank: true, collection: Task.statuses.keys.to_a
+  .row
     .col-sm-3
       .form-group
         = f.input :task_type
