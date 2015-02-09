@@ -1,4 +1,10 @@
 Floxy::Application.routes.draw do
+  get 'settings/index'
+
+  get 'task_levels/index'
+
+  get 'task_levels/edit'
+
   self.default_url_options Settings.app.default_url_options.symbolize_keys
 
   ## scope subdomain: 'api', constraints: { subdomain: 'api' } do
@@ -11,12 +17,14 @@ Floxy::Application.routes.draw do
 
   root 'tasks#index'
 
-  resources :tasks, only: [:show, :index, :create, :edit, :update, :new]
-  resources :projects, only: [:show, :index, :create, :edit, :update, :new]
+  resources :tasks, only: [:show, :index, :create, :edit, :update, :new, :destroy]
+  resources :projects, only: [:show, :index, :create, :edit, :update, :new, :destroy]
   resources :profiles, only: [:show, :index]
+  resources :task_levels, only: [:index, :edit, :create, :edit, :update, :destroy]
 
   devise_for :users
 
+  get 'settings' => 'settings#index'
   get 'me' => 'profiles#show_current'
 
   # Example of regular route:

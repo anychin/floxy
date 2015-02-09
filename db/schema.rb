@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150204115408) do
+ActiveRecord::Schema.define(version: 20150209072720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,17 +38,33 @@ ActiveRecord::Schema.define(version: 20150204115408) do
     t.string   "title"
   end
 
+  create_table "task_levels", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "rate_type",  default: 0
+    t.decimal  "rate_value"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string   "title"
     t.decimal  "estimated_time"
     t.decimal  "elapsed_time"
     t.integer  "status"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.integer  "owner_id"
     t.integer  "assignee_id"
     t.integer  "project_id"
+    t.integer  "task_level_id"
+    t.string   "aim"
+    t.string   "tool"
+    t.decimal  "estimated_expenses"
+    t.decimal  "elapsed_expenses"
+    t.string   "task_type"
   end
+
+  add_index "tasks", ["status"], name: "index_tasks_on_status", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

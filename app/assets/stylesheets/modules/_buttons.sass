@@ -1,0 +1,11 @@
+@each $c in primary $brand-primary $brand-primary, danger $brand-danger $brand-danger
+  .btn-#{nth($c,1)}--outline
+    &, &:focus
+      border: 1px solid nth($c,2)
+      +transition(color 0.2s ease, background 0.2s ease)
+      color: nth($c,2)
+    &:hover, &.active
+      color: #fff
+      background-color: nth($c,3)
+      border-color: nth($c,3)
+

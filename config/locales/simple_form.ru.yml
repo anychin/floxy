@@ -21,11 +21,14 @@ ru:
         sending: Отправляем...
         saving: Сохраняем...
         waiting: Подождите...
-    labels:
+    labels: &labels
       defaults:
         name: Название
         title: Название
+      task:
+        title: Название
     placeholders:
+      <<: *labels
       defaults:
         title: Название
     hints:

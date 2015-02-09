@@ -2,7 +2,11 @@ class TasksController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @tasks = Task.ordered_by_id
+    if params[:assignee].present?
+      @tasks = Task.ordered_by_id.select{|t| t.assignee == current_user}
+    else
+      @tasks = Task.ordered_by_id
+    end
     @new_task = Task.new
   end
 
@@ -32,10 +36,24 @@ class TasksController < ApplicationController
     if @task.update_attributes(permitted_params)
       flash[:notice] = 'Задача обновлена'
     else
-      flash[:alert] = 'Ошибочка вышла, задача не обновлена'
+      msg = 'Ошибочка вышла, задача не обновлена'
+      msg << ":#{@task.errors.messages}" if @task.errors.any?
+      flash[:alert] = msg
     end
     redirect_to task_path(@task)
   end
+
+  def destroy
+    @task = Task.find(params[:id])
+    if @task.destroy
+      flash[:notice] = 'Задача удалена'
+    else
+      flash[:alert] = 'Ошибочка вышла, задача не удалена'
+    end
+    redirect_to tasks_path
+  end
+
+
 
   private
 

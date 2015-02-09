@@ -1,0 +1,22 @@
+- columns = [:title, :rate_type, :rate_value]
+
+- if task_levels.present?
+  table.table.table-striped
+    thead
+      - columns.each do |col, i|
+        th
+          = col
+      th
+
+    tbody
+      - task_levels.each do |t|
+        tr
+          td=t.title
+          td=t.rate_type
+          td=t.rate_value
+          td.text-right
+            = link_to 'edit', edit_task_level_path(t), class: 'btn btn-link'
+            = link_to 'delete', task_level_path(t), method: :delete, confirm: "Удалить уровень #{t}?", class: 'btn btn-link'
+
+- else
+  | Уровней задач пока нет

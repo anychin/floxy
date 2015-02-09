@@ -1,10 +1,14 @@
-.container
-  h2
-    | Добавить задачу
-  br
-  = render 'tasks/form', task: @new_task
+- unless is_current_user_tasks_page?
+  .container
+    h2
+      | Добавить задачу
+    br
+    = render 'tasks/form', task: @new_task
   hr
-  h2
-    | Все задачи
+  .container
+    h2.pull-left
+      | Задачи
+.container
   = render 'tasks/list', tasks: @tasks, show_project: true
+
 
