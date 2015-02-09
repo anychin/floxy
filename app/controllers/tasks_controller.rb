@@ -32,7 +32,9 @@ class TasksController < ApplicationController
     if @task.update_attributes(permitted_params)
       flash[:notice] = 'Задача обновлена'
     else
-      flash[:alert] = 'Ошибочка вышла, задача не обновлена'
+      msg = 'Ошибочка вышла, задача не обновлена'
+      msg << ":#{@task.errors.messages}" if @task.errors.any?
+      flash[:alert] = msg
     end
     redirect_to task_path(@task)
   end

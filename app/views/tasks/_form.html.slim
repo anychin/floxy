@@ -24,5 +24,31 @@
     .col-sm-3
       .form-group
         = f.association :task_level, as: :select, include_blank: true
+  .row
+    .col-sm-3
+      .form-group
+        = f.input :status, as: :select, include_blank: true, collection: Task.statuses.keys.to_a
+    .col-sm-3
+      .form-group
+        = f.input :task_type
+    .col-sm-3
+      .form-group
+        = f.input :aim
+    .col-sm-3
+      .form-group
+        = f.input :tool
+    .col-sm-3
+      .form-group
+        label= t :estimated_expenses
+        .input-group
+          = f.input :estimated_expenses, label: false
+          .input-group-addon
+            | руб.
+    //.col-sm-2
+      .form-group
+        .input-group
+          = f.input :elapsed_expenses
+          .input-group-addon
+            | руб.
 
 

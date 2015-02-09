@@ -1,4 +1,6 @@
 class Task < ActiveRecord::Base
+  enum status: [:draft, :todo, :done, :accepted]
+
   validates :title, presence: true
 
   belongs_to :project

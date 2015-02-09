@@ -1,0 +1,18 @@
+ru:
+  activerecord:
+    models:
+      task: Задача
+      project: Проект
+      task_level: Уровень задачи
+  attributes:
+    task:
+      title: Название
+      assignee: Исполнитель
+      owner: Владелец
+      type: Тип
+      tool: Инструмент
+      aim: Цель
+      estimated_expenses: Планируемый бюджет
+      elapsed_expenses: Итоговый бюджет
+      estimated_time: Планируемое время
+      elapsed_time: Итоговое время
