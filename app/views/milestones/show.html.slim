@@ -1,0 +1,18 @@
+.container
+  small.text-muted= "#{t('activerecord.models.milestone', count: 1)} ##{@milestone.id}"
+  h1
+    .pull-left
+      = @milestone.title
+      | &nbsp;&nbsp;
+    .pull-left
+      = link_to 'Изменить', edit_milestone_path(@milestone), class: 'btn btn-default'
+    .clearfix
+
+  p= @milestone.description
+
+  hr
+
+  h2
+    | Задачи
+
+  = render 'tasks/list', tasks: @milestone.tasks, show_milestone: false

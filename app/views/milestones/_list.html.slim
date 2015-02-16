@@ -1,0 +1,26 @@
+- columns = [:id, :title, :description]
+
+- if @milestones.present?
+  table.table.table-striped
+    thead
+      - columns.each_with_index do |col, i|
+        th(style="#{'width: 40px;' if i == 0}")
+          = col
+      th
+
+    tbody
+      - @milestones.each do |p|
+        tr
+          td
+            = p.id
+          td
+            = link_to p.title, milestone_path(p)
+          td
+            = p.description
+          td.text-right
+            = link_to 'edit', edit_milestone_path(p), class: 'btn btn-link'
+            = link_to 'delete', milestone_path(p), method: :delete, confirm: "Удалить этап #{p}?", class: 'btn btn-link'
+
+
+- else
+  | Пока ничего нет

@@ -1,6 +1,6 @@
 - columns = [:title, :estimated_time, :level, :assignee]
-- columns.unshift(:project) if show_project
-
+- show_milestone = true unless show_milestone.present?
+- columns.unshift(:milestone) if show_milestone
 
 - if tasks.present?
   table.table.table-striped
@@ -13,9 +13,9 @@
     tbody
       - tasks.each do |t|
         tr
-          - if show_project
+          - if show_milestone
             td
-              = link_to t.project, project_path(t.project) if t.project.present?
+              = link_to t.milestone, milestone_path(t.milestone) if t.milestone.present?
           td
             = link_to task_path(t) do
               = t.title

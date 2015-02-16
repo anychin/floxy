@@ -8,6 +8,8 @@
       = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-default'
     .clearfix
 
+  = link_to "Добавить #{t('activerecord.models.milestone', count: 1)}", milestones_path, class: 'btn btn-default'
+
   p= @project.description
 
   hr

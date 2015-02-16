@@ -3,6 +3,9 @@ ru:
     models:
       task: Задача
       project: Проект
+      milestone:
+        one: Этап
+        other: Этапы
       task_level: Уровень задачи
   attributes:
     task:

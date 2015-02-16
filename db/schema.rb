@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209072720) do
+ActiveRecord::Schema.define(version: 20150216103759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,14 @@ ActiveRecord::Schema.define(version: 20150209072720) do
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "milestones", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.integer  "project_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "projects", force: :cascade do |t|
     t.text     "description"
@@ -55,13 +63,13 @@ ActiveRecord::Schema.define(version: 20150209072720) do
     t.datetime "updated_at",         null: false
     t.integer  "owner_id"
     t.integer  "assignee_id"
-    t.integer  "project_id"
     t.integer  "task_level_id"
     t.string   "aim"
     t.string   "tool"
     t.decimal  "estimated_expenses"
     t.decimal  "elapsed_expenses"
     t.string   "task_type"
+    t.integer  "milestone_id"
   end
 
   add_index "tasks", ["status"], name: "index_tasks_on_status", using: :btree

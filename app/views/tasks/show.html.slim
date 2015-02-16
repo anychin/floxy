@@ -1,7 +1,8 @@
 .container
   small.text-muted= "Задача ##{@task.id}"
-  | &nbsp;&bull;&nbsp;
-  strong= link_to @task.project.title, @task.project if @task.project.present?
+  - if @task.milestone.present?
+    | &nbsp;&bull;&nbsp;
+    strong= link_to @task.milestone.title, @task.milestone
   h1
     .pull-left
       = @task.title

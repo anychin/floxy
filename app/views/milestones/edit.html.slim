@@ -1,0 +1,7 @@
+.container
+  small.text-muted= "Этап ##{@milestone.id}"
+  h1
+    | Редактирование этапа
+  hr
+  = render 'milestones/form', milestone: @milestone
+

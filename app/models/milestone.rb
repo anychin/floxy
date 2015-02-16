@@ -1,8 +1,8 @@
-class Project < ActiveRecord::Base
+class Milestone < ActiveRecord::Base
   validates :title, presence: true
 
-  has_many :milestones
-  has_many :tasks, through: :milestones
+  has_many :tasks
+  belongs_to :project
 
   scope :ordered_by_id, -> { order("id asc") }
 

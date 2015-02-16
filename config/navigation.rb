@@ -10,6 +10,7 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :my_tasks, 'Мои задачи', tasks_path(assignee: current_user)
     primary.item :tasks, "Задачи", tasks_url, highlights_on: lambda{ controller.is_a?(TasksController) && !is_current_user_tasks_page? }
     primary.item :projects, 'Проекты', projects_url, highlights_on: %r(/projects)
+    primary.item :projects, 'Этапы', milestones_url
 
     #primary.item :users, 'Люди', users_url
 

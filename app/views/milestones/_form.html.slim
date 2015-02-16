@@ -1,0 +1,20 @@
+= simple_form_for(milestone, :html => { class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :title, label: false, placeholder: 'Название'
+    .col-sm-2
+      .form-group
+        = f.association :project, as: :select, include_blank: t('activerecord.models.project', count: 1), label: false
+    .col-sm-2
+      .form-group
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Сохранить
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :description, label: false, placeholder: 'Описание'
+
+
+
