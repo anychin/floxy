@@ -8,7 +8,15 @@ class User < ActiveRecord::Base
   has_many :owned_tasks, class_name: 'Task', foreign_key: 'owner_id'
   has_many :assigned_tasks, class_name: 'Task', foreign_key: 'assignee_id'
 
+  has_many :memberships, dependent: :destroy
+  has_many :joined_organizations, through: :memberships, source: :organization
+  has_many :owned_organizations, class_name: 'Organization', foreign_key: :owner_id
+
   def to_s
     email
+  end
+
+  def default_current_organization
+    owned_organizations.first
   end
 end

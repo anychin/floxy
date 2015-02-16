@@ -1,6 +1,9 @@
 ru:
   activerecord:
     models:
+      organization:
+        one: Аккаунт
+        other: Аккаунты
       task: Задача
       project: Проект
       milestone:

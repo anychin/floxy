@@ -52,7 +52,7 @@ gem 'active_link_to'
 gem 'cells'
 
 # Forms
-gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
+gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git', branch: 'master'
 # gem 'cocoon'
 
 # Pagination

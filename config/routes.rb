@@ -17,6 +17,7 @@ Floxy::Application.routes.draw do
 
   root 'tasks#index'
 
+  resources :organizations, only: [:show, :index, :create, :edit, :update, :new, :destroy]
   resources :tasks, only: [:show, :index, :create, :edit, :update, :new, :destroy]
   resources :projects, only: [:show, :index, :create, :edit, :update, :new, :destroy]
   resources :milestones, only: [:show, :index, :create, :edit, :update, :new, :destroy]

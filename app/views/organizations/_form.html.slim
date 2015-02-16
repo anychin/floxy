@@ -1,0 +1,19 @@
+= simple_form_for(organization) do |f|
+  = f.error_notification
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :title
+    .col-sm-2
+      .form-group
+        = f.association :owner, as: :select, include_blank: t(:owner), label_method: :email, value_method: :id
+    .col-sm-2
+      .form-group
+        label &nbsp;
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Сохранить
+    .col-sm-6
+      = f.association :members, as: :check_boxes, collection: User.all.reject{|u| u == current_user}, label_method: :email, value_method: :id, wrapper: :check_boxes_multiple
+
+
+

@@ -139,4 +139,16 @@ SimpleForm.setup do |config|
 
   # Cache SimpleForm inputs discovery
   # config.cache_discovery = !Rails.env.development?
+
+
+  config.wrappers :check_boxes_multiple, :tag => 'div', :class => 'control-group', :error_class => 'error' do |b|
+    b.use :html5
+    b.wrapper :tag => 'div', :class => 'controls' do |ba|
+      ba.use :label
+      ba.use :input, :wrap_with => { :class => 'checkbox' }
+      ba.use :error, :wrap_with => { :tag => 'span', :class => 'help-block' }
+      ba.use :hint,  :wrap_with => { :tag => 'p', :class => 'help-block' }
+    end
+  end
+
 end
