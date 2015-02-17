@@ -4,8 +4,13 @@ class WelcomeController < ApplicationController
   layout 'organization'
 
   def index
-    @organizations = current_user.owned_organizations << current_user.joined_organizations
-    #@new_organization = Organization.new
+    # TODO refactor this
+    if current_user.has_role? :admin
+      @organizations = Organization.all
+    else
+      @organizations = (current_user.owned_organizations.uniq.concat(current_user.joined_organizations.uniq)).uniq
+    end
+
   end
 
 end
