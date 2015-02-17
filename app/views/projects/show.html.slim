@@ -5,7 +5,7 @@
       = @project.title
       | &nbsp;&nbsp;
     .pull-left
-      -#= link_to 'Изменить', edit_organization_project_path(current_organization, @project), class: 'btn btn-default'
+      = link_to 'Изменить', edit_organization_project_path(current_organization, @project), class: 'btn btn-default'
     .clearfix
 
   = link_to "Добавить #{t('activerecord.models.milestone', count: 1)}", organization_milestones_path, class: 'btn btn-default'

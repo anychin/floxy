@@ -1,6 +1,6 @@
 - columns = [:id, :title, :owner, :members]
 
-- if @organizations.present?
+- if organizations.present?
   table.table.table-striped
     thead
       - columns.each_with_index do |col, i|
@@ -9,7 +9,7 @@
       th
 
     tbody
-      - @organizations.each do |org|
+      - organizations.each do |org|
         tr
           td
             = org.id

@@ -1,6 +1,8 @@
 class OrganizationsController < ApplicationController
   before_action :authenticate_user!
 
+  layout 'organization'
+
   def index
     @organizations = Organization.all
     #@new_organization = Organization.new
@@ -30,7 +32,6 @@ class OrganizationsController < ApplicationController
     if @organization.save
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} добавлен"
     else
-      binding.pry
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.organization', count: 1)} не добавлен"
     end
     redirect_to organizations_path

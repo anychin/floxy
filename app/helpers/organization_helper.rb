@@ -1,7 +1,11 @@
 module OrganizationHelper
 
   def current_organization
-    org_id = params[:organization_id] || params[:id]
+    if controller.is_a? OrganizationsController
+      org_id = params[:id]
+    else
+      org_id = params[:organization_id]
+    end
     Organization.find(org_id) || current_user.default_current_organization
   end
 

@@ -21,7 +21,7 @@ class TaskLevelsController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, уровень не добавлен'
     end
-    redirect_to task_levels_path
+    redirect_to organization_task_levels_path
   end
 
   def update
@@ -31,7 +31,7 @@ class TaskLevelsController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, уровень не обновлена'
     end
-    redirect_to task_levels_path
+    redirect_to organization_task_levels_path
   end
 
   def destroy
@@ -41,7 +41,7 @@ class TaskLevelsController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, уровень не удален'
     end
-    redirect_to task_levels_path
+    redirect_to organization_task_levels_path
   end
 
 

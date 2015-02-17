@@ -40,7 +40,7 @@ class TasksController < ApplicationController
       msg << ":#{@task.errors.messages}" if @task.errors.any?
       flash[:alert] = msg
     end
-    redirect_to organization_task_path(@task)
+    redirect_to organization_task_path(params[:organization_id], @task)
   end
 
   def destroy

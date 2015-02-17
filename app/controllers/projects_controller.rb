@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, проект не обновлен'
     end
-    #redirect_to organization_project_path(@project)
+    redirect_to organization_project_path(params[:organization_id], @project)
   end
 
   def destroy

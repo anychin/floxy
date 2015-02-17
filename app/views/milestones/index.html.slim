@@ -1,8 +1,8 @@
 .container
   h2= "Добавить #{t('activerecord.models.milestone', count: 1)}"
   br
-  = render 'milestones/form', milestone: @new_milestone
+  = render 'milestones/form', milestone: @new_milestone, organization: current_organization
   hr
   h2= "Все #{t('activerecord.models.milestone', count: 10)}"
-  = render 'milestones/list'
+  = render 'milestones/list', organization: current_organization
 
