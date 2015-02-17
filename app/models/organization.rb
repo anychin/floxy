@@ -15,4 +15,9 @@ class Organization < ActiveRecord::Base
     title
   end
 
+  def all_users
+    all_users = members << owner
+    all_users.uniq
+  end
+
 end

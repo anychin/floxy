@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217130912) do
+ActiveRecord::Schema.define(version: 20150217144931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,8 +45,9 @@ ActiveRecord::Schema.define(version: 20150217130912) do
     t.string   "title"
     t.string   "description"
     t.integer  "project_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "organization_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -58,9 +59,10 @@ ActiveRecord::Schema.define(version: 20150217130912) do
 
   create_table "projects", force: :cascade do |t|
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.string   "title"
+    t.integer  "organization_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -76,10 +78,11 @@ ActiveRecord::Schema.define(version: 20150217130912) do
 
   create_table "task_levels", force: :cascade do |t|
     t.string   "title"
-    t.integer  "rate_type",  default: 0
+    t.integer  "rate_type",       default: 0
     t.decimal  "rate_value"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "organization_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -98,6 +101,7 @@ ActiveRecord::Schema.define(version: 20150217130912) do
     t.decimal  "elapsed_expenses"
     t.string   "task_type"
     t.integer  "milestone_id"
+    t.integer  "organization_id"
   end
 
   add_index "tasks", ["status"], name: "index_tasks_on_status", using: :btree

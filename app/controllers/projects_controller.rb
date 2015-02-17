@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @projects = Project.ordered_by_id
+    @projects = Project.by_organization(params[:organization_id]).ordered_by_id
     @new_project = Project.new
   end
 
@@ -18,6 +18,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
+    params[:project][:organization_id] = params[:organization_id]
     @project = Project.new(permitted_params)
     if @project.save
       flash[:notice] = 'Проект добавлен'

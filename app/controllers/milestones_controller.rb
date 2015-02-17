@@ -2,7 +2,7 @@ class MilestonesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @milestones = Milestone.ordered_by_id
+    @milestones = Milestone.by_organization(params[:organization_id]).ordered_by_id
     @new_milestone = Milestone.new
   end
 
@@ -18,6 +18,7 @@ class MilestonesController < ApplicationController
   end
 
   def create
+    params[:milestone][:organization_id] = params[:organization_id]
     @milestone = Milestone.new(permitted_params)
     if @milestone.save
       flash[:notice] = "#{t('activerecord.models.milestone', count: 1)} добавлен"

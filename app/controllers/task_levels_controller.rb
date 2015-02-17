@@ -1,6 +1,6 @@
 class TaskLevelsController < ApplicationController
   def index
-    @task_levels = TaskLevel.order(:id)
+    @task_levels = TaskLevel.by_organization(params[:organization_id]).order(:id)
     @new_task_level = TaskLevel.new
   end
 
@@ -15,6 +15,7 @@ class TaskLevelsController < ApplicationController
   end
 
   def create
+    params[:task_level][:organization_id] = params[:organization_id]
     @task_level = TaskLevel.new(permitted_params)
     if @task_level.save
       flash[:notice] = 'Уровень добавлен'

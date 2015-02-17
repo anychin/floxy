@@ -3,9 +3,9 @@ class TasksController < ApplicationController
 
   def index
     if params[:assignee].present?
-      @tasks = Task.ordered_by_id.select{|t| t.assignee == current_user}
+      @tasks = Task.by_organization(params[:organization_id]).ordered_by_id.select{|t| t.assignee == current_user}
     else
-      @tasks = Task.ordered_by_id
+      @tasks = Task.by_organization(params[:organization_id]).ordered_by_id
     end
     @new_task = Task.new
   end
@@ -22,6 +22,7 @@ class TasksController < ApplicationController
 
   def create
     params[:task][:owner_id] = current_user.id
+    params[:task][:organization_id] = params[:organization_id]
     @task = Task.new(permitted_params)
     if @task.save
       flash[:notice] = 'Задача добавлена'
