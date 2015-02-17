@@ -4,8 +4,7 @@ class OrganizationsController < ApplicationController
   layout 'organization'
 
   def index
-    redirect_to root_url unless current_user.has_role? :admin
-    @organizations = Organization.all
+    @organizations = current_user.owned_organizations << current_user.joined_organizations
     #@new_organization = Organization.new
   end
 
