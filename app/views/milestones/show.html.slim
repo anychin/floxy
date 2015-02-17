@@ -2,7 +2,7 @@
   small.text-muted= "#{t('activerecord.models.milestone', count: 1)} ##{@milestone.id}"
   h1
     .pull-left
-      = @milestone.title
+      = @milestone
       | &nbsp;&nbsp;
     .pull-left
       = link_to 'Изменить', edit_organization_milestone_path(current_organization, @milestone), class: 'btn btn-default'

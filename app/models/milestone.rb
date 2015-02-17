@@ -9,7 +9,7 @@ class Milestone < ActiveRecord::Base
   scope :by_organization, -> (id) { where(:organization_id => id) }
 
   def to_s
-    title
+    "#{project} / #{title}".html_safe
   end
 
 end
