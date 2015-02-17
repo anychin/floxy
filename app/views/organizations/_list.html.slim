@@ -1,0 +1,28 @@
+- columns = [:id, :title, :owner, :members]
+
+- if organizations.present?
+  table.table.table-striped
+    thead
+      - columns.each_with_index do |col, i|
+        th(style="#{'width: 40px;' if i == 0}")
+          = col
+      th
+
+    tbody
+      - organizations.each do |org|
+        tr
+          td
+            = org.id
+          td
+            = link_to org.title, organization_path(org)
+          td
+            = org.owner
+          td
+            = org.members.join(', ')
+          td.text-right
+            = link_to 'edit', edit_organization_path(org), class: 'btn btn-link'
+            = link_to 'delete', organization_path(org), method: :delete, confirm: "Удалить #{org}?", class: 'btn btn-link'
+
+
+- else
+  | Пока ничего нет

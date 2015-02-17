@@ -3,12 +3,12 @@
     h2
       | Добавить задачу
     br
-    = render 'tasks/form', task: @new_task
+    = render 'tasks/form', task: @new_task, organization: current_organization
   hr
   .container
     h2.pull-left
       | Задачи
 .container
-  = render 'tasks/list', tasks: @tasks
+  = render 'tasks/list', tasks: @tasks, organization: current_organization
 
 

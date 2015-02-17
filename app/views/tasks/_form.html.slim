@@ -1,4 +1,4 @@
-= simple_form_for(task, :html => { class: 'form-vertical' }) do |f|
+= simple_form_for([organization, task], :html => { class: 'form-vertical' }) do |f|
   = f.error_notification
   .row
     .col-sm-6
@@ -20,7 +20,7 @@
         = f.association :milestone, as: :select, include_blank: true
     .col-sm-3
       .form-group
-        = f.association :assignee, as: :select, include_blank: true
+        = f.association :assignee, as: :select, include_blank: true, label_method: :title, value_method: :id
     .col-sm-3
       .form-group
         = f.association :task_level, as: :select, include_blank: true

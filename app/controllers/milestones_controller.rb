@@ -24,7 +24,7 @@ class MilestonesController < ApplicationController
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.milestone', count: 1)} не добавлен"
     end
-    redirect_to milestones_path
+    redirect_to organization_milestones_path
   end
 
   def update
@@ -34,7 +34,7 @@ class MilestonesController < ApplicationController
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.milestone', count: 1)} не обновлен"
     end
-    redirect_to milestone_path(@milestone)
+    redirect_to organization_milestone_path(params[:organization_id], @milestone)
   end
 
   def destroy
@@ -44,7 +44,7 @@ class MilestonesController < ApplicationController
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.milestone', count: 1)} не удален"
     end
-    redirect_to milestones_path
+    redirect_to organization_milestones_path
   end
 
 

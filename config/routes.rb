@@ -1,10 +1,4 @@
 Floxy::Application.routes.draw do
-  get 'settings/index'
-
-  get 'task_levels/index'
-
-  get 'task_levels/edit'
-
   self.default_url_options Settings.app.default_url_options.symbolize_keys
 
   ## scope subdomain: 'api', constraints: { subdomain: 'api' } do
@@ -15,18 +9,20 @@ Floxy::Application.routes.draw do
 
   #ActiveAdmin.routes(self)
 
-  root 'tasks#index'
+  root 'welcome#index'
 
-  resources :tasks, only: [:show, :index, :create, :edit, :update, :new, :destroy]
-  resources :projects, only: [:show, :index, :create, :edit, :update, :new, :destroy]
-  resources :milestones, only: [:show, :index, :create, :edit, :update, :new, :destroy]
+  resources :organizations, only: [:show, :index, :create, :edit, :update, :new, :destroy] do
+    resources :tasks, only: [:show, :index, :create, :edit, :update, :new, :destroy]
+    resources :projects, only: [:show, :index, :create, :edit, :update, :new, :destroy]
+    resources :milestones, only: [:show, :index, :create, :edit, :update, :new, :destroy]
+    resources :task_levels, only: [:index, :edit, :create, :edit, :update, :destroy]
+    get 'settings' => 'settings#index'
+    get 'me' => 'profiles#show_current'
+  end
+
   resources :profiles, only: [:show, :index]
-  resources :task_levels, only: [:index, :edit, :create, :edit, :update, :destroy]
 
   devise_for :users
-
-  get 'settings' => 'settings#index'
-  get 'me' => 'profiles#show_current'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

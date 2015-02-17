@@ -14,12 +14,12 @@
           td
             = p.id
           td
-            = link_to p.title, milestone_path(p)
+            = link_to p.title, organization_milestone_path(organization, p)
           td
             = p.description
           td.text-right
-            = link_to 'edit', edit_milestone_path(p), class: 'btn btn-link'
-            = link_to 'delete', milestone_path(p), method: :delete, confirm: "Удалить этап #{p}?", class: 'btn btn-link'
+            = link_to 'edit', edit_organization_milestone_path(organization, p), class: 'btn btn-link'
+            = link_to 'delete', organization_milestone_path(organization, p), method: :delete, confirm: "Удалить этап #{p}?", class: 'btn btn-link'
 
 
 - else

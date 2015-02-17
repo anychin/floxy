@@ -5,10 +5,10 @@
       = @project.title
       | &nbsp;&nbsp;
     .pull-left
-      = link_to 'Изменить', edit_project_path(@project), class: 'btn btn-default'
+      = link_to 'Изменить', edit_organization_project_path(current_organization, @project), class: 'btn btn-default'
     .clearfix
 
-  = link_to "Добавить #{t('activerecord.models.milestone', count: 1)}", milestones_path, class: 'btn btn-default'
+  = link_to "Добавить #{t('activerecord.models.milestone', count: 1)}", organization_milestones_path, class: 'btn btn-default'
 
   p= @project.description
 
@@ -17,4 +17,4 @@
   h2
     | Задачи проекта
 
-  = render 'tasks/list', tasks: @project.tasks, show_project: false
+  = render 'tasks/list', tasks: @project.tasks, organization: current_organization, show_project: false

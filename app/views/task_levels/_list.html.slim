@@ -15,8 +15,8 @@
           td=t.rate_type
           td=t.rate_value
           td.text-right
-            = link_to 'edit', edit_task_level_path(t), class: 'btn btn-link'
-            = link_to 'delete', task_level_path(t), method: :delete, confirm: "Удалить уровень #{t}?", class: 'btn btn-link'
+            = link_to 'edit', edit_organization_task_level_path(organization, t), class: 'btn btn-link'
+            = link_to 'delete', organization_task_level_path(organization, t), method: :delete, confirm: "Удалить уровень #{t}?", class: 'btn btn-link'
 
 - else
   | Уровней задач пока нет

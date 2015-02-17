@@ -24,7 +24,7 @@ class ProjectsController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, проект не добавлен'
     end
-    redirect_to projects_path
+    redirect_to organization_projects_path
   end
 
   def update
@@ -34,7 +34,7 @@ class ProjectsController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, проект не обновлен'
     end
-    redirect_to project_path(@project)
+    redirect_to organization_project_path(params[:organization_id], @project)
   end
 
   def destroy
@@ -44,10 +44,8 @@ class ProjectsController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, проект не удален'
     end
-    redirect_to projects_path
+    redirect_to organization_projects_path
   end
-
-
 
   private
 

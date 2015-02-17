@@ -9,10 +9,9 @@ gem 'pg'
 # gem 'friendly_id', '~> 5.0.0'
 
 # Authentication & Authorisation
-#gem 'devise'
 gem 'devise', :git => 'https://github.com/plataformatec/devise.git', :branch => 'master'
-# gem 'authority'
-# gem 'rolify'
+gem 'authority'
+gem 'rolify'
 # gem 'switch_user'
 # gem "cancan"
 
@@ -53,7 +52,7 @@ gem 'active_link_to'
 gem 'cells'
 
 # Forms
-gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
+gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git', branch: 'master'
 # gem 'cocoon'
 
 # Pagination

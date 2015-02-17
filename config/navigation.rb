@@ -7,10 +7,10 @@ SimpleNavigation::Configuration.run do |navigation|
 
     primary.dom_class = 'nav navbar-nav'
 
-    primary.item :my_tasks, 'Мои задачи', tasks_path(assignee: current_user)
-    primary.item :tasks, "Задачи", tasks_url, highlights_on: lambda{ controller.is_a?(TasksController) && !is_current_user_tasks_page? }
-    primary.item :projects, 'Проекты', projects_url, highlights_on: %r(/projects)
-    primary.item :projects, 'Этапы', milestones_url
+    primary.item :my_tasks, 'Мои задачи', organization_tasks_path(current_organization, assignee: current_user)
+    primary.item :tasks, "Задачи", organization_tasks_url(current_organization), highlights_on: lambda{ controller.is_a?(TasksController) && !is_current_user_tasks_page? }
+    primary.item :projects, 'Проекты', organization_projects_url(current_organization), highlights_on: lambda{ controller.is_a?(ProjectsController)}
+    primary.item :projects, 'Этапы', organization_milestones_url(current_organization), highlights_on: lambda{ controller.is_a?(MilestonesController)}
 
     #primary.item :users, 'Люди', users_url
 

@@ -1,0 +1,7 @@
+.container
+  small.text-muted= "Этап ##{@organization.id}"
+  h1
+    | Редактирование этапа
+  hr
+  = render 'organizations/form', organization: @organization
+

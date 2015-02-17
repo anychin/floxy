@@ -1,4 +1,4 @@
-= simple_form_for(task_level, :html => { class: 'form-vertical' }) do |f|
+= simple_form_for([organization, task_level], :html => { class: 'form-vertical' }) do |f|
   = f.error_notification
   .row
     .col-sm-4

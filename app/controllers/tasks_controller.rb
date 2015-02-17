@@ -28,7 +28,7 @@ class TasksController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, задача не добавлена'
     end
-    redirect_to tasks_path
+    redirect_to organization_tasks_path
   end
 
   def update
@@ -40,7 +40,7 @@ class TasksController < ApplicationController
       msg << ":#{@task.errors.messages}" if @task.errors.any?
       flash[:alert] = msg
     end
-    redirect_to task_path(@task)
+    redirect_to organization_task_path(params[:organization_id], @task)
   end
 
   def destroy
@@ -50,7 +50,7 @@ class TasksController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, задача не удалена'
     end
-    redirect_to tasks_path
+    redirect_to organization_tasks_path
   end
 
 

@@ -5,7 +5,7 @@
       = @milestone.title
       | &nbsp;&nbsp;
     .pull-left
-      = link_to 'Изменить', edit_milestone_path(@milestone), class: 'btn btn-default'
+      = link_to 'Изменить', edit_organization_milestone_path(current_organization, @milestone), class: 'btn btn-default'
     .clearfix
 
   p= @milestone.description
@@ -15,4 +15,4 @@
   h2
     | Задачи
 
-  = render 'tasks/list', tasks: @milestone.tasks, show_milestone: false
+  = render 'tasks/list', tasks: @milestone.tasks, organization: current_organization, show_milestone: false
