@@ -15,9 +15,9 @@
         tr
           - if show_milestone
             td
-              = link_to t.milestone, milestone_path(t.milestone) if t.milestone.present?
+              = link_to t.milestone, organization_milestone_path(organization, t.milestone) if t.milestone.present?
           td
-            = link_to task_path(t) do
+            = link_to organization_task_path(organization, t) do
               = t.title
           td
             = t.estimated_time
@@ -32,12 +32,12 @@
                   | от&nbsp;
                   = t.owner
           td.text-right
-            = link_to 'edit', edit_task_path(t), class: 'btn btn-link'
-            = link_to 'delete', task_path(t), method: :delete, confirm: "Удалить задачу #{t}?", class: 'btn btn-link'
+            = link_to 'edit', edit_organization_task_path(organization, t), class: 'btn btn-link'
+            = link_to 'delete', organization_task_path(organization, t), method: :delete, confirm: "Удалить задачу #{t}?", class: 'btn btn-link'
 
 
 - else
   p
     | Задач пока нет
   p
-    = link_to 'Добавить задачу', new_task_path, class: 'btn btn-primary'
+    = link_to 'Добавить задачу', new_organization_task_path(organization), class: 'btn btn-primary'

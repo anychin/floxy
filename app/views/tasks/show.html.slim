@@ -2,13 +2,13 @@
   small.text-muted= "Задача ##{@task.id}"
   - if @task.milestone.present?
     | &nbsp;&bull;&nbsp;
-    strong= link_to @task.milestone.title, @task.milestone
+    strong= link_to @task.milestone.title, organization_milestone_path(current_organization, @task.milestone)
   h1
     .pull-left
       = @task.title
       | &nbsp;&nbsp;
     .pull-left
-      = link_to 'Изменить', edit_task_path(@task), class: 'btn btn-default'
+      = link_to 'Изменить', edit_organization_task_path(current_organization, @task), class: 'btn btn-default'
     .clearfix
   hr
   p

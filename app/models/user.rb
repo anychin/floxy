@@ -12,11 +12,19 @@ class User < ActiveRecord::Base
   has_many :joined_organizations, through: :memberships, source: :organization
   has_many :owned_organizations, class_name: 'Organization', foreign_key: :owner_id
 
+  def title
+    email
+  end
+
   def to_s
     email
   end
 
   def default_current_organization
-    owned_organizations.first
+    if owned_organizations.present?
+      owned_organizations.first
+    else
+      joined_organizations.first
+    end
   end
 end

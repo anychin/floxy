@@ -6,17 +6,18 @@
         %span.icon-bar
         %span.icon-bar
       = link_to Settings.app.title, root_url, :class => 'navbar-brand'
-    .collapse.navbar-collapse
-      = render_navigation :expand_all => true, :renderer => :bootstrap
       - if current_user.present? && current_user.default_current_organization.present?
-        .navbar-form.navbar-right
+        .navbar-form.navbar-left
           .btn-group
-            %button.btn.btn-link{'data-toggle' => "dropdown", 'aria-expanded' => "false"}
+            %button.app-nav__organization-btn{'data-toggle' => "dropdown", 'aria-expanded' => "false"}
               = current_user.default_current_organization
               %span.caret
             -#= link_to current_user.default_current_organization.title, organization_path(current_user.default_current_organization), class: 'btn btn-default'
             %ul.dropdown-menu{role: "menu"}
               - current_user.owned_organizations.each do |org|
                 %li= link_to org.title, organization_path(org)
+
+    .collapse.navbar-collapse
+      = render_navigation :expand_all => true, :renderer => :bootstrap
       = render_navigation :context => :user, :expand_all => true, :renderer => :bootstrap
       .clearfix

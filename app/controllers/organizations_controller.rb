@@ -61,4 +61,5 @@ class OrganizationsController < ApplicationController
   def permitted_params
     params.require(:organization).permit!
   end
+
 end
