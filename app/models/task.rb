@@ -1,4 +1,7 @@
 class Task < ActiveRecord::Base
+  resourcify
+  include Authority::Abilities
+
   enum status: [:todo, :doing, :done, :accepted]
 
   validates :title, presence: true

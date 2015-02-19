@@ -13,4 +13,21 @@ class ApplicationAuthorizer < Authority::Authorizer
     user.has_role? :admin
   end
 
+  # def creatable_by?(user)
+  #   resource.owner == user || user.has_role?(:admin)
+  # end
+
+  def readable_by?(user)
+    org = resource.organization
+    user.has_role?(:owner, org) || user.has_role?(:member, org) || user.has_role?(:admin)
+  end
+
+  def updatable_by?(user)
+    user.has_role?(:owner, org) || user.has_role?(:member, org) || user.has_role?(:admin)
+  end
+
+  def deletable_by?(user)
+    user.has_role?(:owner, org) || user.has_role?(:member, org) || user.has_role?(:admin)
+  end
+
 end

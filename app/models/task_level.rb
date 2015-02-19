@@ -1,4 +1,7 @@
 class TaskLevel < ActiveRecord::Base
+  resourcify
+  include Authority::Abilities
+
   enum rate_type: [:hourly, :monthly]
 
   validates :title, :rate_value, presence: true
