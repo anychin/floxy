@@ -13,4 +13,8 @@ module OrganizationHelper
     current_organization.present?
   end
 
+  def user_can_watch_organization? organization
+    current_user.has_role? :admin || current_user.owned_organizations.include?(organization) || current_user.joined_organizations.include?(organization)
+  end
+
 end

@@ -6,4 +6,10 @@
     .pull-left
       = link_to 'Изменить', edit_organization_path(@organization), class: 'btn btn-default'
     .clearfix
+  p
+    | owner: 
+    = @organization.owner
+  p
+    | members: 
+    = @organization.members.uniq.join(", ")
 
