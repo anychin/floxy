@@ -16,14 +16,13 @@ class OrganizationsController < ApplicationController
 
   def show
     @organization = Organization.find(params[:id])
-    return unless @organization.readable_by? current_user
-    end
+    redirect_to root_url @organization.readable_by? current_user
     not_found unless @organization.present?
   end
 
   def edit
     @organization = Organization.find(params[:id])
-    return unless @organization.updatable_by? current_user
+    redirect_to root_url @organization.updatable_by? current_user
     redirect_to root_url unless current_user.can_update? Organization
     not_found unless @organization.present?
   end
@@ -34,7 +33,7 @@ class OrganizationsController < ApplicationController
   end
 
   def create
-    return unless current_user.can_create? Organization
+    redirect_to root_url current_user.can_create? Organization
     @organization = Organization.new(permitted_params)
     if @organization.save
       update_organization_roles @organization
@@ -47,7 +46,7 @@ class OrganizationsController < ApplicationController
 
   def update
     @organization = Organization.find(params[:id])
-    return unless @organization.updatable_by? current_user
+    redirect_to root_url @organization.updatable_by? current_user
     if @organization.update_attributes(permitted_params)
       update_organization_roles @organization
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} обновлен"
@@ -58,7 +57,7 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
-    return unless @organization.deletable_by? current_user
+    redirect_to root_url @organization.deletable_by? current_user
     @organization = Organization.find(params[:id])
     if @organization.destroy
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} удален"

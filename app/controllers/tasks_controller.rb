@@ -2,6 +2,8 @@ class TasksController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    @organization = Organization.find(params[:organization_id])
+    redirect_to root_url unless @organization.readable_by? current_user
     if params[:assignee].present?
       @tasks = Task.by_organization(params[:organization_id]).ordered_by_id.select{|t| t.assignee == current_user}
     else
@@ -12,15 +14,18 @@ class TasksController < ApplicationController
 
   def show
     @task = Task.find(params[:id])
+    redirect_to root_url unless @task.readable_by? current_user
     not_found unless @task.present?
   end
 
   def edit
     @task = Task.find(params[:id])
+    redirect_to root_url unless @task.updatable_by? current_user
     not_found unless @task.present?
   end
 
   def create
+    redirect_to root_url unless Organization.find(params[:organization_id]).readable_by? current_user
     params[:task][:owner_id] = current_user.id
     params[:task][:organization_id] = params[:organization_id]
     @task = Task.new(permitted_params)
@@ -33,6 +38,7 @@ class TasksController < ApplicationController
   end
 
   def update
+    redirect_to root_url unless @task.updatable_by? current_user
     @task = Task.find(params[:id])
     if @task.update_attributes(permitted_params)
       flash[:notice] = 'Задача обновлена'
@@ -45,6 +51,7 @@ class TasksController < ApplicationController
   end
 
   def destroy
+    redirect_to root_url unless @task.deletable_by? current_user
     @task = Task.find(params[:id])
     if @task.destroy
       flash[:notice] = 'Задача удалена'
@@ -53,8 +60,6 @@ class TasksController < ApplicationController
     end
     redirect_to organization_tasks_path
   end
-
-
 
   private
 

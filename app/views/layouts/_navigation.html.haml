@@ -14,7 +14,8 @@
               %span.caret
             -#= link_to current_user.default_current_organization.title, organization_path(current_user.default_current_organization), class: 'btn btn-default'
             %ul.dropdown-menu{role: "menu"}
-              - current_user.owned_organizations.each do |org|
+              - orgs = current_user.all_organizations
+              - orgs.each do |org|
                 %li= link_to org.title, organization_path(org)
 
     .collapse.navbar-collapse

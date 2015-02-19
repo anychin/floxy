@@ -35,4 +35,13 @@ class User < ActiveRecord::Base
       joined_organizations.first
     end
   end
+
+  def all_organizations
+    if self.has_role? :admin
+      Organization.all
+    else
+      owned_organizations << joined_organizations
+    end
+  end
+
 end

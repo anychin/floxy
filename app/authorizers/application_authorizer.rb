@@ -22,6 +22,11 @@ class ApplicationAuthorizer < Authority::Authorizer
     user.has_role?(:owner, org) || user.has_role?(:member, org) || user.has_role?(:admin)
   end
 
+  def creatable_by?(user, options={})
+    org = options[:organization]
+    user.has_role?(:owner, org) || user.has_role?(:member, org) || user.has_role?(:admin)
+  end
+
   def updatable_by?(user)
     user.has_role?(:owner, org) || user.has_role?(:member, org) || user.has_role?(:admin)
   end

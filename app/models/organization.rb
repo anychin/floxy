@@ -23,6 +23,14 @@ class Organization < ActiveRecord::Base
     all_users.uniq
   end
 
+  def readable_by?(user)
+    owner.id == user.id || members.include?(user) || user.has_role?(:admin)
+  end
+
+  def updatable_by?(user)
+    owner.id == user.id || user.has_role?(:admin)
+  end
+
   def creatable_by?(user)
     user.has_role? :admin
   end
