@@ -9,6 +9,17 @@
     h2.pull-left
       | Задачи
 .container
-  = render 'tasks/list', tasks: @tasks, organization: current_organization
+  - @tasks.select{|t| t.milestone.present?}.group_by(&:milestone).each do |milestone, task_group|
+    - if milestone.present?
+      h4= link_to milestone, organization_milestone_path(@organization, milestone)
+    = render 'tasks/list', tasks: task_group, show_milestone: false, organization: current_organization
+    hr
+  - tasks_without_milestone = @tasks.select{|t| t.milestone.nil?}
+  h4
+    | Без этапа
+  = render 'tasks/list', tasks: tasks_without_milestone, show_milestone: false, organization: current_organization
+
+
+
 
 

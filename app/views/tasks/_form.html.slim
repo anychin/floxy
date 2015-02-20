@@ -3,52 +3,55 @@
   .row
     .col-sm-6
       .form-group
-        = f.input :title, label: false, placeholder: 'Название задачи'
-    .col-sm-3
-      .form-group
-        .input-group
-          = f.input :estimated_time, label: false, placeholder: 'Оцениваемое время'
-          .input-group-addon
-            | в часах
-    .col-sm-2
-      .form-group
-        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
-          | Сохранить
-  .row
+        = f.input :title, placeholder: 'Название задачи'
     .col-sm-3
       .form-group
         = f.association :milestone, as: :select, include_blank: true, label_method: :to_s, collection: Milestone.by_organization(organization)
-    .col-sm-3
+
+    .col-sm-2
       .form-group
-        = f.association :assignee, as: :select, include_blank: true, label_method: :title, value_method: :id, collection: organization.all_users
-    .col-sm-3
-      .form-group
-        = f.association :task_level, as: :select, include_blank: true, collection: TaskLevel.by_organization(organization)
-    .col-sm-3
-      .form-group
-        = f.input :status, as: :select, include_blank: true, collection: Task.statuses.keys.to_a
-  .row
-    .col-sm-3
-      .form-group
-        = f.input :task_type
-    .col-sm-3
-      .form-group
-        = f.input :aim
-    .col-sm-3
-      .form-group
-        = f.input :tool
-    .col-sm-3
-      .form-group
-        label= t :estimated_expenses
-        .input-group
-          = f.input :estimated_expenses, label: false
-          .input-group-addon
-            | руб.
-    //.col-sm-2
-      .form-group
-        .input-group
-          = f.input :elapsed_expenses
-          .input-group-addon
-            | руб.
+        label &nbsp;
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Сохранить
+  - unless task.new_record?
+    .row
+      .col-sm-3
+        .form-group
+          .input-group
+            = f.input :estimated_time, label: false, placeholder: 'Оцениваемое время'
+            .input-group-addon
+              | в часах
+      .col-sm-3
+        .form-group
+          = f.association :assignee, as: :select, include_blank: true, label_method: :title, value_method: :id, collection: organization.all_users
+      .col-sm-3
+        .form-group
+          = f.association :task_level, as: :select, include_blank: true, collection: TaskLevel.by_organization(organization)
+      .col-sm-3
+        .form-group
+          = f.input :status, as: :select, include_blank: true, collection: Task.statuses.keys.to_a
+    .row
+      .col-sm-3
+        .form-group
+          = f.input :task_type
+      .col-sm-3
+        .form-group
+          = f.input :aim
+      .col-sm-3
+        .form-group
+          = f.input :tool
+      .col-sm-3
+        .form-group
+          label= t :estimated_expenses
+          .input-group
+            = f.input :estimated_expenses, label: false
+            .input-group-addon
+              | руб.
+      //.col-sm-2
+        .form-group
+          .input-group
+            = f.input :elapsed_expenses
+            .input-group-addon
+              | руб.
 
 

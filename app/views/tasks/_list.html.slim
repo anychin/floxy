@@ -1,14 +1,13 @@
 - columns = [:title, :estimated_time, :level, :assignee]
-- show_milestone = true unless show_milestone.present?
+- show_milestone = false unless show_milestone.present?
 - columns.unshift(:milestone) if show_milestone
 
 - if tasks.present?
-  table.table.table-striped
+  table.table
     thead
       - columns.each_with_index do |col, i|
         th(style="#{'width: 120px;' if i == 0}")
           = col
-      th
 
     tbody
       - tasks.each do |t|
@@ -31,10 +30,6 @@
                 small.text-muted
                   | от&nbsp;
                   = t.owner
-          td.text-right
-            = link_to 'edit', edit_organization_task_path(organization, t), class: 'btn btn-link'
-            = link_to 'delete', organization_task_path(organization, t), method: :delete, confirm: "Удалить задачу #{t}?", class: 'btn btn-link'
-
 
 - else
   p

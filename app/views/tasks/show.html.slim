@@ -8,7 +8,9 @@
       = @task.title
       | &nbsp;&nbsp;
     .pull-left
-      = link_to 'Изменить', edit_organization_task_path(current_organization, @task), class: 'btn btn-default'
+      = link_to 'edit', edit_organization_task_path(current_organization, @task), class: 'btn btn-default'
+    .pull-right
+      = link_to 'delete', organization_task_path(current_organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
     .clearfix
   hr
   p
