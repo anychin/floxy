@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   end
 
   def to_s
-    email
+    name || email
   end
 
   def self.roles_list

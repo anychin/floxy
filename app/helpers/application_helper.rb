@@ -41,10 +41,14 @@ module ApplicationHelper
     end
   end
 
+  def email_to_name email
+    email.split("@").first
+  end
+
   def task_field task, field
     case field
       when :assignee
-        "#{task.assignee}"
+        email_to_name "#{task.assignee}"
       when :estimated_expenses
         "#{price task[field]}"
       when :estimated_time

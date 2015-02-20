@@ -1,0 +1,13 @@
+= simple_form_for([organization, user], url: organization_profile_path(organization, user), :html => { class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :name
+    .col-sm-2
+      .form-group
+        label
+          | &nbsp;
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Сохранить
+

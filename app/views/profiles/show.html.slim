@@ -2,10 +2,11 @@
   - if @user == current_user
     h1
       | Мой профиль
+    p= link_to 'edit', edit_organization_profile_path(current_organization, @user), class: 'btn btn-default'
   - else
     h1
       = @user
-  - user_attrs = [:email]
+  - user_attrs = [:name, :email]
   .row
     - user_attrs.each do |attr|
       - if @user[attr].present?

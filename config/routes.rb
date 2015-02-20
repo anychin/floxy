@@ -17,10 +17,9 @@ Floxy::Application.routes.draw do
     resources :milestones, only: [:show, :index, :create, :edit, :update, :new, :destroy]
     resources :task_levels, only: [:index, :edit, :create, :edit, :update, :destroy]
     get 'settings' => 'settings#index'
+    resources :profiles, only: [:show, :index, :edit, :update]
     get 'me' => 'profiles#show_current'
   end
-
-  resources :profiles, only: [:show, :index]
 
   devise_for :users
 
