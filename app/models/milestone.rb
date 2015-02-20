@@ -1,5 +1,8 @@
 class Milestone < ActiveRecord::Base
-  validates :title, presence: true
+  resourcify
+  include Authority::Abilities
+
+  validates :title, :organization, presence: true
 
   has_many :tasks
   belongs_to :project

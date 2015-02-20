@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 #
 #
+default_semver=inc
+SEMVER=${SEMVER:-$default_semver}
+
 echo "Следующая версия релиза:"
 
-semver inc patch
+semver inc $SEMVER
 semver meta `git rev-parse HEAD`
 semver
 git semtag

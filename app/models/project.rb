@@ -1,5 +1,8 @@
 class Project < ActiveRecord::Base
-  validates :title, presence: true
+  resourcify
+  include Authority::Abilities
+
+  validates :title, :organization, presence: true
 
   has_many :milestones
   has_many :tasks, through: :milestones

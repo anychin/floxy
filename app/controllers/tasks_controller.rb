@@ -1,7 +1,9 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
+  authorize_actions_for :parent_organization, all_actions: :read
 
   def index
+    @organization = Organization.find(params[:organization_id])
     if params[:assignee].present?
       @tasks = Task.by_organization(params[:organization_id]).ordered_by_id.select{|t| t.assignee == current_user}
     else
@@ -13,6 +15,10 @@ class TasksController < ApplicationController
   def show
     @task = Task.find(params[:id])
     not_found unless @task.present?
+  end
+
+  def new
+    redirect_to organization_tasks_path
   end
 
   def edit
@@ -53,8 +59,6 @@ class TasksController < ApplicationController
     end
     redirect_to organization_tasks_path
   end
-
-
 
   private
 

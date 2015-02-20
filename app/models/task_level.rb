@@ -1,7 +1,10 @@
 class TaskLevel < ActiveRecord::Base
+  resourcify
+  include Authority::Abilities
+
   enum rate_type: [:hourly, :monthly]
 
-  validates :title, :rate_value, presence: true
+  validates :title, :rate_value, :organization, presence: true
 
   has_many :tasks
   belongs_to :organization

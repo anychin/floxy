@@ -1,10 +1,13 @@
 class Organization < ActiveRecord::Base
+  resourcify
+  include Authority::Abilities
+
   validates :title, presence: true
   validates :owner, presence: true
 
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
   has_many :memberships
-  has_many :members, :through => :memberships, :source => :user
+  has_many :members, -> {uniq}, :through => :memberships, :source => :user
 
   validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
 
@@ -18,6 +21,22 @@ class Organization < ActiveRecord::Base
   def all_users
     all_users = members << owner
     all_users.uniq
+  end
+
+  def readable_by?(user)
+    owner == user || members.include?(user) || user.has_role?(:admin)
+  end
+
+  def updatable_by?(user)
+    owner == user || user.has_role?(:admin)
+  end
+
+  def creatable_by?(user)
+    user.has_role? :admin
+  end
+
+  def deletable_by? user
+    user.has_role? :admin
   end
 
 end
