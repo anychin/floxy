@@ -22,3 +22,5 @@ ru:
       elapsed_expenses: Итоговый бюджет
       estimated_time: Планируемое время
       elapsed_time: Итоговое время
+      task_level: Уровень
+      task_type: Тип

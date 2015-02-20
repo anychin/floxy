@@ -14,13 +14,12 @@
         = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
           | Сохранить
   - unless task.new_record?
+    hr
     .row
       .col-sm-3
         .form-group
           .input-group
-            = f.input :estimated_time, label: false, placeholder: 'Оцениваемое время'
-            .input-group-addon
-              | в часах
+            = f.input :estimated_time, label: 'Оцениваемое время (в часах)'
       .col-sm-3
         .form-group
           = f.association :assignee, as: :select, include_blank: true, label_method: :title, value_method: :id, collection: organization.all_users

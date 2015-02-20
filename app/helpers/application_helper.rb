@@ -28,5 +28,17 @@ module ApplicationHelper
   def is_current_user_tasks_page?
     params[:assignee] == current_user.id.to_s
   end
+  
+  def hours time
+    if time.present?
+      "#{number_with_precision time, locale: :ru, significant: true} часов"
+    end
+  end
+
+  def price price, currency = :rub
+    if price.present?
+      number_to_currency price, locale: :ru, significant: true
+    end
+  end
 
 end
