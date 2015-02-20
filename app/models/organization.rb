@@ -24,11 +24,11 @@ class Organization < ActiveRecord::Base
   end
 
   def readable_by?(user)
-    owner.id == user.id || members.include?(user) || user.has_role?(:admin)
+    owner == user || members.include?(user) || user.has_role?(:admin)
   end
 
   def updatable_by?(user)
-    owner.id == user.id || user.has_role?(:admin)
+    owner == user || user.has_role?(:admin)
   end
 
   def creatable_by?(user)

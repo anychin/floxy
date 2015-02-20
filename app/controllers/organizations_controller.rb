@@ -16,25 +16,30 @@ class OrganizationsController < ApplicationController
 
   def show
     @organization = Organization.find(params[:id])
-    redirect_to root_url @organization.readable_by? current_user
+    authorize_action_for @organization
     not_found unless @organization.present?
+  rescue Authority::SecurityViolation
+    forbidden_redirect
   end
 
   def edit
     @organization = Organization.find(params[:id])
-    redirect_to root_url @organization.updatable_by? current_user
-    redirect_to root_url unless current_user.can_update? Organization
+    authorize_action_for @organization
     not_found unless @organization.present?
+  rescue Authority::SecurityViolation
+    forbidden_redirect
   end
 
   def new
-    redirect_to root_url unless current_user.can_create? Organization
     @organization = Organization.new
+    authorize_action_for @organization
+  rescue Authority::SecurityViolation
+    forbidden_redirect
   end
 
   def create
-    redirect_to root_url current_user.can_create? Organization
     @organization = Organization.new(permitted_params)
+    authorize_action_for @organization
     if @organization.save
       update_organization_roles @organization
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} добавлен"
@@ -42,11 +47,13 @@ class OrganizationsController < ApplicationController
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.organization', count: 1)} не добавлен"
     end
     redirect_to organizations_path
+  rescue Authority::SecurityViolation
+    forbidden_redirect
   end
 
   def update
     @organization = Organization.find(params[:id])
-    redirect_to root_url @organization.updatable_by? current_user
+    authorize_action_for @organization
     if @organization.update_attributes(permitted_params)
       update_organization_roles @organization
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} обновлен"
@@ -54,17 +61,21 @@ class OrganizationsController < ApplicationController
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.organization', count: 1)} не обновлен"
     end
     redirect_to organization_path(@organization)
+  rescue Authority::SecurityViolation
+    forbidden_redirect
   end
 
   def destroy
-    redirect_to root_url @organization.deletable_by? current_user
     @organization = Organization.find(params[:id])
+    authorize_action_for @organization
     if @organization.destroy
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} удален"
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.organization', count: 1)} не удален"
     end
     redirect_to organizations_path
+  rescue Authority::SecurityViolation
+    forbidden_redirect
   end
 
   private
