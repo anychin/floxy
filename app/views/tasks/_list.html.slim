@@ -4,7 +4,7 @@
 - columns_count = columns.count
 
 - if tasks.present?
-  table.table
+  table.table.table-hover
     thead
       - columns.each_with_index do |col, i|
         - if i == 0
