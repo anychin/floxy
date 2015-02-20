@@ -25,10 +25,5 @@
               strong= t.title
           - [:assignee, :estimated_time, :estimated_expenses, :level, :task_type, :tool, :aim].each do |field|
             td
-              - if field == :estimated_expenses
-                = "#{price t[field]}"
-              - elsif field == :estimated_time
-                = "#{hours t[field]}"
-              - else
-                = "#{t[field]}"
+              = task_field t, field
           td= t.status

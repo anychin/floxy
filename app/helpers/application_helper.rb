@@ -41,4 +41,17 @@ module ApplicationHelper
     end
   end
 
+  def task_field task, field
+    case field
+      when :assignee
+        "#{task.assignee}"
+      when :estimated_expenses
+        "#{price task[field]}"
+      when :estimated_time
+        "#{hours task[field]}"
+      else
+        "#{task[field]}"
+    end
+  end
+
 end
