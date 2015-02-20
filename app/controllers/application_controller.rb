@@ -10,6 +10,20 @@ class ApplicationController < ActionController::Base
     # render :status => 404
   end
 
+  # Send 'em back where they came from with a slap on the wrist
+  def authority_forbidden(error)
+    Authority.logger.warn(error.message)
+    forbidden_redirect
+  end
+
+  def forbidden_redirect
+    redirect_to request.referrer.presence || root_path, :alert => 'У вас нет прав для просмотра ресурса'
+  end
+
+  def parent_organization
+    Organization.find(params[:organization_id])
+  end
+
   protected
 
   def layout_by_resource

@@ -1,4 +1,7 @@
 class TaskLevelsController < ApplicationController
+  before_action :authenticate_user!
+  authorize_actions_for :parent_organization, all_actions: :read
+
   def index
     @task_levels = TaskLevel.by_organization(params[:organization_id]).order(:id)
     @new_task_level = TaskLevel.new

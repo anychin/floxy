@@ -2,7 +2,7 @@ class Project < ActiveRecord::Base
   resourcify
   include Authority::Abilities
 
-  validates :title, presence: true
+  validates :title, :organization, presence: true
 
   has_many :milestones
   has_many :tasks, through: :milestones
