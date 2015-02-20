@@ -6,7 +6,7 @@ SEMVER=${SEMVER:-$default_semver}
 
 echo "Следующая версия релиза:"
 
-semver $SEMVER patch
+semver inc $SEMVER
 semver meta `git rev-parse HEAD`
 semver
 git semtag
