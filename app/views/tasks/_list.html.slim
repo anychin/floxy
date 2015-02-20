@@ -32,8 +32,3 @@
               - else
                 = "#{t[field]}"
           td= t.status
-- else
-  p
-    | Задач пока нет
-  p
-    = link_to 'Добавить задачу', new_organization_task_path(organization), class: 'btn btn-primary'

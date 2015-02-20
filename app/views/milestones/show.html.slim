@@ -15,4 +15,7 @@
   h2
     | Задачи
 
-  = render 'tasks/list', tasks: @milestone.tasks, organization: current_organization, show_milestone: false
+  - if @milestone.tasks.present?
+    = render 'tasks/list', tasks: @milestone.tasks, organization: current_organization, show_milestone: false
+  - else
+    = render 'tasks/empty'

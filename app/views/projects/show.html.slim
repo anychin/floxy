@@ -17,4 +17,7 @@
   h2
     | Задачи проекта
 
-  = render 'tasks/list', tasks: @project.tasks, organization: current_organization, show_project: false
+  - if @project.tasks.present?
+    = render 'tasks/list', tasks: @milestone.tasks, organization: current_organization, show_project: false
+  - else
+    = render 'tasks/empty'
