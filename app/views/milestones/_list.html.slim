@@ -1,4 +1,4 @@
-- columns = [:id, :title, :description]
+- columns = [:id, :title, :estimated_time, :description]
 
 - if @milestones.present?
   table.table.table-striped
@@ -15,6 +15,8 @@
             = p.id
           td
             = link_to p, organization_milestone_path(organization, p)
+          td
+            = hours p.estimated_time
           td
             = p.description
           td.text-right

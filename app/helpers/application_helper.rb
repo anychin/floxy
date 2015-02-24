@@ -31,7 +31,7 @@ module ApplicationHelper
   
   def hours time
     if time.present?
-      "#{number_with_precision time, locale: :ru, significant: true} часов"
+      "#{number_with_precision time, locale: :ru, significant: true, precision: 1} часов"
     end
   end
 
@@ -65,6 +65,12 @@ module ApplicationHelper
         task.status
       else
         "#{task[field]}"
+    end
+  end
+
+  def milestome_tasks_without_estimated_time milestone
+    if milestone.tasks_without_estimated_time_count > 0
+      "Задач без оценки: #{milestone.tasks_without_estimated_time_count}"
     end
   end
 

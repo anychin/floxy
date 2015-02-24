@@ -15,4 +15,14 @@ class Milestone < ActiveRecord::Base
     "#{project} / #{title}".html_safe
   end
 
+  def estimated_time
+    time = 0
+    tasks.map{|t| time += t.estimated_time if t.estimated_time.present?}
+    time
+  end
+
+  def tasks_without_estimated_time_count
+    tasks.select{|t| !t.estimated_time.present? }.count
+  end
+
 end
