@@ -45,14 +45,24 @@ module ApplicationHelper
     email.split("@").first
   end
 
-  def task_field task, field
+  def task_field task, field, organization
     case field
+      when :milestone
+        link_to task.milestone, organization_milestone_path(organization, task.milestone) if task.milestone.present?
+      when :title
+        link_to organization_task_path(organization, task) do
+          content_tag :strong, task.title
+        end
       when :assignee
         email_to_name "#{task.assignee}"
       when :estimated_expenses
         "#{price task[field]}"
       when :estimated_time
         "#{hours task[field]}"
+      when :task_level
+        task.task_level
+      when :status
+        task.status
       else
         "#{task[field]}"
     end

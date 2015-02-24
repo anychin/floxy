@@ -17,13 +17,6 @@
     tbody
       - tasks.each do |t|
         tr
-          - if show_milestone
+          - columns.each do |field|
             td
-              = link_to t.milestone, organization_milestone_path(organization, t.milestone) if t.milestone.present?
-          td
-            = link_to organization_task_path(organization, t) do
-              strong= t.title
-          - [:assignee, :estimated_time, :estimated_expenses, :level, :task_type, :tool, :aim].each do |field|
-            td
-              = task_field t, field
-          td= t.status
+              = task_field t, field, organization
