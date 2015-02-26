@@ -1,8 +1,14 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @organization = Organization.find(params[:organization_id])
+    @users = @organization.all_users
+  end
+
   def show
     @user = User.find(params[:id])
+    @assigned_tasks = @user.assigned_tasks
     not_found unless @user.present?
   end
 
@@ -25,9 +31,9 @@ class ProfilesController < ApplicationController
   end
 
   def show_current
+    @organization = Organization.find(params[:organization_id])
     @user = current_user
-    render 'show'
-    not_found unless @user.present?
+    redirect_to organization_profile_url(@organization, current_user)
   end
 
   def permitted_params

@@ -5,33 +5,13 @@
     br
     = render 'tasks/form', task: @new_task, organization: current_organization
 
-.tasks-list__container
+- if !@tasks.present?
   .container
-    - if !@tasks.present?
-      = render 'tasks/empty'
-    - else
-      - @tasks.select{|t| t.milestone.present?}.group_by(&:milestone).each do |milestone, task_group|
-        - if milestone.present?
-          .panel.panel-default.tasks-list__milestone
-            .panel-body
-              h3.tasks-list__milestone-title
-                = milestone
-                - if milestone.estimated_time > 0
-                  | &nbsp;&nbsp;
-                  span.small= hours milestone.estimated_time
-                | &nbsp;&nbsp;
-                span.small= milestome_tasks_without_estimated_time(milestone)
-                = link_to "&rarr;".html_safe, organization_milestone_path(@organization, milestone), class: 'btn btn-sm btn-default pull-right'
-                span.clearfix
-              = render 'tasks/list', tasks: task_group, show_milestone: false, organization: current_organization
-      - tasks_without_milestone = @tasks.select{|t| t.milestone.nil?}
-      - if tasks_without_milestone.present?
-        .panel.panel-default.tasks-list__milestone
-          .panel-body
-            h3.tasks-list__milestone-title
-              | Без этапа
-            = render 'tasks/list', tasks: tasks_without_milestone, show_milestone: false, organization: current_organization
-
+    = render 'tasks/empty'
+- else
+  .tasks-list__container
+    .container
+      = render 'tasks/list_by_milestone', tasks: @tasks, organization: current_organization
 
 
 

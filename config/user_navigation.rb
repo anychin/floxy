@@ -9,7 +9,7 @@ SimpleNavigation::Configuration.run do |navigation|
 
     if current_user.present?
       primary.item :settings, 'Настройки', organization_settings_url
-      primary.item :user, current_user, organization_me_url, highlights_on: %r(/me)
+      primary.item :user, current_user, organization_profile_url(current_organization, current_user), highlights_on: %r(/me)
     end
 
     #primary.item :tasks, 'Люди', users_url
