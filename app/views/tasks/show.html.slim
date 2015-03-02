@@ -2,7 +2,7 @@
   small.text-muted= "Задача ##{@task.id}"
   - if @task.milestone.present?
     | &nbsp;&bull;&nbsp;
-    strong= link_to @task.milestone.title, organization_milestone_path(current_organization, @task.milestone)
+    strong= link_to @task.milestone, organization_milestone_path(current_organization, @task.milestone)
   h1
     .pull-left
       = @task.title
@@ -13,11 +13,12 @@
       = link_to 'delete', organization_task_path(current_organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
     .clearfix
   hr
-  p
-    = "owner: #{@task.owner}"
-  p
-    = "assignee: #{@task.assignee}"
-  p
-    = "estimated_time: #{@task.estimated_time}"
-  p
-    = "elapsed_time: #{@task.elapsed_time}"
+  - columns = [:milestone, :assignee, :estimated_time, :estimated_expenses, :task_level, :task_type, :tool, :aim, :status]
+  .row
+    .col-md-6
+      table.table.table-condensed.table-hover
+        tbody
+          - columns.each do |field|
+            tr
+              td= t("attributes.task.#{field}")
+              td= task_field @task, field, current_organization

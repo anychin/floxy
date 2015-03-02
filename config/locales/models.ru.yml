@@ -12,8 +12,11 @@ ru:
       task_level: Уровень задачи
   attributes:
     task:
+      milestone: Этап
       title: Название
       assignee: Исполнитель
+      status: Статус
+      state: Статус
       owner: Владелец
       type: Тип
       tool: Инструмент
