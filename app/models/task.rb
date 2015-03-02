@@ -60,7 +60,7 @@ class Task < ActiveRecord::Base
   end
 
   # Optionally delegate some methods
-  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state,
+  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events, 
            to: :state_machine
 
   private
