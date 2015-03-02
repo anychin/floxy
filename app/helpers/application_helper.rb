@@ -31,7 +31,7 @@ module ApplicationHelper
   
   def hours time
     if time.present?
-      "#{number_with_precision time, locale: :ru, significant: true, precision: 1} часов"
+      "#{number_with_precision time, locale: :ru, significant: true} часов"
     end
   end
 
