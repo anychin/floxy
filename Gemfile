@@ -8,6 +8,9 @@ gem 'pg'
 # gem 'counter_culture', '~> 0.1.23'
 # gem 'friendly_id', '~> 5.0.0'
 
+# State machine
+gem 'statesman'
+
 # Authentication & Authorisation
 gem 'devise', :git => 'https://github.com/plataformatec/devise.git', :branch => 'master'
 gem 'authority'

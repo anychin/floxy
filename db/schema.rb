@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217144931) do
+ActiveRecord::Schema.define(version: 20150302085251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,7 +55,10 @@ ActiveRecord::Schema.define(version: 20150217144931) do
     t.integer  "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "slug"
   end
+
+  add_index "organizations", ["slug"], name: "index_organizations_on_slug", unique: true, using: :btree
 
   create_table "projects", force: :cascade do |t|
     t.text     "description"
@@ -84,6 +87,18 @@ ActiveRecord::Schema.define(version: 20150217144931) do
     t.datetime "updated_at",                  null: false
     t.integer  "organization_id"
   end
+
+  create_table "task_transitions", force: :cascade do |t|
+    t.string   "to_state",                  null: false
+    t.text     "metadata",   default: "{}"
+    t.integer  "sort_key",                  null: false
+    t.integer  "task_id",                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "task_transitions", ["sort_key", "task_id"], name: "index_task_transitions_on_sort_key_and_task_id", unique: true, using: :btree
+  add_index "task_transitions", ["task_id"], name: "index_task_transitions_on_task_id", using: :btree
 
   create_table "tasks", force: :cascade do |t|
     t.string   "title"
