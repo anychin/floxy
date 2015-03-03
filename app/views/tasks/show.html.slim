@@ -12,8 +12,9 @@
     .pull-right
       = link_to 'delete', organization_task_path(current_organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
     .clearfix
+  = task_state_buttons @task, @organization, css_class: "task-show__state-btn"
   hr
-  - columns = [:milestone, :assignee, :estimated_time, :estimated_expenses, :task_level, :task_type, :tool, :aim, :status]
+  - columns = [:milestone, :assignee, :estimated_time, :estimated_expenses, :task_level, :task_type, :tool, :aim, :status, :state]
   .row
     .col-md-6
       table.table.table-condensed.table-hover

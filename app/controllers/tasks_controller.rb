@@ -13,44 +13,6 @@ class TasksController < ApplicationController
     @new_task = Task.new
   end
 
-  def negotiate
-    @task.trigger! :negotiate
-    redirect_to organization_task_path(@organization, @task)
-    not_found unless @task.present?
-  end
-
-  def approve
-    @task.trigger! :approve
-    redirect_to organization_task_path(@organization, @task)
-  end
-
-  def hold
-    @task.trigger! :hold
-    redirect_to organization_task_path(@organization, @task)
-  end
-
-  def start
-    @task.trigger!(:start)
-    redirect_to organization_task_path(@organization, @task)
-  end
-
-  def finish
-    @task.trigger!(:finish)
-    redirect_to organization_task_path(@organization, @task)
-  end
-
-  def accept
-    @task.trigger! :accept
-    redirect_to organization_task_path(@organization, @task)
-  end
-
-  def reject
-    @task.trigger! :reject
-    redirect_to organization_task_path(@organization, @task)
-  end
-
-
-
   def show
     not_found unless @task.present?
   end
@@ -87,7 +49,6 @@ class TasksController < ApplicationController
     redirect_to organization_task_path(params[:organization_id], @task)
   end
 
-
   def destroy
     if @task.destroy
       flash[:notice] = 'Задача удалена'
@@ -97,6 +58,66 @@ class TasksController < ApplicationController
     redirect_to organization_tasks_path
   end
 
+  def negotiate
+    @task.trigger! :negotiate
+    redirect_to organization_task_path(@organization, @task)
+    not_found unless @task.present?
+  rescue Statesman::GuardFailedError
+    flash[:alert] = "Для отправки на согласование с клиентом задача должна иметь этап, планируемое время, уровень и цель"
+    tasks_state_guard_redirect
+  end
+  authority_actions negotiate: :update
+
+  def approve
+    @task.trigger! :approve
+    redirect_to organization_task_path(@organization, @task)
+  rescue Statesman::GuardFailedError
+    tasks_state_guard_redirect
+  end
+  authority_actions approve: :update
+
+  def hold
+    @task.trigger! :hold
+    redirect_to organization_task_path(@organization, @task)
+  rescue Statesman::GuardFailedError
+    tasks_state_guard_redirect
+  end
+  authority_actions hold: :update
+
+  def start
+    @task.trigger!(:start)
+    redirect_to organization_task_path(@organization, @task)
+  rescue Statesman::GuardFailedError
+    flash[:alert] = "Для старта задачи должен быть назначен исполнитель"
+    tasks_state_guard_redirect
+  end
+  authority_actions start: :update
+
+  def finish
+    @task.trigger!(:finish)
+    redirect_to organization_task_path(@organization, @task)
+  rescue Statesman::GuardFailedError
+    tasks_state_guard_redirect
+  end
+  authority_actions finish: :update
+
+  def accept
+    @task.trigger! :accept
+    redirect_to organization_task_path(@organization, @task)
+  rescue Statesman::GuardFailedError
+    flash[:alert] = 'Задача должна иметь часы, затраченные на выполнение'
+    tasks_state_guard_redirect
+  end
+  authority_actions accept: :update
+
+  def reject
+    @task.trigger! :reject
+    redirect_to organization_task_path(@organization, @task)
+  rescue Statesman::GuardFailedError
+    tasks_state_guard_redirect
+  end
+  authority_actions reject: :update
+
   private
 
   def permitted_params
@@ -104,11 +125,17 @@ class TasksController < ApplicationController
   end
 
   def load_task
-    @task = Task.find(params[:id])
+    task_id = params[:id] || params[:task_id]
+    @task = Task.find(task_id)
   end
 
   def load_organization
     @organization = Organization.find(params[:organization_id])
+  end
+
+  def tasks_state_guard_redirect
+    flash[:alert] ||=  "Не удалось поменять статус задачи (не выполнены требования задачи)"
+    redirect_to organization_task_path(@organization, @task)
   end
 
 end

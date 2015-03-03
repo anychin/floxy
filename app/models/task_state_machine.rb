@@ -38,7 +38,7 @@ class TaskStateMachine
     transition from: :resolved, to: :todo
   end
 
-  guard_transition(to: :todo) do |task|
+  guard_transition(to: :approval) do |task|
     task.milestone.present? && task.estimated_time.present? && task.task_level.present? && task.aim.present?
   end
 
@@ -47,7 +47,8 @@ class TaskStateMachine
   end
 
   guard_transition(from: :resolved, to: :done) do |task|
-    task.elapsed_time.present?
+    # TODO enable this with time tracking
+    #task.elapsed_time.present?
   end
 
   #after_transition(to: :todo) do |task|
