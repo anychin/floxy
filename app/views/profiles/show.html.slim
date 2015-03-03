@@ -18,29 +18,29 @@
           = @user[attr]
           hr
 hr
-.container
-  - completed_tasks = @assigned_tasks.select{|t| t.done? || t.accepted? }.group_by{ |t| t.created_at.beginning_of_month }
-  - other_tasks = @assigned_tasks.reject{|t| t.done? || t.accepted? }.group_by{ |t| t.created_at.beginning_of_month }
-  - if completed_tasks.present?
-    h2
-      | Выполненные задачи
-      | &nbsp;
-      small.text-muted
-        | по дате создания
-    - completed_tasks.each do |month, task_group|
-      h3.tasks-list__month-title
-        = month.strftime("%B %Y")
-      = render 'tasks/list', tasks: task_group, show_month: false, organization: current_organization
-      hr
-  - if other_tasks.present?
-    h2
-      | Невыполненные задачи
-      | &nbsp;
-      small.text-muted
-        | по дате создания
-    - other_tasks.each do |month, task_group|
-      h3.tasks-list__month-title
-        = month.strftime("%B %Y")
-      = render 'tasks/list', tasks: task_group, show_month: false, organization: current_organization
-    hr
+/.container
+  /- completed_tasks = @assigned_tasks.select{|t| t.done? || t.accepted? }.group_by{ |t| t.created_at.beginning_of_month }
+  /- other_tasks = @assigned_tasks.reject{|t| t.done? || t.accepted? }.group_by{ |t| t.created_at.beginning_of_month }
+  /- if completed_tasks.present?
+    /h2
+      /| Выполненные задачи
+      /| &nbsp;
+      /small.text-muted
+        /| по дате создания
+    /- completed_tasks.each do |month, task_group|
+      /h3.tasks-list__month-title
+        /= month.strftime("%B %Y")
+      /= render 'tasks/list', tasks: task_group, show_month: false, organization: current_organization
+      /hr
+  /- if other_tasks.present?
+    /h2
+      /| Невыполненные задачи
+      /| &nbsp;
+      /small.text-muted
+        /| по дате создания
+    /- other_tasks.each do |month, task_group|
+      /h3.tasks-list__month-title
+        /= month.strftime("%B %Y")
+      /= render 'tasks/list', tasks: task_group, show_month: false, organization: current_organization
+    /hr
 

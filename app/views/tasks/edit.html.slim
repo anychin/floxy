@@ -1,5 +1,9 @@
 .container
-  small.text-muted= "Задача ##{@task.id}"
+  small
+    = link_to organization_task_path(current_organization, @task) do
+      = "Задача ##{@task.id}"
+      | &nbsp;
+      strong= @task
   h1
     | Редактирование задачи
   hr

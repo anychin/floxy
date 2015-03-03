@@ -17,6 +17,10 @@ class Task < ActiveRecord::Base
   scope :ordered_by_id, -> { order("id asc") }
   scope :by_organization, -> (id) { where(:organization_id => id) }
 
+  def to_s
+    title
+  end
+
   def save_estimated_cost
     return unless self.task_level.hourly?
     self.estimated_cost = self.estimated_time * self.task_level.rate_value
