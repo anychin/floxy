@@ -17,6 +17,7 @@ Floxy::Application.routes.draw do
       post :approve
       post :hold
       post :start
+      post :defer
       post :finish
       post :accept
       post :reject

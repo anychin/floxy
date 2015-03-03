@@ -7,6 +7,7 @@ class TaskStateMachine
   state :approval
   state :todo
   state :current
+  state :deferred
   state :resolved
   state :done
 
@@ -19,11 +20,16 @@ class TaskStateMachine
   end
 
   event :hold do
-    transition from: :todo, to: :approval
+    transition from: :todo, to: :idea
+  end
+
+  event :defer do
+    transition from: :current, to: :deferred
   end
 
   event :start do
     transition from: :todo, to: :current
+    transition from: :deferred, to: :current
   end
 
   event :finish do

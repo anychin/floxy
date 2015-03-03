@@ -101,6 +101,14 @@ class TasksController < ApplicationController
   end
   authority_actions finish: :update
 
+  def defer
+    @task.trigger!(:defer)
+    redirect_to organization_task_path(@organization, @task)
+  rescue Statesman::GuardFailedError
+    tasks_state_guard_redirect
+  end
+  authority_actions defer: :update
+
   def accept
     @task.trigger! :accept
     redirect_to organization_task_path(@organization, @task)

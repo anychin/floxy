@@ -34,7 +34,7 @@ module TasksHelper
     else
       events = task.available_events
       html = ''
-      events.each do |event|
+      events.reject{|e| e == :hold}.each do |event|
         #unless (event == :start && task.assignee != current_user)
         html << link_to(t("helpers.task_state_buttons.#{event}"), send("organization_task_#{event}_path", organization, task), method: :post, class: "btn-task-state-#{event} #{args[:css_class]}")
       end
