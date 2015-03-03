@@ -46,10 +46,10 @@ class TaskStateMachine
     task.assignee.present?
   end
 
-  guard_transition(from: :resolved, to: :done) do |task|
+  #guard_transition(from: :resolved, to: :done) do |task|
     # TODO enable this with time tracking
     #task.elapsed_time.present?
-  end
+  #end
 
   #after_transition(to: :todo) do |task|
     # save (task.estimated_time * task.task_level.rate) if task.task_level.hourly?
