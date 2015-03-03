@@ -18,6 +18,6 @@
     | Задачи проекта
 
   - if @project.tasks.present?
-    = render 'tasks/list', tasks: @milestone.tasks, organization: current_organization, show_project: false
+    = render 'tasks/list_by_milestone', tasks: @project.tasks, organization: current_organization
   - else
     = render 'tasks/empty'
