@@ -158,12 +158,12 @@ group :development do
   gem 'ruby-progressbar'
 
   # gem 'foreman'
-  
-  # Deploy
-  gem 'mina'
-  # Tasks for mina
-  gem 'mina-puma', :require => false
 end
+
+# Deploy
+gem 'mina'
+# Tasks for mina
+gem 'mina-puma', :require => false
 
 gem 'rspec-rails', :group => [:development, :test]
 
