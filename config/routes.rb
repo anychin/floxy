@@ -12,7 +12,16 @@ Floxy::Application.routes.draw do
   root 'welcome#index'
 
   resources :organizations, path: "a", only: [:show, :index, :create, :edit, :update, :new, :destroy] do
-    resources :tasks, only: [:show, :index, :create, :edit, :update, :new, :destroy]
+    resources :tasks do
+      post :negotiate
+      post :approve
+      post :hold
+      post :start
+      post :defer
+      post :finish
+      post :accept
+      post :reject
+    end
     resources :projects, only: [:show, :index, :create, :edit, :update, :new, :destroy]
     resources :milestones, only: [:show, :index, :create, :edit, :update, :new, :destroy]
     resources :task_levels, only: [:index, :edit, :create, :edit, :update, :destroy]

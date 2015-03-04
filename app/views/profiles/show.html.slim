@@ -19,8 +19,8 @@
           hr
 hr
 .container
-  - completed_tasks = @assigned_tasks.select{|t| t.done? || t.accepted? }.group_by{ |t| t.created_at.beginning_of_month }
-  - other_tasks = @assigned_tasks.reject{|t| t.done? || t.accepted? }.group_by{ |t| t.created_at.beginning_of_month }
+  - completed_tasks = @assigned_tasks.select{|t| t.current_state == "done" }.group_by{ |t| t.created_at.beginning_of_month }
+  - other_tasks = @assigned_tasks.reject{|t| t.current_state == "done" }.group_by{ |t| t.created_at.beginning_of_month }
   - if completed_tasks.present?
     h2
       | Выполненные задачи

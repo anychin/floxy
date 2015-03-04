@@ -8,3 +8,14 @@ ru:
       update: Изменить
       # model:
       #  new: Создать
+    task_state_buttons:
+      negotiate: На утверждение
+      approve: Утвердить
+      hold: Вернуть на утверждение
+      start: Начать
+      finish: Закончить
+      defer: Отложить
+      accept: Принять
+      reject: Отклонить
+      accepted: Принято
+
