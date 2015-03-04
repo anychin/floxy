@@ -44,7 +44,6 @@ task deploy: :environment do
     invoke 'git:clone'
     invoke 'bundle:install'
     invoke 'deploy:link_shared_paths'
-    queue! %[npm install bower -g]
     queue! %[bower install --allow-root]
     invoke 'rails:db_migrate'
     invoke 'rails:assets_precompile'
