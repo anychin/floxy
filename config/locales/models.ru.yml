@@ -10,6 +10,11 @@ ru:
         one: Этап
         other: Этапы
       task_level: Уровень задачи
+    attributes:
+      milestone:
+        aim: Цель
+        description: Описание
+
   attributes:
     task:
       milestone: Этап

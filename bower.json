@@ -4,7 +4,8 @@
   "dependencies": {
     "jquery": "latest",
     "jquery.role": "git://github.com/kossnocorp/role",
-    "modernizr": "latest"
+    "modernizr": "latest",
+    "font-awesome": "~4.3.0"
   },
   "ignore": [
     "**/.*",

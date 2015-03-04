@@ -1,3 +1,5 @@
+- tasks_without_milestone = tasks.select{|t| t.milestone.nil?}
+
 - tasks.select{|t| t.milestone.present?}.group_by(&:milestone).each do |milestone, task_group|
   - if milestone.present?
     .panel.panel-default.tasks-list__milestone
@@ -5,14 +7,29 @@
         h3.tasks-list__milestone-title
           = milestone
           - if milestone.estimated_time > 0
-            | &nbsp;&nbsp;
-            span.small= hours milestone.estimated_time
+            | &nbsp;&nbsp;&nbsp;
+            span.small
+              i.fa.fa-clock-o
+              | &nbsp;
+              = hours milestone.estimated_time
+          - if milestone.due_date.present?
+            | &nbsp;&nbsp;&nbsp;
+            span.small
+              i.fa.fa-calendar
+              | &nbsp;
+              = milestone_field milestone, :due_date, current_organization
+          - if milestone.aim.present?
+            | &nbsp;&nbsp;&nbsp;
+            span.small
+              i.fa.fa-crosshairs
+              | &nbsp;
+              = milestone_field milestone, :aim, current_organization
           | &nbsp;&nbsp;
           span.small= milestome_tasks_without_estimated_time(milestone)
           = link_to "&rarr;".html_safe, organization_milestone_path(organization, milestone), class: 'btn btn-sm btn-default pull-right'
           span.clearfix
         = render 'tasks/list', tasks: task_group, show_milestone: false, organization: current_organization
-- tasks_without_milestone = tasks.select{|t| t.milestone.nil?}
+
 - if tasks_without_milestone.present?
   .panel.panel-default.tasks-list__milestone
     .panel-body

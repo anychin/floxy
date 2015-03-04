@@ -3,18 +3,24 @@
   .row
     .col-sm-4
       .form-group
-        = f.input :title, label: false, placeholder: 'Название'
+        = f.input :title, placeholder: 'Название'
     .col-sm-2
       .form-group
-        = f.association :project, as: :select, include_blank: t('activerecord.models.project', count: 1), label: false, collection: Project.by_organization(organization)
+        = f.association :project, as: :select, include_blank: t('activerecord.models.project', count: 1), collection: Project.by_organization(organization)
     .col-sm-2
       .form-group
+        = f.input :due_date, as: :string, input_html: {role: 'datetimepicker'}
+    .col-sm-2
+      .form-group
+        label &nbsp;
         = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
           | Сохранить
   .row
     .col-sm-4
       .form-group
-        = f.input :description, label: false, placeholder: 'Описание'
-
-
+        = f.input :aim
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :description, placeholder: 'Описание'
 

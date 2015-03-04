@@ -56,6 +56,8 @@ gem 'cells'
 
 # Forms
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git', branch: 'master'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
+gem 'momentjs-rails'
 # gem 'cocoon'
 
 # Pagination

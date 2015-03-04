@@ -1,28 +1,25 @@
-- columns = [:id, :title, :estimated_time, :description]
+- columns = [:id, :title, :aim, :estimated_time, :due_date]
+- columns_count = columns.count
 
 - if @milestones.present?
-  table.table.table-striped
+  table.table.table-hover
     thead
       - columns.each_with_index do |col, i|
-        th(style="#{'width: 40px;' if i == 0}")
-          = col
+        - if i == 0
+          th(style="width: 30%;")
+            = t("attributes.milestone.#{col}")
+        - else
+          th(style="width: #{100/columns_count}%;")
+            = t("attributes.milestone.#{col}")
       th
 
     tbody
-      - @milestones.each do |p|
+      - @milestones.each do |t|
         tr
-          td
-            = p.id
-          td
-            = link_to p, organization_milestone_path(organization, p)
-          td
-            = hours p.estimated_time
-          td
-            = p.description
-          td.text-right
-            = link_to 'edit', edit_organization_milestone_path(organization, p), class: 'btn btn-link'
-            = link_to 'delete', organization_milestone_path(organization, p), method: :delete, confirm: "Удалить этап #{p}?", class: 'btn btn-link'
-
+          - columns.each do |field|
+            td
+              = milestone_field t, field, organization
+          td.text-center
 
 - else
   | Пока ничего нет
