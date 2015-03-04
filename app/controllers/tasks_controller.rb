@@ -38,13 +38,21 @@ class TasksController < ApplicationController
   end
 
   def update
-    @task = Task.find(params[:id])
-    if @task.update_attributes(permitted_params)
-      flash[:notice] = 'Задача обновлена'
+    if ["current", "resolved", "done"].include?(@task.current_state)
+      flash[:alert] = "Задача со статусом " << t("attributes.task.states.#{@task.current_state}") << " не может быть отредактирована"
     else
-      msg = 'Ошибочка вышла, задача не обновлена'
-      msg << ":#{@task.errors.messages}" if @task.errors.any?
-      flash[:alert] = msg
+      if @task.update_attributes(permitted_params)
+        if @task.current_state == "todo" && @task.previous_changes.present?
+          @task.trigger!(:hold)
+          flash[:notice] = "Задача обновлена со статусом '#{t('attributes.task.states.idea')}'"
+        else
+          flash[:notice] = 'Задача обновлена'
+        end
+      else
+        msg = 'Ошибочка вышла, задача не обновлена'
+        msg << ":#{@task.errors.messages}" if @task.errors.any?
+        flash[:alert] = msg
+      end
     end
     redirect_to organization_task_path(params[:organization_id], @task)
   end

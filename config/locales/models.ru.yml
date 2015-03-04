@@ -27,3 +27,13 @@ ru:
       elapsed_time: Итоговое время
       task_level: Уровень
       task_type: Тип
+      states:
+        idea: Идея
+        approval: На утверждении
+        todo: К исполнению
+        current: В работе
+        deferred: Отложена
+        resolved: Выполнена
+        done: Принята
+
+
