@@ -28,7 +28,7 @@ class MilestoneStateMachine
   end
 
   guard_transition(to: :approval) do |milestone|
-    milestone.aim.present? && milestone.not_ready_for_approval_tasks.count == 0
+    milestone.aim.present? && milestone.tasks.present? && milestone.not_ready_for_approval_tasks.count == 0
   end
 
   guard_transition(to: :resolved) do |milestone|

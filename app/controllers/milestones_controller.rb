@@ -1,7 +1,7 @@
 class MilestonesController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
-  before_filter :load_milestone, except: [:index]
+  before_filter :load_milestone, except: [:index, :new, :create]
   authorize_actions_for :parent_organization, all_actions: :read
 
   def index
@@ -52,7 +52,7 @@ class MilestonesController < ApplicationController
     redirect_to organization_milestone_path(@organization, @milestone)
     not_found unless @milestone.present?
   rescue Statesman::GuardFailedError
-    flash[:alert] = "Для отправки на согласование с клиентом этап должен иметь цель; все его задачи должны иметь планируемое время, уровень и цель"
+    flash[:alert] = "Для отправки на согласование с клиентом этап должен иметь цель и задачи; все его задачи должны иметь планируемое время, уровень и цель"
     milestones_state_guard_redirect
   end
   authority_actions negotiate: :update
