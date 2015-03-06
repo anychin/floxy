@@ -27,7 +27,7 @@ module MilestonesHelper
     else
       events = milestone.available_events
       html = ''
-      events.reject{|e| e == :hold}.each do |event|
+      events.each do |event|
         html << link_to(t("helpers.milestone_state_buttons.#{event}"), send("organization_milestone_#{event}_path", organization, milestone), method: :post, class: "btn-milestone-state-#{event} #{args[:css_class]}")
       end
       html.html_safe

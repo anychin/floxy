@@ -32,6 +32,12 @@ class Milestone < ActiveRecord::Base
     time
   end
 
+  def estimated_expenses
+    time = 0
+    tasks.map{|t| time += t.estimated_time if t.estimated_time.present?}
+    time
+  end
+
   def returned_to_approval?
     self.current_state == "approval" && self.tasks.in_state(:current, :resolved, :done).count > 0
   end

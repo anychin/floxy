@@ -11,6 +11,9 @@
   h1
     .pull-left
       = @milestone
+      sup
+        | &nbsp;&nbsp;
+        small= t "#{@task.current_state}"
       | &nbsp;&nbsp;
     .pull-left
       = link_to 'Изменить', edit_organization_milestone_path(@organization, @milestone), class: 'btn btn-default'

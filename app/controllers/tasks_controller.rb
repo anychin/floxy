@@ -70,7 +70,7 @@ class TasksController < ApplicationController
   end
 
   def negotiate
-    @task.trigger! :negotiate
+    try_trigger_for @tasl, :negotiate
     redirect_to organization_task_path(@organization, @task)
     not_found unless @task.present?
   rescue Statesman::GuardFailedError
@@ -80,7 +80,7 @@ class TasksController < ApplicationController
   authority_actions negotiate: :update
 
   def approve
-    @task.trigger! :approve
+    try_trigger_for @task, :approve
     redirect_to organization_task_path(@organization, @task)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
@@ -88,7 +88,7 @@ class TasksController < ApplicationController
   authority_actions approve: :update
 
   def hold
-    @task.trigger! :hold
+    try_trigger_for @task, :hold
     redirect_to organization_task_path(@organization, @task)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
@@ -96,7 +96,7 @@ class TasksController < ApplicationController
   authority_actions hold: :update
 
   def start
-    @task.trigger!(:start)
+    try_trigger_for @task, :start
     redirect_to organization_task_path(@organization, @task)
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач"
@@ -105,7 +105,7 @@ class TasksController < ApplicationController
   authority_actions start: :update
 
   def finish
-    @task.trigger!(:finish)
+    try_trigger_for @task, :finish
     redirect_to organization_task_path(@organization, @task)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
@@ -113,7 +113,7 @@ class TasksController < ApplicationController
   authority_actions finish: :update
 
   def defer
-    @task.trigger!(:defer)
+    try_trigger_for @task, :defer
     redirect_to organization_task_path(@organization, @task)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
@@ -121,7 +121,7 @@ class TasksController < ApplicationController
   authority_actions defer: :update
 
   def accept
-    @task.trigger! :accept
+    try_trigger_for @task, :accept
     redirect_to organization_task_path(@organization, @task)
   rescue Statesman::GuardFailedError
     #flash[:alert] = 'Задача должна иметь часы, затраченные на выполнение'
@@ -130,7 +130,7 @@ class TasksController < ApplicationController
   authority_actions accept: :update
 
   def reject
-    @task.trigger! :reject
+    try_trigger_for @task, :reject
     redirect_to organization_task_path(@organization, @task)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect

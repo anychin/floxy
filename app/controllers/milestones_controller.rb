@@ -48,7 +48,7 @@ class MilestonesController < ApplicationController
   end
 
   def negotiate
-    @milestone.trigger!(:negotiate)
+    try_trigger_for @milestone, :negotiate
     redirect_to organization_milestone_path(@organization, @milestone)
     not_found unless @milestone.present?
   rescue Statesman::GuardFailedError
@@ -58,7 +58,7 @@ class MilestonesController < ApplicationController
   authority_actions negotiate: :update
 
   def start
-    @milestone.trigger!(:start)
+    try_trigger_for @milestone, :start
     redirect_to organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для старта этапа должен быть назначен исполнитель"
@@ -67,7 +67,7 @@ class MilestonesController < ApplicationController
   authority_actions start: :update
 
   def hold
-    @milestone.trigger! :hold
+    try_trigger_for @milestone, :hold
     redirect_to organization_task_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
@@ -75,7 +75,7 @@ class MilestonesController < ApplicationController
   authority_actions hold: :update
 
   def finish
-    @milestone.trigger!(:finish)
+    try_trigger_for @milestone, :finish
     redirect_to organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
@@ -83,7 +83,7 @@ class MilestonesController < ApplicationController
   authority_actions finish: :update
 
   def accept
-    @milestone.trigger! :accept
+    try_trigger_for @milestone, :accept
     redirect_to organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     #flash[:alert] = 'Задачи этапа должны иметь часы, затраченные на выполнение'
@@ -92,7 +92,7 @@ class MilestonesController < ApplicationController
   authority_actions accept: :update
 
   def reject
-    @milestone.trigger! :reject
+    try_trigger_for @milestone, :reject
     redirect_to organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect

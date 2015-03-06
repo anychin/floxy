@@ -46,6 +46,7 @@ class MilestoneStateMachine
   after_transition(from: :idea, to: :approval) do |milestone|
     milestone.not_negotiated_tasks.each do |task|
       task.trigger!(:negotiate)
+      task.trigger!(:approve)
     end
   end
 
