@@ -3,6 +3,7 @@ class Task < ActiveRecord::Base
   include Authority::Abilities
   include Statesman::Adapters::ActiveRecordQueries
 
+  # TODO remove :status from code and db
   enum status: [:todo, :doing, :done, :accepted]
 
   validates :title, :organization, presence: true
@@ -17,6 +18,13 @@ class Task < ActiveRecord::Base
 
   scope :ordered_by_id, -> { order("id asc") }
   scope :by_organization, -> (id) { where(:organization_id => id) }
+
+  def state_machine
+     @state_machine ||= TaskStateMachine.new(self, transition_class: TaskTransition)
+  end
+
+  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events,
+           to: :state_machine
 
   def to_s
     title
@@ -68,13 +76,9 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def state_machine
-     @state_machine ||= TaskStateMachine.new(self, transition_class: TaskTransition)
+  def can_be_updated?
+    ["current", "deferred", "resolved", "done"].include?(self.current_state)
   end
-
-  # Optionally delegate some methods
-  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events, 
-           to: :state_machine
 
   private
 
@@ -83,7 +87,7 @@ class Task < ActiveRecord::Base
   end
 
   def self.initial_state
-    :idea
+    TaskStateMachine.initial_state
   end
 
 end

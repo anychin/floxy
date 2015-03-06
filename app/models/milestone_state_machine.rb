@@ -15,6 +15,10 @@ class MilestoneStateMachine
     transition from: :approval, to: :current
   end
 
+  event :hold do
+    transition from: :current, to: :approval
+  end
+
   event :finish do
     transition from: :current, to: :resolved
   end

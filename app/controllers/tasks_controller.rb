@@ -22,6 +22,9 @@ class TasksController < ApplicationController
   end
 
   def edit
+    if @task.can_be_updated?
+      flash[:alert] = "Задача со статусом " << t("attributes.task.states.#{@task.current_state}") << " не может быть отредактирована"
+    end
     not_found unless @task.present?
   end
 
@@ -38,7 +41,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    if ["current", "resolved", "done"].include?(@task.current_state)
+    if @task.can_be_updated?
       flash[:alert] = "Задача со статусом " << t("attributes.task.states.#{@task.current_state}") << " не может быть отредактирована"
     else
       if @task.update_attributes(permitted_params)
@@ -96,7 +99,7 @@ class TasksController < ApplicationController
     @task.trigger!(:start)
     redirect_to organization_task_path(@organization, @task)
   rescue Statesman::GuardFailedError
-    flash[:alert] = "Для старта задачи должен быть назначен исполнитель"
+    flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач"
     tasks_state_guard_redirect
   end
   authority_actions start: :update

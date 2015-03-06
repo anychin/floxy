@@ -14,6 +14,14 @@ class Milestone < ActiveRecord::Base
   scope :ordered_by_id, -> { order("id asc") }
   scope :by_organization, -> (id) { where(:organization_id => id) }
 
+  def state_machine
+     @state_machine ||= MilestoneStateMachine.new(self, transition_class: MilestoneTransition)
+  end
+
+  # Optionally delegate some methods
+  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events, 
+           to: :state_machine
+
   def to_s
     "#{project} / #{title}".html_safe
   end
@@ -22,6 +30,10 @@ class Milestone < ActiveRecord::Base
     time = 0
     tasks.map{|t| time += t.estimated_time if t.estimated_time.present?}
     time
+  end
+
+  def returned_to_approval?
+    self.current_state == "approval" && self.tasks.in_state(:current, :resolved, :done).count > 0
   end
 
   def ready_for_approval_tasks
@@ -52,14 +64,6 @@ class Milestone < ActiveRecord::Base
     tasks.select{|t| !t.estimated_time.present? }.count
   end
 
-  def state_machine
-     @state_machine ||= MilestoneStateMachine.new(self, transition_class: MilestoneTransition)
-  end
-
-  # Optionally delegate some methods
-  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events, 
-           to: :state_machine
-
   private
 
   def self.transition_class
@@ -67,7 +71,7 @@ class Milestone < ActiveRecord::Base
   end
 
   def self.initial_state
-    :idea
+    MilestoneStateMachine.initial_state
   end
 
 

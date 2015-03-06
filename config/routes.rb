@@ -25,6 +25,7 @@ Floxy::Application.routes.draw do
     resources :milestones do
       post :negotiate
       post :start
+      post :hold
       post :finish
       post :accept
       post :reject

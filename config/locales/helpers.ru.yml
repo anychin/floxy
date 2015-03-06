@@ -21,6 +21,7 @@ ru:
     milestone_state_buttons:
       negotiate: На утверждение
       start: Начать
+      hold: Вернуть на утверждение
       finish: Закончить
       accept: Принять
       reject: Отклонить

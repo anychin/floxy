@@ -48,9 +48,10 @@ class TaskStateMachine
   end
 
   guard_transition(to: :current) do |task|
-    task.assignee.present?
+    assignee = task.assignee
+    assignee.present? && assignee.assigned_tasks.in_state(:current).count < 1 && assignee.assigned_tasks.in_state(:deferred).count <= 2
   end
-
+  
   #guard_transition(from: :resolved, to: :done) do |task|
     # TODO enable this with time tracking
     #task.elapsed_time.present?

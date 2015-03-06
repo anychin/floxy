@@ -66,6 +66,14 @@ class MilestonesController < ApplicationController
   end
   authority_actions start: :update
 
+  def hold
+    @milestone.trigger! :hold
+    redirect_to organization_task_path(@organization, @milestone)
+  rescue Statesman::GuardFailedError
+    milestones_state_guard_redirect
+  end
+  authority_actions hold: :update
+
   def finish
     @milestone.trigger!(:finish)
     redirect_to organization_milestone_path(@organization, @milestone)
