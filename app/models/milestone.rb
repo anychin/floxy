@@ -1,6 +1,7 @@
 class Milestone < ActiveRecord::Base
   resourcify
   include Authority::Abilities
+  include Statesman::Adapters::ActiveRecordQueries
 
   validates :title, :organization, presence: true
 
@@ -32,19 +33,19 @@ class Milestone < ActiveRecord::Base
   end
 
   def not_finished_tasks
-    self.tasks.reject{|t| t.current_state == "resolved" || t.current_state == "done"}
+    self.tasks.not_in_state(:resolved, :done)
   end
 
   def not_negotiated_tasks
-    self.tasks.select{|t| t.current_state == "idea"}
+    self.tasks.in_state(:idea)
   end
 
   def not_approved_tasks
-    self.tasks.select{|t| t.current_state == "approval"}
+    self.tasks.in_state(:approval)
   end
 
   def not_accepted_tasks
-    self.tasks.reject{|t| t.current_state == "done"}
+    self.tasks.not_in_state(:done)
   end
 
   def tasks_without_estimated_time_count

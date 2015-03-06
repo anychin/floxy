@@ -1,6 +1,7 @@
 class Task < ActiveRecord::Base
   resourcify
   include Authority::Abilities
+  include Statesman::Adapters::ActiveRecordQueries
 
   enum status: [:todo, :doing, :done, :accepted]
 

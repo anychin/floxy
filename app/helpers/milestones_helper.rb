@@ -65,7 +65,6 @@ module MilestonesHelper
     content_tag :i , '', class: "#{statement ? 'fa fa-check text-success' : 'fa fa-times text-danger'}"
   end
 
-
   def milestone_tasks_without_estimated_time milestone
     if milestone.tasks_without_estimated_time_count > 0
       "Задач без оценки: #{milestone.tasks_without_estimated_time_count}"
