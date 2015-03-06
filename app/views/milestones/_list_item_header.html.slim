@@ -14,6 +14,11 @@
       i.fa.fa-clock-o
       | &nbsp;
       = hours milestone.estimated_time
+    - if milestone.estimated_expenses > 0
+      | &nbsp;&nbsp;&nbsp;
+      i.fa.fa-money
+      | &nbsp;
+      = price milestone.estimated_expenses
     - if milestone.due_date.present?
       | &nbsp;&nbsp;&nbsp;
       i.fa.fa-calendar

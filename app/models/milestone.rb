@@ -33,9 +33,9 @@ class Milestone < ActiveRecord::Base
   end
 
   def estimated_expenses
-    time = 0
-    tasks.map{|t| time += t.estimated_time if t.estimated_time.present?}
-    time
+    exp = 0
+    tasks.map{|t| exp += t.estimated_expenses if t.estimated_expenses.present?}
+    exp
   end
 
   def returned_to_approval?
