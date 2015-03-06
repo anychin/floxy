@@ -11,7 +11,7 @@
       = @task
       sup
         | &nbsp;&nbsp;
-        small= t "#{@task.current_state}"
+        small= t "activerecord.attributes.task.states.#{@task.current_state}"
       | &nbsp;&nbsp;
     .pull-left
       = link_to 'edit', edit_organization_task_path(current_organization, @task), class: 'btn btn-default'

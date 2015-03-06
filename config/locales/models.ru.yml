@@ -20,31 +20,30 @@ ru:
           current: В работе
           resolved: Выполнен
           done: Принят
+      task: &task_attributes
+        milestone: Этап
+        title: Название
+        assignee: Исполнитель
+        status: Статус
+        state: Статус
+        owner: Владелец
+        type: Тип
+        tool: Инструмент
+        aim: Цель
+        estimated_expenses: Планируемый бюджет
+        elapsed_expenses: Итоговый бюджет
+        estimated_time: Планируемое время
+        elapsed_time: Итоговое время
+        task_level: Уровень
+        task_type: Тип
+        states:
+          idea: Идея
+          approval: На утверждении
+          todo: К исполнению
+          current: В работе
+          deferred: Отложена
+          resolved: Выполнена
+          done: Принята
 
   attributes:
-    task:
-      milestone: Этап
-      title: Название
-      assignee: Исполнитель
-      status: Статус
-      state: Статус
-      owner: Владелец
-      type: Тип
-      tool: Инструмент
-      aim: Цель
-      estimated_expenses: Планируемый бюджет
-      elapsed_expenses: Итоговый бюджет
-      estimated_time: Планируемое время
-      elapsed_time: Итоговое время
-      task_level: Уровень
-      task_type: Тип
-      states:
-        idea: Идея
-        approval: На утверждении
-        todo: К исполнению
-        current: В работе
-        deferred: Отложена
-        resolved: Выполнена
-        done: Принята
-
-
+    <<: *task_attributes

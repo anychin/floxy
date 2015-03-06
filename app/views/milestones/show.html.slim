@@ -13,7 +13,7 @@
       = @milestone
       sup
         | &nbsp;&nbsp;
-        small= t "#{@task.current_state}"
+        small= t "activerecord.attributes.milestone.states.#{@milestone.current_state}"
       | &nbsp;&nbsp;
     .pull-left
       = link_to 'Изменить', edit_organization_milestone_path(@organization, @milestone), class: 'btn btn-default'
