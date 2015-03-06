@@ -6,6 +6,8 @@ class MilestonesController < ApplicationController
 
   def index
     @milestones = Milestone.by_organization(params[:organization_id]).ordered_by_id
+    @actual_milestones = @milestones.not_in_state(:done)
+    @done_milestones = @milestones.in_state(:done)
     @new_milestone = Milestone.new
   end
 

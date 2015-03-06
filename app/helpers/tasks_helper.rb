@@ -30,7 +30,7 @@ module TasksHelper
 
   def task_state_buttons task, organization, args = {}
     if task.current_state == "done"
-      content_tag :small, t('helpers.task_state_buttons.accepted'), class: 'text-success'
+      content_tag :small, t('helpers.task_state_buttons.accepted'), class: 'btn-task-state-accepted'
     else
       events = task.available_events
       html = ''

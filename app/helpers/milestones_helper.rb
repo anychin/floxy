@@ -23,7 +23,7 @@ module MilestonesHelper
 
   def milestone_state_buttons milestone, organization, args = {}
     if milestone.current_state == "done"
-      content_tag :small, t('helpers.milestone_state_buttons.accepted'), class: 'text-success'
+      content_tag :small, t('helpers.milestone_state_buttons.accepted'), class: 'btn-milestone-state-accepted'
     else
       events = milestone.available_events
       html = ''

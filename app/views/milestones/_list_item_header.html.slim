@@ -1,6 +1,9 @@
 .pull-left
   h3.tasks-list__milestone-title
     = link_to milestone, organization_milestone_path(organization, milestone)
+    sup
+      | &nbsp;&nbsp;
+      small= t "activerecord.attributes.milestone.states.#{milestone.current_state}"
 
   span.text-muted
     i.fa.fa-tasks

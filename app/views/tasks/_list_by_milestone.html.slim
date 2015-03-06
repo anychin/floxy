@@ -1,6 +1,7 @@
-- tasks_without_milestone = tasks.select{|t| t.milestone.nil?}
+- tasks_with_milestone = tasks.select{|t| t.milestone.present?}
+- tasks_without_milestone = tasks - tasks_with_milestone
 
-- tasks.select{|t| t.milestone.present?}.group_by(&:milestone).each do |milestone, task_group|
+- tasks_with_milestone.reject{|t| t.milestone.current_state == "done"}.group_by(&:milestone).each do |milestone, task_group|
   - if milestone.present?
     .panel.panel-default.tasks-list__milestone
       .panel-body
