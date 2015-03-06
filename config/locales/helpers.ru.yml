@@ -18,4 +18,11 @@ ru:
       accept: Принять
       reject: Отклонить
       accepted: Принято
+    milestone_state_buttons:
+      negotiate: На утверждение
+      start: Начать
+      finish: Закончить
+      accept: Принять
+      reject: Отклонить
+      accepted: Принято
 

@@ -1,25 +1,7 @@
-- columns = [:id, :title, :aim, :estimated_time, :due_date]
-- columns_count = columns.count
-
-- if @milestones.present?
-  table.table.table-hover
-    thead
-      - columns.each_with_index do |col, i|
-        - if i == 0
-          th(style="width: 30%;")
-            = t("attributes.milestone.#{col}")
-        - else
-          th(style="width: #{100/columns_count}%;")
-            = t("attributes.milestone.#{col}")
-      th
-
-    tbody
-      - @milestones.each do |t|
-        tr
-          - columns.each do |field|
-            td
-              = milestone_field t, field, organization
-          td.text-center
-
+- if milestones.present?
+  - milestones.each do |milestone|
+    .panel.panel-default.tasks-list__milestone
+      .panel-body
+        = render 'milestones/list_item_header', milestone: milestone, organization: organization
 - else
   | Пока ничего нет

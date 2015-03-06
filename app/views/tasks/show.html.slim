@@ -1,8 +1,11 @@
 .container
-  small.text-muted= "Задача ##{@task.id}"
   - if @task.milestone.present?
-    | &nbsp;&bull;&nbsp;
+    span.text-muted
+      | Этап&nbsp;
     strong= link_to @task.milestone, organization_milestone_path(current_organization, @task.milestone)
+    span.text-muted
+      | &nbsp;&bull;&nbsp;
+  span.text-muted= "Задача ##{@task.id}"
   h1
     .pull-left
       = @task.title

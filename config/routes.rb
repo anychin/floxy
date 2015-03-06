@@ -22,8 +22,14 @@ Floxy::Application.routes.draw do
       post :accept
       post :reject
     end
+    resources :milestones do
+      post :negotiate
+      post :start
+      post :finish
+      post :accept
+      post :reject
+    end
     resources :projects, only: [:show, :index, :create, :edit, :update, :new, :destroy]
-    resources :milestones, only: [:show, :index, :create, :edit, :update, :new, :destroy]
     resources :task_levels, only: [:index, :edit, :create, :edit, :update, :destroy]
     get 'settings' => 'settings#index'
     resources :profiles, only: [:show, :index, :edit, :update]

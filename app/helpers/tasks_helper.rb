@@ -41,12 +41,4 @@ module TasksHelper
       html.html_safe
     end
   end
-
-  def milestome_tasks_without_estimated_time milestone
-    if milestone.tasks_without_estimated_time_count > 0
-      "Задач без оценки: #{milestone.tasks_without_estimated_time_count}"
-    end
-  end
-
-
 end

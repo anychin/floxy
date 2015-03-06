@@ -1,8 +1,6 @@
 class TaskStateMachine
   include Statesman::Machine
 
-  # [:idea, :todo, :current, :resolved, :done]
-
   state :idea, initial: true
   state :approval
   state :todo
@@ -46,7 +44,7 @@ class TaskStateMachine
   end
 
   guard_transition(to: :approval) do |task|
-    task.milestone.present? && task.estimated_time.present? && task.task_level.present? && task.aim.present?
+    task.ready_for_approval?
   end
 
   guard_transition(to: :current) do |task|

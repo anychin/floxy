@@ -53,6 +53,14 @@ class Task < ActiveRecord::Base
     self.task_level.present? && self.task_level.hourly?
   end
 
+  def estimated?
+    self.hourly? && self.estimated_time.present?
+  end
+
+  def ready_for_approval?
+    self.milestone.present? && self.estimated? && self.aim.present?
+  end
+
   def rate
     if self.hourly?
       self.task_level.rate_value

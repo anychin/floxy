@@ -1,14 +1,23 @@
 .container
-  small.text-muted= "#{t('activerecord.models.milestone', count: 1)} ##{@milestone.id}"
+  - if @milestone.project.present?
+    span.text-muted
+      | Проект&nbsp;
+    strong= link_to @milestone.project, organization_project_path(@organization, @milestone.project)
+    span.text-muted
+      | &nbsp;&bull;&nbsp;
+
+  span.text-muted= "#{t('activerecord.models.milestone', count: 1)} ##{@milestone.id}"
+
   h1
     .pull-left
       = @milestone
       | &nbsp;&nbsp;
     .pull-left
-      = link_to 'Изменить', edit_organization_milestone_path(current_organization, @milestone), class: 'btn btn-default'
+      = link_to 'Изменить', edit_organization_milestone_path(@organization, @milestone), class: 'btn btn-default'
     .clearfix
-
+  = milestone_state_buttons @milestone, @organization, css_class: "milestone-show__state-btn"
   - columns = [:due_date, :description]
+  hr
   .row
     .col-md-6
       table.table.table-condensed.table-hover
@@ -16,13 +25,15 @@
           - columns.each do |field|
             tr
               td= t("attributes.milestone.#{field}")
-              td= milestone_field @milestone, field, current_organization
-  hr
+              td= milestone_field @milestone, field, @organization
+    .col-md-6
+      = milestone_state_tips @milestone
 
+  hr
   h2
     | Задачи
 
   - if @milestone.tasks.present?
-    = render 'tasks/list', tasks: @milestone.tasks, organization: current_organization, show_milestone: false
+    = render 'tasks/list', tasks: @milestone.tasks, organization: @organization, show_milestone: false
   - else
     = render 'tasks/empty'

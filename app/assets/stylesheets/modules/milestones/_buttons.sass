@@ -1,0 +1,11 @@
+@each $e in negotiate btn-default, approve btn-default, hold btn-warning, start btn-primary, finish btn-success, defer btn-warning, accept btn-success, reject btn-danger
+  .btn-milestone-state-#{nth($e, 1)}
+    @extend .btn
+    @extend .#{nth($e, 2)}
+
+.milestone-show__state-btn
+  @extend .task-show__state-btn
+
+.milestones-list__state-btn
+  @extend .tasks-list__state-btn
+

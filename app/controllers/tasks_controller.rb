@@ -121,7 +121,7 @@ class TasksController < ApplicationController
     @task.trigger! :accept
     redirect_to organization_task_path(@organization, @task)
   rescue Statesman::GuardFailedError
-    flash[:alert] = 'Задача должна иметь часы, затраченные на выполнение'
+    #flash[:alert] = 'Задача должна иметь часы, затраченные на выполнение'
     tasks_state_guard_redirect
   end
   authority_actions accept: :update
