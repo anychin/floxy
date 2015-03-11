@@ -21,6 +21,7 @@ class TeamsController < ApplicationController
     params[:team][:organization_id] = params[:organization_id]
     @team = Team.new(permitted_params)
     if @team.save
+      update_team_roles @team
       flash[:notice] = "#{t('activerecord.models.team')} добавлена"
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.team')} не добавлена"
@@ -30,6 +31,7 @@ class TeamsController < ApplicationController
 
   def update
     if @team.update_attributes(permitted_params)
+      update_team_roles @team
       flash[:notice] = "#{t('activerecord.models.team')} обновлена"
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.team')} не обновлена"
@@ -46,12 +48,19 @@ class TeamsController < ApplicationController
     redirect_to organization_teams_path
   end
 
-
-
   private
 
   def permitted_params
     params.require(:team).permit!
+  end
+
+  def update_team_roles team
+    team.owner.add_role :owner, team
+    team.team_lead.add_role :team_lead, team
+    team.account_manager.add_role :account_manager, team
+    team.members.each do |member|
+      member.add_role :member, team
+    end
   end
 
   def load_team

@@ -6,6 +6,8 @@ class Team < ActiveRecord::Base
   validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
 
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
+  belongs_to :team_lead, class_name: 'User', foreign_key: :team_lead_id
+  belongs_to :account_manager, class_name: 'User', foreign_key: :account_manager_id
   belongs_to :organization
   has_many :team_memberships
   has_many :members, -> {uniq}, :through => :team_memberships, :source => :user
