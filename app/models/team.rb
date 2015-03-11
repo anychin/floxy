@@ -23,5 +23,19 @@ class Team < ActiveRecord::Base
     all_users.uniq
   end
 
+  def creatable_by?(user, options={})
+    org = options[:organization]
+    user.has_role?(:owner, org) || user.has_role?(:admin)
+  end
+
+  def updatable_by?(user)
+    org = resource.organization
+    owner == user || user.has_role?(:owner, org) || user.has_role?(:admin)
+  end
+
+  def deletable_by?(user)
+    org = resource.organization
+    owner == user || user.has_role?(:owner, org) || user.has_role?(:admin)
+  end
 
 end

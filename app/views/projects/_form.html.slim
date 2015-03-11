@@ -3,15 +3,18 @@
   .row
     .col-sm-4
       .form-group
-        = f.input :title, label: false, placeholder: 'Название проекта'
+        = f.input :title, placeholder: 'Название проекта'
     .col-sm-2
       .form-group
+        = f.association :team, as: :select, include_blank: t('activerecord.models.team', count: 1), collection: organization.teams
+    .col-sm-2
+      .form-group
+        label &nbsp;
         = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
           | Сохранить
   .row
     .col-sm-4
       .form-group
-        = f.input :description, label: false, placeholder: 'Описание'
-
+        = f.input :description, placeholder: 'Описание'
 
 

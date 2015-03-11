@@ -14,7 +14,7 @@
         = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
           | Сохранить
     .col-sm-6
-      = f.association :members, as: :check_boxes, collection: User.all, label_method: :email, value_method: :id, wrapper: :check_boxes_multiple
+      = f.association :members, as: :check_boxes, collection: organization.members, label_method: :email, value_method: :id, wrapper: :check_boxes_multiple
 
 
 

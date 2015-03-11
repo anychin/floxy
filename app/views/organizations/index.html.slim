@@ -1,4 +1,7 @@
 .container
-  h2= "Все #{t('activerecord.models.organization', count: 10)}"
+  h2
+    .pull-left= "Все #{t('activerecord.models.organization', count: 10)}"
+    .pull-right= link_to "Создать #{t('activerecord.models.organization', count: 1)}", new_organization_path, class: 'btn btn-default' if current_user.can_create?(Organization)
+    .clearfix
 
   = render 'organizations/list', organizations: @organizations

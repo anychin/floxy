@@ -1,4 +1,4 @@
-- unless is_current_user_tasks_page?
+- if !is_current_user_tasks_page? && current_user.can_create?(Task)
   .container
     h2
       | Добавить задачу

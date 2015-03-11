@@ -1,9 +1,12 @@
+- if current_user.can_create?(Project)
+  .container
+    h2
+      | Добавить проект
+    br
+    = render 'projects/form', project: @new_project, organization: current_organization
+    hr
+
 .container
-  h2
-    | Добавить проект
-  br
-  = render 'projects/form', project: @new_project, organization: current_organization
-  hr
   h2
     | Все проекты
   = render 'projects/list', organization: current_organization

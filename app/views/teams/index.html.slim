@@ -1,7 +1,9 @@
 .container
   h2= "Добавить #{t('activerecord.models.team', count: 1)}"
   br
-  = render 'teams/form', team: @new_team, organization: @organization
+  - if current_user.can_create?(Team)
+    = render 'teams/form', team: @new_team, organization: @organization
+
 - if @teams.present?
   .tasks-list__container
     .container
