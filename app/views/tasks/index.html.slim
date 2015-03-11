@@ -3,15 +3,15 @@
     h2
       | Добавить задачу
     br
-    = render 'tasks/form', task: @new_task, organization: current_organization
+    = render 'tasks/form', task: @new_task, organization: @organization
 
 - if !@tasks.present?
   .container
     = render 'tasks/empty'
 - else
-  .tasks-list__container
+  div(class="#{is_current_user_tasks_page? ? '' : 'tasks-list__container'}")
     .container
-      = render 'tasks/list_by_milestone', tasks: @tasks, organization: current_organization
+      = render 'tasks/list_by_milestone', tasks: @tasks, organization: @organization
 
 
 

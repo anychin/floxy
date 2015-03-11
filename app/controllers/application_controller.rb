@@ -24,6 +24,14 @@ class ApplicationController < ActionController::Base
     Organization.find(params[:organization_id])
   end
 
+  def try_trigger_for resource, event
+    if resource.available_events.include? event
+      resource.trigger! event
+    else
+      flash[:alert] = "Невозможно событие #{event} для #{resource}"
+    end
+  end
+
   protected
 
   def layout_by_resource

@@ -1,8 +1,6 @@
 class TaskStateMachine
   include Statesman::Machine
 
-  # [:idea, :todo, :current, :resolved, :done]
-
   state :idea, initial: true
   state :approval
   state :todo
@@ -46,13 +44,14 @@ class TaskStateMachine
   end
 
   guard_transition(to: :approval) do |task|
-    task.milestone.present? && task.estimated_time.present? && task.task_level.present? && task.aim.present?
+    task.ready_for_approval?
   end
 
   guard_transition(to: :current) do |task|
-    task.assignee.present?
+    assignee = task.assignee
+    assignee.present? && assignee.assigned_tasks.in_state(:current).count < 1 && assignee.assigned_tasks.in_state(:deferred).count <= 2
   end
-
+  
   #guard_transition(from: :resolved, to: :done) do |task|
     # TODO enable this with time tracking
     #task.elapsed_time.present?

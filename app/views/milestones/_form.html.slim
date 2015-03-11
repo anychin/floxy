@@ -15,12 +15,14 @@
         label &nbsp;
         = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
           | Сохранить
-  .row
-    .col-sm-4
-      .form-group
-        = f.input :aim
-  .row
-    .col-sm-4
-      .form-group
-        = f.input :description, placeholder: 'Описание'
+
+  - unless milestone.new_record?
+    .row
+      .col-sm-4
+        .form-group
+          = f.input :aim
+    .row
+      .col-sm-4
+        .form-group
+          = f.input :description, placeholder: 'Описание'
 

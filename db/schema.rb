@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304142519) do
+ActiveRecord::Schema.define(version: 20150306065702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,18 @@ ActiveRecord::Schema.define(version: 20150304142519) do
 
   add_index "memberships", ["organization_id"], name: "index_memberships_on_organization_id", using: :btree
   add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
+
+  create_table "milestone_transitions", force: :cascade do |t|
+    t.string   "to_state",                    null: false
+    t.text     "metadata",     default: "{}"
+    t.integer  "sort_key",                    null: false
+    t.integer  "milestone_id",                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "milestone_transitions", ["milestone_id"], name: "index_milestone_transitions_on_milestone_id", using: :btree
+  add_index "milestone_transitions", ["sort_key", "milestone_id"], name: "index_milestone_transitions_on_sort_key_and_milestone_id", unique: true, using: :btree
 
   create_table "milestones", force: :cascade do |t|
     t.string   "title"

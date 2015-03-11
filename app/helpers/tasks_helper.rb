@@ -30,7 +30,7 @@ module TasksHelper
 
   def task_state_buttons task, organization, args = {}
     if task.current_state == "done"
-      content_tag :small, t('helpers.task_state_buttons.accepted'), class: 'text-success'
+      content_tag :small, t('helpers.task_state_buttons.accepted'), class: 'btn-task-state-accepted'
     else
       events = task.available_events
       html = ''
@@ -41,12 +41,4 @@ module TasksHelper
       html.html_safe
     end
   end
-
-  def milestome_tasks_without_estimated_time milestone
-    if milestone.tasks_without_estimated_time_count > 0
-      "Задач без оценки: #{milestone.tasks_without_estimated_time_count}"
-    end
-  end
-
-
 end
