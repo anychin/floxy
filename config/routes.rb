@@ -30,10 +30,11 @@ Floxy::Application.routes.draw do
       post :accept
       post :reject
     end
-    resources :projects, only: [:show, :index, :create, :edit, :update, :new, :destroy]
-    resources :task_levels, only: [:index, :edit, :create, :edit, :update, :destroy]
+    resources :projects
+    resources :task_levels
     get 'settings' => 'settings#index'
     resources :profiles, only: [:show, :index, :edit, :update]
+    resources :teams
     get 'me' => 'profiles#show_current'
   end
 

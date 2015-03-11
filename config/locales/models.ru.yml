@@ -9,6 +9,7 @@ ru:
       milestone:
         one: Этап
         other: Этапы
+      team: Команда
       task_level: Уровень задачи
     attributes:
       milestone:
