@@ -20,7 +20,7 @@ class Task < ActiveRecord::Base
 
   scope :ordered_by_id, -> { order("id asc") }
   scope :by_organization, -> (id) { where(:organization_id => id) }
-  scope :by_organization, -> (id) { where(:organization_id => id) }
+  scope :by_team, -> (id) { where(:team_id => id) }
 
   def state_machine
      @state_machine ||= TaskStateMachine.new(self, transition_class: TaskTransition)
