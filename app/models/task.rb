@@ -63,7 +63,11 @@ class Task < ActiveRecord::Base
   end
 
   def estimated?
-    self.hourly? && self.estimated_time.present?
+    if self.hourly?
+      self.estimated_time.present?
+    else
+      true
+    end
   end
 
   def ready_for_approval?
