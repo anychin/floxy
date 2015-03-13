@@ -11,6 +11,7 @@
   %body{:class => "#{controller_name} #{action_name}"}
     -#= render 'layouts/organization/navigation'
     .application-container
+      = render 'layouts/auth_navigation'
       = render 'layouts/messages'
       = yield
 
