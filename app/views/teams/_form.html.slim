@@ -6,13 +6,13 @@
         = f.input :title
     .col-sm-2
       .form-group
-        = f.association :owner, as: :select, include_blank: false, label_method: :title, value_method: :id
+        = f.association :owner, as: :select, collection: organization.all_users, include_blank: false, label_method: :title, value_method: :id
     .col-sm-2
       .form-group
-        = f.association :team_lead, as: :select, include_blank: false, label_method: :title, value_method: :id
+        = f.association :team_lead, as: :select, collection: organization.all_users, include_blank: false, label_method: :title, value_method: :id
     .col-sm-2
       .form-group
-        = f.association :account_manager, as: :select, include_blank: false, label_method: :title, value_method: :id
+        = f.association :account_manager, as: :select, collection: organization.all_users, include_blank: false, label_method: :title, value_method: :id
     .col-sm-2
       .form-group
         label &nbsp;
