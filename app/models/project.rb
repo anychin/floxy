@@ -4,7 +4,7 @@ class Project < ActiveRecord::Base
 
   self.authorizer_name = 'ProjectAuthorizer'
 
-  validates :title, :organization, presence: true
+  validates :title, :organization, :team, presence: true
 
   has_many :milestones
   has_many :tasks, through: :milestones
