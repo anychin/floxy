@@ -5,7 +5,7 @@ class Milestone < ActiveRecord::Base
 
   self.authorizer_name = 'MilestoneAuthorizer'
 
-  validates :title, :organization, presence: true
+  validates :title, :organization, :project, presence: true
 
   belongs_to :project
   belongs_to :organization
