@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
+  before_filter :authorize_organization
 
   def index
     @organization = Organization.find(params[:organization_id])

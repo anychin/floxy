@@ -2,7 +2,8 @@ class TasksController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
   before_filter :load_task, except: [:index, :create, :new]
-  authorize_actions_for :parent_organization, all_actions: :read
+  before_filter :authorize_organization
+  #authorize_actions_for :parent_organization, all_actions: :read
   authorize_actions_for :load_task, except: [:index, :new, :create]
 
   def index
@@ -149,10 +150,6 @@ class TasksController < ApplicationController
   def load_task
     task_id = params[:id] || params[:task_id]
     @task = Task.find(task_id)
-  end
-
-  def load_organization
-    @organization = Organization.find(params[:organization_id])
   end
 
   def tasks_state_guard_redirect

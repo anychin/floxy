@@ -17,11 +17,20 @@ class ApplicationController < ActionController::Base
   end
 
   def forbidden_redirect
-    redirect_to request.referrer.presence || root_path, :alert => 'У вас нет прав для просмотра ресурса'
+    redirect_to root_path, :alert => 'У вас нет прав для просмотра ресурса'
   end
 
   def parent_organization
     Organization.find(params[:organization_id])
+  end
+
+  def load_organization
+    @organization = Organization.find(params[:organization_id])
+  end
+
+  def authorize_organization
+    org = load_organization
+    forbidden_redirect unless current_user.all_organizations.include?(org)
   end
 
   def try_trigger_for resource, event
@@ -41,4 +50,5 @@ class ApplicationController < ActionController::Base
       "application"
     end
   end
+
 end

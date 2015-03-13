@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
   before_filter :load_project, except: [:index, :new, :create]
-  authorize_actions_for :parent_organization, all_actions: :read
+  before_filter :authorize_organization
   authorize_actions_for :load_project, except: [:index, :new, :create]
 
   def index
