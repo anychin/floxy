@@ -3,6 +3,8 @@ class Milestone < ActiveRecord::Base
   include Authority::Abilities
   include Statesman::Adapters::ActiveRecordQueries
 
+  self.authorizer_name = 'MilestoneAuthorizer'
+
   validates :title, :organization, presence: true
 
   belongs_to :project
@@ -22,7 +24,7 @@ class Milestone < ActiveRecord::Base
   delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events, 
            to: :state_machine
 
-  delegate :team, to: :milestone
+  delegate :team, to: :project
 
   def to_s
     "#{project} / #{title}".html_safe

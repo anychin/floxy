@@ -2,6 +2,8 @@ class Team < ActiveRecord::Base
   resourcify
   include Authority::Abilities
 
+  self.authorizer_name = 'TeamAuthorizer'
+
   validates :owner, presence: true
   validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
 
@@ -16,6 +18,8 @@ class Team < ActiveRecord::Base
   scope :ordered_by_id, -> { order("id asc") }
   scope :by_organization, -> (id) { where(:organization_id => id) }
 
+  MANAGER_ROLES = [:owner, :account_manager, :team_lead]
+
   def to_s
     title
   end
@@ -28,16 +32,6 @@ class Team < ActiveRecord::Base
   def creatable_by?(user, options={})
     org = options[:organization]
     user.has_role?(:owner, org) || user.has_role?(:admin)
-  end
-
-  def updatable_by?(user)
-    org = resource.organization
-    owner == user || user.has_role?(:owner, org) || user.has_role?(:admin)
-  end
-
-  def deletable_by?(user)
-    org = resource.organization
-    owner == user || user.has_role?(:owner, org) || user.has_role?(:admin)
   end
 
 end

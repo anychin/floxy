@@ -20,7 +20,8 @@ class Task < ActiveRecord::Base
 
   scope :ordered_by_id, -> { order("id asc") }
   scope :by_organization, -> (id) { where(:organization_id => id) }
-  scope :by_team, -> (id) { where(:team_id => id) }
+  # join(:project=>[:owner])
+  #scope :by_team, -> (id) {joins(:milestone => [:project]).where('milestone.project.team_id = ?', id) }
 
   def state_machine
      @state_machine ||= TaskStateMachine.new(self, transition_class: TaskTransition)
@@ -29,13 +30,15 @@ class Task < ActiveRecord::Base
   delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events,
            to: :state_machine
 
+  delegate :team, to: :milestone
+
   def to_s
     title
   end
 
   def team
-    if milestone.present? && milestone.project.present?
-      milestone.project.team
+    if milestone.present? && milestone.team.present?
+      milestone.team
     end
   end
 

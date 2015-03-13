@@ -1,6 +1,6 @@
 # Other authorizers should subclass this one
 class ApplicationAuthorizer < Authority::Authorizer
-
+  
   # Any class method from Authority::Authorizer that isn't overridden
   # will call its authorizer's default method.
   #
@@ -12,10 +12,6 @@ class ApplicationAuthorizer < Authority::Authorizer
     # considered forbidden.
     user.has_role? :admin
   end
-
-  # def creatable_by?(user)
-  #   resource.owner == user || user.has_role?(:admin)
-  # end
 
   def readable_by?(user)
     org = resource.organization
@@ -36,5 +32,19 @@ class ApplicationAuthorizer < Authority::Authorizer
     org = resource.organization
     user.has_role?(:owner, org) || user.has_role?(:member, org) || user.has_role?(:admin)
   end
+
+  def org_role_or_admin? user, role, org
+    user.has_role?(role, org) || user.has_role?(:admin)
+  end
+
+  def team_manager? user, team
+    roles = []
+    Team::MANAGER_ROLES.each do |r|
+      roles.push(user.has_role?(r, team))
+    end
+    roles.include?(true)
+  end
+
+
 
 end

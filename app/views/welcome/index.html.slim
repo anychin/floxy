@@ -16,7 +16,7 @@
               = link_to organization_tasks_path(org), class: 'btn btn-default btn-lg btn-block' do
                 .text-left
                   = org
-                  - if org.owner == current_user
+                  - if current_user.has_role?(:owner, org)
                     | &nbsp;
                     | &nbsp;
                     small.text-muted= "Вы владелец"

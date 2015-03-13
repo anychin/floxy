@@ -4,9 +4,10 @@
     .col-sm-4
       .form-group
         = f.input :title
-    .col-sm-2
-      .form-group
-        = f.association :owner, as: :select, include_blank: false, label_method: :title, value_method: :id
+    - unless team.new_record?
+      .col-sm-2
+        .form-group
+          = f.association :owner, as: :select, include_blank: false, label_method: :title, value_method: :id, disabled: true
     .col-sm-2
       .form-group
         = f.association :team_lead, as: :select, include_blank: false, label_method: :title, value_method: :id

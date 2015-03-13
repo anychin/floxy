@@ -81,6 +81,8 @@ class OrganizationsController < ApplicationController
   private
 
   def update_organization_roles organization
+    # TODO refactor this
+    organization.roles.destroy_all
     organization.owner.add_role :owner, organization
     organization.members.each do |member|
       member.add_role :member, organization

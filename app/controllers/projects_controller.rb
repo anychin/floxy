@@ -1,20 +1,21 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
+  before_filter :load_organization
+  before_filter :load_project, except: [:index, :new, :create]
   authorize_actions_for :parent_organization, all_actions: :read
+  authorize_actions_for :load_project, except: [:index, :new, :create]
 
   def index
-    @projects = Project.by_organization(params[:organization_id]).ordered_by_id
+    @projects = Project.by_organization(params[:organization_id]).ordered_by_id.select{|t| t.readable_by?(current_user)}
     @new_project = Project.new
   end
 
   def show
-    @project = Project.find(params[:id])
     @tasks = @project.tasks.ordered_by_id
     not_found unless @project.present?
   end
 
   def edit
-    @project = Project.find(params[:id])
     not_found unless @project.present?
   end
 
@@ -30,7 +31,6 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project = Project.find(params[:id])
     if @project.update_attributes(permitted_params)
       flash[:notice] = 'Проект обновлен'
     else
@@ -40,7 +40,6 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project = Project.find(params[:id])
     if @project.destroy
       flash[:notice] = 'Проект удален'
     else
@@ -54,4 +53,14 @@ class ProjectsController < ApplicationController
   def permitted_params
     params.require(:project).permit!
   end
+
+  def load_project
+    project_id = params[:id] || params[:project_id]
+    @project = Project.find(project_id)
+  end
+
+  def load_organization
+    @organization = Organization.find(params[:organization_id])
+  end
+
 end

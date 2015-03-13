@@ -3,9 +3,10 @@ class TeamsController < ApplicationController
   before_filter :load_organization
   before_filter :load_team, except: [:index, :new, :create]
   authorize_actions_for :parent_organization, all_actions: :read
+  authorize_actions_for :load_team, except: [:index, :new, :create]
 
   def index
-    @teams = Team.by_organization(params[:organization_id]).ordered_by_id
+    @teams = Team.by_organization(params[:organization_id]).ordered_by_id.select{|t| t.readable_by?(current_user)}
     @new_team = Team.new
   end
 
@@ -55,6 +56,8 @@ class TeamsController < ApplicationController
   end
 
   def update_team_roles team
+    # TODO refactor this
+    team.roles.destroy_all
     team.owner.add_role :owner, team
     team.team_lead.add_role :team_lead, team
     team.account_manager.add_role :account_manager, team

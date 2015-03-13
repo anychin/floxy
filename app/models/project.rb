@@ -2,6 +2,8 @@ class Project < ActiveRecord::Base
   resourcify
   include Authority::Abilities
 
+  self.authorizer_name = 'ProjectAuthorizer'
+
   validates :title, :organization, presence: true
 
   has_many :milestones

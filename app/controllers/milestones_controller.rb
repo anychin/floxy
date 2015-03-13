@@ -3,11 +3,12 @@ class MilestonesController < ApplicationController
   before_filter :load_organization
   before_filter :load_milestone, except: [:index, :new, :create]
   authorize_actions_for :parent_organization, all_actions: :read
+  authorize_actions_for :load_milestone, except: [:index, :new, :create]
 
   def index
     @milestones = Milestone.by_organization(params[:organization_id]).ordered_by_id
-    @actual_milestones = @milestones.not_in_state(:done)
-    @done_milestones = @milestones.in_state(:done)
+    @actual_milestones = @milestones.not_in_state(:done).select{|t| t.readable_by?(current_user)}
+    @done_milestones = @milestones.in_state(:done).select{|t| t.readable_by?(current_user)}
     @new_milestone = Milestone.new
   end
 
