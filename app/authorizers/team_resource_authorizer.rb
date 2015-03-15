@@ -1,8 +1,8 @@
 class TeamResourceAuthorizer < ApplicationAuthorizer
 
-  def creatable_by?(user, options={})
+  def self.creatable_by?(user, options={})
     org = options[:organization]
-    teams = user_teams
+    teams = Team.by_organization(org).with_roles(Team::MANAGER_ROLES, user).uniq
     teams.present? || user.has_role?(:admin)
   end
 
@@ -26,10 +26,6 @@ class TeamResourceAuthorizer < ApplicationAuthorizer
 
   def team_resource
     resource.team
-  end
-
-  def user_teams
-    Team.where(organization_id: org).with_roles(Team::MANAGER_ROLES, user).uniq
   end
 
 end

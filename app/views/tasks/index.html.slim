@@ -1,4 +1,4 @@
-- if !is_current_user_tasks_page? && current_user.can_create?(Task)
+- if !is_current_user_tasks_page? && current_user.can_create?(Task, organization: @organization)
   .container
     h2
       | Добавить задачу
