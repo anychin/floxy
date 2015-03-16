@@ -1,4 +1,4 @@
-- columns = [:id, :title, :team, :description]
+- columns = [:id, :title, :team_lead, :account_manager, :team, :description]
 
 - if @projects.present?
   table.table.table-striped
@@ -15,7 +15,14 @@
           td
             = link_to p.title, organization_project_path(organization, p)
           td
-            = p.team.members.join(', ') if p.team.present?
+            = p.team.team_lead if p.team.present?
+          td
+            = p.team.account_manager if p.team.present?
+          td
+            - if p.team.present?
+              = p.team
+              | &nbsp;&mdash;&nbsp;
+              = p.team.members.join(', ')
           td
             = p.description
 

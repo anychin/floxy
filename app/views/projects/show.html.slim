@@ -8,7 +8,25 @@
       = link_to 'Изменить', edit_organization_project_path(current_organization, @project), class: 'btn btn-default'
     .clearfix
 
-  = link_to "Добавить #{t('activerecord.models.milestone', count: 1)}", organization_milestones_path, class: 'btn btn-default'
+  p= link_to "Добавить #{t('activerecord.models.milestone', count: 1)}", organization_milestones_path, class: 'btn btn-default'
+
+  .row
+    .col-md-6
+      table.table.table-condensed
+        tbody
+          tr
+            td= t('activerecord.attributes.project.team_lead')
+            td= @project.team.team_lead if @project.team.present?
+          tr
+            td= t('activerecord.attributes.project.account_manager')
+            td= @project.team.account_manager if @project.team.present?
+          - if @project.team.present?
+            tr
+              td= t('activerecord.attributes.project.team')
+              td
+                = @project.team
+                | &nbsp;&mdash;&nbsp;
+                = @project.team.members.join(', ')
 
   p= @project.description
 
