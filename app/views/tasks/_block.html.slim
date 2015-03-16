@@ -1,11 +1,30 @@
+-# columns = [:title, :assignee, :estimated_time, :estimated_expenses, :task_level, :task_type, :tool, :aim]
+- columns = [:aim]
+- columns_count = columns.count
+- additional_columns = [:estimated_time, :estimated_expenses, :task_level, :task_type, :tool]
+- additional_columns_count = additional_columns.count
+
+
 .panel.panel-default.task-block
-  .panel-heading
-    h3.panel-title
-      = task.title
-      | &nbsp;&nbsp;
-      small.text-muted= task.assignee
+  /.panel-heading
+    /h3.panel-title
+      /= task.title
+      /| &nbsp;&nbsp;
+  /    small.text-muted= task.assignee
   .panel-body
-    - fields = {estimated_time: hours(task.estimated_time), estimated_expenses: task.estimated_expenses, task_level: task.task_level, type: task.task_type, aim: task.aim, tool: task.tool}
-    - fields.each_pair do |key, value|
-      = "#{key}: #{value}" if value.present?
+    .row
+      .col-sm-4
+        = task_field task, :title, organization
+        br
+        = task_field task, :assignee, organization
+      .col-md-6
+        .row
+          - columns.each_with_index do |field, i|
+            div(class="col-sm-#{12/columns_count}")
+              = task_field task, field, organization
+        - additional_columns.each do |field|
+          small= task_field task, field, organization
+      .col-sm-4.col-md-2
+        = task_state_buttons task, organization, css_class: 'tasks-list__state-btn'
+
 

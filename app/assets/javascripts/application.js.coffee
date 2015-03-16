@@ -20,3 +20,5 @@ $ ->
       clear: 'fa fa-trash'
     format: 'DD/MM/YYYY'
 
+  $('@tooltip').tooltip()
+
