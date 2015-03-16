@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
     ROLES.symbolize_keys
   end
 
+  def teams
+    team_memberships.map{|m| m.team}
+  end
+
   def default_current_organization
     if owned_organizations.present?
       owned_organizations.first
