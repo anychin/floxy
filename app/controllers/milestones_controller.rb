@@ -29,7 +29,7 @@ class MilestonesController < ApplicationController
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.milestone', count: 1)} не добавлен"
     end
-    redirect_to organization_milestones_path
+    redirect_to request.referrer.presence || organization_milestones_path
   end
 
   def update
@@ -38,7 +38,7 @@ class MilestonesController < ApplicationController
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.milestone', count: 1)} не обновлен"
     end
-    redirect_to organization_milestone_path(@organization, @milestone)
+    redirect_to request.referrer.presence || organization_milestone_path(@organization, @milestone)
   end
 
   def destroy
@@ -47,12 +47,12 @@ class MilestonesController < ApplicationController
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.milestone', count: 1)} не удален"
     end
-    redirect_to organization_milestones_path
+    redirect_to request.referrer.presence || organization_milestones_path
   end
 
   def negotiate
     try_trigger_for @milestone, :negotiate
-    redirect_to organization_milestone_path(@organization, @milestone)
+    redirect_to request.referrer.presence || organization_milestone_path(@organization, @milestone)
     not_found unless @milestone.present?
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для отправки на согласование с клиентом этап должен иметь цель и задачи; все его задачи должны иметь планируемое время, уровень и цель"
@@ -62,7 +62,7 @@ class MilestonesController < ApplicationController
 
   def start
     try_trigger_for @milestone, :start
-    redirect_to organization_milestone_path(@organization, @milestone)
+    redirect_to request.referrer.presence || organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для старта этапа должен быть назначен исполнитель"
     milestones_state_guard_redirect
@@ -71,7 +71,7 @@ class MilestonesController < ApplicationController
 
   def hold
     try_trigger_for @milestone, :hold
-    redirect_to organization_task_path(@organization, @milestone)
+    redirect_to request.referrer.presence || organization_task_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
   end
@@ -79,7 +79,7 @@ class MilestonesController < ApplicationController
 
   def finish
     try_trigger_for @milestone, :finish
-    redirect_to organization_milestone_path(@organization, @milestone)
+    redirect_to request.referrer.presence || organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
   end
@@ -87,7 +87,7 @@ class MilestonesController < ApplicationController
 
   def accept
     try_trigger_for @milestone, :accept
-    redirect_to organization_milestone_path(@organization, @milestone)
+    redirect_to request.referrer.presence || organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     #flash[:alert] = 'Задачи этапа должны иметь часы, затраченные на выполнение'
     milestones_state_guard_redirect
@@ -96,7 +96,7 @@ class MilestonesController < ApplicationController
 
   def reject
     try_trigger_for @milestone, :reject
-    redirect_to organization_milestone_path(@organization, @milestone)
+    redirect_to request.referrer.presence || organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
   end
