@@ -1,0 +1,24 @@
+- columns = [:id, :title, :aim, :estimated_time, :due_date]
+- columns_count = columns.count
+
+table.table.table-hover
+  thead
+    - columns.each_with_index do |col, i|
+      - if i == 0
+        th(style="width: 30%;")
+          = t("attributes.team.#{col}")
+      - else
+        th(style="width: #{100/columns_count}%;")
+          = t("attributes.team.#{col}")
+    th
+
+  tbody
+    - teams.each do |m|
+      tr
+        - columns.each do |field|
+          td
+            = team_field m, field, organization
+        td.text-center
+          = team_state_buttons m, organization, css_class: 'teams-list__state-btn'
+
+

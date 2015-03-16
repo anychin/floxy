@@ -1,7 +1,9 @@
-.container
-  h2= "Добавить #{t('activerecord.models.milestone', count: 1)}"
-  br
-  = render 'milestones/form', milestone: @new_milestone, organization: @organization
+- if current_user.can_create?(Milestone)
+  .container
+    h2= "Добавить #{t('activerecord.models.milestone', count: 1)}"
+    br
+    = render 'milestones/form', milestone: @new_milestone, organization: @organization
+
 - if @milestones.present?
   .tasks-list__container
     .container

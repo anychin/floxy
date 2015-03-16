@@ -1,0 +1,15 @@
+.container
+  span.text-muted= "#{t('activerecord.models.team', count: 1)} ##{@team.id}"
+
+  h1
+    .pull-left
+      = @team
+    .pull-left
+      = link_to 'Изменить', edit_organization_team_path(@organization, @team), class: 'btn btn-default'
+    .clearfix
+  - columns = [:due_date, :description]
+  hr
+  .row
+    .col-md-6
+      = @team.members.join(', ')
+

@@ -8,6 +8,7 @@ class Organization < ActiveRecord::Base
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
   has_many :memberships
   has_many :members, -> {uniq}, :through => :memberships, :source => :user
+  has_many :teams
 
   validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
 

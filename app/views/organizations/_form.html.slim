@@ -6,8 +6,10 @@
         = f.input :title
     .col-sm-2
       .form-group
-        -# if organization.new_record?
-        = f.association :owner, as: :select, include_blank: false, label_method: :title, value_method: :id
+        - if organization.new_record?
+          = f.association :owner, as: :select, value: current_user, include_blank: false, label_method: :title, value_method: :id
+        - else
+          = f.association :owner, as: :select, collection: organization.all_users, include_blank: false, label_method: :title, value_method: :id
     .col-sm-2
       .form-group
         label &nbsp;

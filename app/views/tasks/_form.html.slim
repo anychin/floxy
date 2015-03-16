@@ -6,7 +6,7 @@
         = f.input :title, placeholder: 'Название задачи'
     .col-sm-3
       .form-group
-        = f.association :milestone, as: :select, include_blank: true, label_method: :to_s, collection: Milestone.by_organization(organization)
+        = f.association :milestone, as: :select, include_blank: true, label_method: :to_s, collection: Milestone.by_organization(organization).select{|t| t.readable_by?(current_user)}
 
     .col-sm-2
       .form-group

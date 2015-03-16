@@ -1,0 +1,5 @@
+class TaskAuthorizer < TeamResourceAuthorizer
+
+end
+
+
