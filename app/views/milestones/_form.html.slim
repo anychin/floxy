@@ -6,7 +6,7 @@
         = f.input :title, placeholder: 'Название'
     .col-sm-2
       .form-group
-        = f.association :project, as: :select, include_blank: t('activerecord.models.project', count: 1), collection: Project.by_organization(organization)
+        = f.association :project, as: :select, include_blank: t('activerecord.models.project', count: 1), collection: Project.by_organization(organization).select{|t| t.readable_by?(current_user)}
     .col-sm-2
       .form-group
         = f.input :due_date, as: :string, input_html: {role: 'datetimepicker'}
