@@ -12,6 +12,7 @@ class ProjectsController < ApplicationController
 
   def show
     @tasks = @project.tasks.ordered_by_id
+    @milestones = @project.milestones
     not_found unless @project.present?
   end
 

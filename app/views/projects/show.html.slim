@@ -15,9 +15,17 @@
   hr
 
   h2
-    | Задачи проекта
+    | Этапы и задачи проекта
 
   - if @project.tasks.present?
     = render 'tasks/list_by_milestone', tasks: @project.tasks, organization: current_organization
   - else
     = render 'tasks/empty'
+
+- if @milestones.present?
+  .tasks-list__container
+    .container
+      h2.tasks-list__milestone-title
+        | Этапы проекта без задач
+      = render 'milestones/list', organization: @organization, milestones: @milestones
+
