@@ -1,4 +1,4 @@
-- if current_user.can_create?(Milestone)
+- if current_user.can_create?(Milestone, organization: @organization)
   .container
     h2= "Добавить #{t('activerecord.models.milestone', count: 1)}"
     br
