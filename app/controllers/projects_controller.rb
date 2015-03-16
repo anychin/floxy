@@ -12,7 +12,7 @@ class ProjectsController < ApplicationController
 
   def show
     @tasks = @project.tasks.ordered_by_id
-    @milestones = @project.milestones
+    @empty_milestones = @project.milestones.reject{|m| m.tasks.present? }
     not_found unless @project.present?
   end
 
