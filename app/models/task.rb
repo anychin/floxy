@@ -6,7 +6,6 @@ class Task < ActiveRecord::Base
   self.authorizer_name = 'TaskAuthorizer'
 
   # TODO remove :status from code and db
-  enum status: [:todo, :doing, :done, :accepted]
 
   validates :title, :organization, presence: true
 

@@ -22,6 +22,7 @@ module MilestonesHelper
   end
 
   def milestone_state_buttons milestone, organization, args = {}
+    return unless current_user.can_update?(milestone)
     if milestone.current_state == "done"
       content_tag :small, t('helpers.milestone_state_buttons.accepted'), class: 'btn-milestone-state-accepted'
     else
