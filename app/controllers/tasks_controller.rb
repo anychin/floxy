@@ -2,15 +2,17 @@ class TasksController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
   before_filter :load_task, except: [:index, :create, :new]
+  before_filter :load_available_milestones, only: [:index, :create, :new, :update, :edit]
   before_filter :authorize_organization
   #authorize_actions_for :parent_organization, all_actions: :read
   authorize_actions_for :load_task, except: [:index, :new, :create]
 
+
   def index
     if params[:assignee].present?
-      org_tasks = Task.by_organization(params[:organization_id]).ordered_by_id.select{|t| t.assignee == current_user}
+      org_tasks = Task.by_organization(@organization).ordered_by_id.select{|t| t.assignee == current_user}
     else
-      org_tasks = Task.by_organization(params[:organization_id]).ordered_by_id
+      org_tasks = Task.by_organization(@organization).ordered_by_id
     end
     # TODO refactor this
     @tasks = org_tasks.select{|t| t.readable_by?(current_user)}
@@ -41,7 +43,7 @@ class TasksController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, задача не добавлена'
     end
-    redirect_to request.referrer.presence || organization_tasks_path
+    redirect_to organization_tasks_path
   end
 
   def update
@@ -61,7 +63,7 @@ class TasksController < ApplicationController
         flash[:alert] = msg
       end
     end
-    redirect_to request.referrer.presence || organization_task_path(params[:organization_id], @task)
+    redirect_to organization_tasks_path(@organization)
   end
 
   def destroy
@@ -70,12 +72,12 @@ class TasksController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, задача не удалена'
     end
-    redirect_to request.referrer.presence || organization_tasks_path
+    redirect_to organization_tasks_path
   end
 
   def negotiate
     try_trigger_for @task, :negotiate
-    redirect_to request.referrer.presence || organization_task_path(@organization, @task)
+    redirect_to organization_tasks_path(@organization)
     not_found unless @task.present?
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для отправки на согласование с клиентом задача должна иметь этап, планируемое время, уровень и цель"
@@ -85,7 +87,7 @@ class TasksController < ApplicationController
 
   def approve
     try_trigger_for @task, :approve
-    redirect_to request.referrer.presence || organization_task_path(@organization, @task)
+    redirect_to organization_tasks_path(@organization)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
@@ -93,7 +95,7 @@ class TasksController < ApplicationController
 
   def hold
     try_trigger_for @task, :hold
-    redirect_to request.referrer.presence || organization_task_path(@organization, @task)
+    redirect_to organization_tasks_path(@organization)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
@@ -101,7 +103,7 @@ class TasksController < ApplicationController
 
   def start
     try_trigger_for @task, :start
-    redirect_to request.referrer.presence || organization_task_path(@organization, @task)
+    redirect_to organization_tasks_path(@organization)
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач"
     tasks_state_guard_redirect
@@ -110,7 +112,7 @@ class TasksController < ApplicationController
 
   def finish
     try_trigger_for @task, :finish
-    redirect_to request.referrer.presence || organization_task_path(@organization, @task)
+    redirect_to organization_tasks_path(@organization)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
@@ -118,7 +120,7 @@ class TasksController < ApplicationController
 
   def defer
     try_trigger_for @task, :defer
-    redirect_to request.referrer.presence || organization_task_path(@organization, @task)
+    redirect_to organization_tasks_path(@organization)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
@@ -126,7 +128,7 @@ class TasksController < ApplicationController
 
   def accept
     try_trigger_for @task, :accept
-    redirect_to request.referrer.presence || organization_task_path(@organization, @task)
+    redirect_to organization_tasks_path(@organization)
   rescue Statesman::GuardFailedError
     #flash[:alert] = 'Задача должна иметь часы, затраченные на выполнение'
     tasks_state_guard_redirect
@@ -135,7 +137,7 @@ class TasksController < ApplicationController
 
   def reject
     try_trigger_for @task, :reject
-    redirect_to request.referrer.presence || organization_task_path(@organization, @task)
+    redirect_to organization_tasks_path(@organization)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
@@ -155,6 +157,10 @@ class TasksController < ApplicationController
   def tasks_state_guard_redirect
     flash[:alert] ||=  "Не удалось поменять статус задачи (не выполнены требования задачи)"
     redirect_to organization_task_path(@organization, @task)
+  end
+
+  def load_available_milestones
+    @available_milestones = Milestone.by_organization(@organization).not_in_state(:resolved, :done).select{|t| t.readable_by?(current_user)}
   end
 
 end

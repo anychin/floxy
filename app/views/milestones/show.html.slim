@@ -37,6 +37,6 @@
     | Задачи
 
   - if @milestone.tasks.present?
-    = render 'tasks/list', tasks: @milestone.tasks, organization: @organization, show_milestone: false
+    = render 'tasks/block_list', tasks: @milestone.tasks, organization: @organization, show_milestone: false
   - else
     = render 'tasks/empty'

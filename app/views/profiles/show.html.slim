@@ -30,7 +30,7 @@ hr
     - completed_tasks.each do |month, task_group|
       h3.tasks-list__month-title
         = month.strftime("%B %Y")
-      = render 'tasks/list', tasks: task_group, show_month: false, organization: current_organization
+      = render 'tasks/block_list', tasks: task_group, show_month: false, organization: current_organization
       hr
   - if other_tasks.present?
     h2
@@ -41,6 +41,6 @@ hr
     - other_tasks.each do |month, task_group|
       h3.tasks-list__month-title
         = month.strftime("%B %Y")
-      = render 'tasks/list', tasks: task_group, show_month: false, organization: current_organization
+      = render 'tasks/block_list', tasks: task_group, show_month: false, organization: current_organization
     hr
 

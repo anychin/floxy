@@ -28,7 +28,11 @@ module TasksHelper
         "#{task.send(field)}"
     end
     if html.present?
-      content_tag :span, html.html_safe, class: 'task__field-block', role: :tooltip, data: {'original-title' => t("activerecord.attributes.task.#{field}"), delay: {show: 200, hide: 0}}
+      if field == :title
+        content_tag :span, html.html_safe, class: 'task__field-block'
+      else
+        content_tag :span, html.html_safe, class: 'task__field-block', role: :tooltip, data: {'original-title' => t("activerecord.attributes.task.#{field}"), delay: {show: 200, hide: 0}}
+      end
     end
   end
 

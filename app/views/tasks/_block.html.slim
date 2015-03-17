@@ -1,7 +1,7 @@
 -# columns = [:title, :assignee, :estimated_time, :estimated_expenses, :task_level, :task_type, :tool, :aim]
 - columns = [:aim]
 - columns_count = columns.count
-- additional_columns = [:estimated_time, :estimated_expenses, :task_level, :task_type, :tool]
+- additional_columns = [:task_type, :tool, :estimated_expenses, :estimated_time, :task_level]
 - additional_columns_count = additional_columns.count
 
 
@@ -13,10 +13,21 @@
   /    small.text-muted= task.assignee
   .panel-body
     .row
-      .col-sm-4
-        = task_field task, :title, organization
-        br
-        = task_field task, :assignee, organization
+      .col-md-4
+        - if current_user.can_update? task
+          .row
+            .col-sm-10
+              = task_field task, :title, organization
+              br
+              = task_field task, :assignee, organization
+            .col-sm-2
+              = link_to edit_organization_task_path(organization, task), class: 'btn btn-sm btn-default' do
+                i.fa.fa-pencil
+        - else
+          = task_field task, :title, organization
+          br
+          = task_field task, :assignee, organization
+
       .col-md-6
         .row
           - columns.each_with_index do |field, i|

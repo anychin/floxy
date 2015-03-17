@@ -1,11 +1,11 @@
 .container
   small
-    = link_to organization_task_path(current_organization, @task) do
+    = link_to organization_task_path(@organization, @task) do
       = "Задача ##{@task.id}"
       | &nbsp;
       strong= @task
   h1
     | Редактирование задачи
   hr
-  = render 'tasks/form', task: @task, organization: current_organization
+  = render 'tasks/form', task: @task, organization: @organization, milestones: @available_milestones
 

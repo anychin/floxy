@@ -3,7 +3,7 @@
     h2
       | Добавить задачу
     br
-    = render 'tasks/form', task: @new_task, organization: @organization
+    = render 'tasks/form', task: @new_task, organization: @organization, milestones: @available_milestones
 
 - if !@tasks.present?
   .container
