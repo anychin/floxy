@@ -5,6 +5,7 @@
 #= require moment
 #= require bootstrap-datetimepicker
 #= require moment/ru
+#= require metrika
 
 $ ->
   $('@datetimepicker').datetimepicker
