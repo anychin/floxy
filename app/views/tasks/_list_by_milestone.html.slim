@@ -6,13 +6,13 @@
     .panel.panel-default.tasks-list__milestone
       .panel-body
         = render 'milestones/list_item_header', milestone: milestone, organization: organization
-        = render 'tasks/list', tasks: task_group, show_milestone: false, organization: organization
+        = render 'tasks/block_list', tasks: task_group, show_milestone: false, organization: organization
 
 - if tasks_without_milestone.present?
   .panel.panel-default.tasks-list__milestone
     .panel-body
       h3.tasks-list__milestone-title
         | Без этапа
-      = render 'tasks/list', tasks: tasks_without_milestone, show_milestone: false, organization: organization
+      = render 'tasks/block_list', tasks: tasks_without_milestone, show_milestone: false, organization: organization
 
 
