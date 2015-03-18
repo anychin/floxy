@@ -23,10 +23,20 @@
   - columns = [:milestone, :assignee, :estimated_time, :estimated_expenses, :task_level, :task_type, :tool, :aim]
   .row
     .col-md-6
+      h4 Детали
       table.table.table-condensed.table-hover
         tbody
           - columns.each do |field|
             tr
               td= t("activerecord.attributes.task.#{field}")
               td= task_field @task, field, current_organization
+    .col-md-4.col-md-offset-2
+      h4 История
+      - @task.state_machine.history.each do |t|
+        p
+          = t "activerecord.attributes.task.states.#{t.to_state}"
+          | &nbsp;
+          small.text-muted= l t.updated_at, format: :human
+
   = @task.description
+
