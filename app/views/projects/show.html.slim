@@ -5,10 +5,10 @@
       = @project.title
       | &nbsp;&nbsp;
     .pull-left
-      = link_to 'Изменить', edit_organization_project_path(current_organization, @project), class: 'btn btn-default'
+      = link_to 'Изменить', edit_organization_project_path(@organization, @project), class: 'btn btn-default'
     - if current_user.can_delete?(@project)
       .pull-right
-        = link_to 'Удалить', organization_project_path(current_organization, @project), method: :delete, class: 'btn btn-danger'
+        = link_to 'Удалить', organization_project_path(@organization, @project), method: :delete, class: 'btn btn-danger'
 
     .clearfix
 
@@ -39,7 +39,7 @@
   - if @project.milestones.present?
     h2
       | Этапы и задачи проекта
-    = render 'tasks/list_by_milestone', milestones: @project.milestones, organization: current_organization
+    = render 'tasks/list_by_milestone', milestones: @project.milestones, organization: @organization
 
 - if @empty_milestones.present?
   .tasks-list__container

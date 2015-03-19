@@ -17,6 +17,9 @@
       | &nbsp;&nbsp;
     .pull-left
       = link_to 'Изменить', edit_organization_milestone_path(@organization, @milestone), class: 'btn btn-default'
+    - if current_user.can_delete?(@milestone)
+      .pull-right
+        = link_to 'Удалить', organization_milestone_path(@organization, @milestone), method: :delete, class: 'btn btn-danger'
     .clearfix
   = milestone_state_buttons @milestone, @organization, css_class: "milestone-show__state-btn"
   - columns = [:due_date, :description]
