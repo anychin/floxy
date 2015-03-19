@@ -30,7 +30,7 @@ class Task < ActiveRecord::Base
   delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events,
            to: :state_machine
 
-  delegate :team, to: :milestone
+  delegate :team, to: :milestone, allow_nil: true
 
   def to_s
     title

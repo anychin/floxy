@@ -24,7 +24,7 @@ class Milestone < ActiveRecord::Base
   delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events, 
            to: :state_machine
 
-  delegate :team, to: :project
+  delegate :team, to: :project, allow_nil: true
 
   def to_s
     "#{project} / #{title}".html_safe
