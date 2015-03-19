@@ -17,8 +17,9 @@
       | &nbsp;&nbsp;
     .pull-left
       = link_to 'edit', edit_organization_task_path(current_organization, @task), class: 'btn btn-default'
-    .pull-right
-      = link_to 'delete', organization_task_path(current_organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
+    - if current_user.can_delete?(@task)
+      .pull-right
+        = link_to 'delete', organization_task_path(current_organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
     .clearfix
   = task_state_buttons @task, @organization, css_class: "task-show__state-btn"
   hr

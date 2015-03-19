@@ -9,6 +9,12 @@ class TaskAuthorizer < TeamResourceAuthorizer
     super
   end
 
+  def deletable_by?(user)
+    return true if resource.owner == user
+    super
+  end
+
+
 end
 
 
