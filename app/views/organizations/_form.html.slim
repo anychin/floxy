@@ -9,7 +9,7 @@
         - if organization.new_record?
           = f.association :owner, as: :select, value: current_user, include_blank: false, label_method: :title, value_method: :id
         - else
-          = f.association :owner, as: :select, collection: organization.all_users, include_blank: false, label_method: :title, value_method: :id
+          = f.association :owner, as: :select, value: organization.owner, collection: organization.all_users, include_blank: false, label_method: :title, value_method: :id
     .col-sm-2
       .form-group
         label &nbsp;
