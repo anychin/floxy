@@ -8,6 +8,7 @@ class Task < ActiveRecord::Base
   # TODO remove :status from code and db
 
   validates :title, :organization, presence: true
+  validates :estimated_time, numericality: { less_than_or_equal_to: 8 }
 
   belongs_to :milestone
   belongs_to :owner, class_name: "User", foreign_key: "owner_id"
