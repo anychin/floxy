@@ -45,14 +45,14 @@ class Task < ActiveRecord::Base
   def save_estimated_cost
     return unless self.task_level.hourly?
     self.estimated_cost = self.estimated_time * self.task_level.rate_value
-    self.save!
+    save
   end
 
-  def save_elapsed_cost
-    return unless self.hourly?
-    self.estimated_cost = self.estimated_time * self.task_level.rate_value
-    self.save!
-  end
+  #def save_elapsed_cost
+    #return unless self.hourly?
+    #self.estimated_cost = self.estimated_time * self.task_level.rate_value
+    #self.save!
+  #end
 
   def estimated_summary_cost
     if self.hourly?

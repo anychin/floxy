@@ -1,3 +1,5 @@
+- columns = [:milestone, :assignee, :estimated_time, :estimated_expenses, :task_level, :task_type, :tool, :aim, :estimated_cost, :accepted_at]
+
 .container
   - if @task.milestone.present?
     span.text-muted
@@ -20,7 +22,6 @@
     .clearfix
   = task_state_buttons @task, @organization, css_class: "task-show__state-btn"
   hr
-  - columns = [:milestone, :assignee, :estimated_time, :estimated_expenses, :task_level, :task_type, :tool, :aim]
   .row
     .col-md-6
       h4 Детали

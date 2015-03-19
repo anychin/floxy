@@ -57,14 +57,14 @@ class TaskStateMachine
     #task.elapsed_time.present?
   #end
 
-  #after_transition(to: :todo) do |task|
-    # save (task.estimated_time * task.task_level.rate) if task.task_level.hourly?
-    #task.save_estimated_cost
-  #end
+  after_transition(to: :todo) do |task|
+    task.save_estimated_cost
+  end
 
-  #after_transition(to: :done) do |task|
-    # save (task.elapsed_time * task.task_level.rate) if task.task_level.hourly?
+  after_transition(to: :done) do |task, transition|
     #task.save_elapsed_cost
-  #end
+    task.accepted_at = transition.updated_at
+    task.save
+  end
 
 end

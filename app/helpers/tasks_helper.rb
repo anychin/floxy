@@ -14,7 +14,7 @@ module TasksHelper
         end
       when :assignee
         "#{task_field_icon(field)} #{email_to_name(task.assignee.to_s)}" if task.assignee.present?
-      when :estimated_expenses
+      when :estimated_expenses, :estimated_cost
         "#{task_field_icon(field)} #{price task.send(field)}"
       when :estimated_time
         "#{task_field_icon(field)} #{hours task.send(field)}"
@@ -24,6 +24,8 @@ module TasksHelper
         task.status
       when :state
         task.current_state
+      when :accepted_at
+        "#{l task.send(field), format: :human}"
       else
         "#{task.send(field)}"
     end
