@@ -57,7 +57,7 @@ class TaskStateMachine
     #task.elapsed_time.present?
   #end
 
-  after_transition(to: :todo) do |task|
+  after_transition(from: :approval, to: :todo) do |task|
     task.save_estimated_cost
   end
 
