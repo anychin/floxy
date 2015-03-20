@@ -11,7 +11,7 @@ class Team < ActiveRecord::Base
   belongs_to :team_lead, class_name: 'User', foreign_key: :team_lead_id
   belongs_to :account_manager, class_name: 'User', foreign_key: :account_manager_id
   belongs_to :organization
-  has_many :team_memberships
+  has_many :team_memberships, dependent: :destroy
   has_many :members, -> {uniq}, :through => :team_memberships, :source => :user
   has_many :projects
 
