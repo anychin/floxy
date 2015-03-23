@@ -35,7 +35,14 @@
 
   span.label.label-warning= "возвращен на обсуждение" if milestone.returned_to_approval?
 
+
+  - if current_user.can_update?(milestone)
+    = link_to edit_organization_milestone_path(organization, milestone), class: 'btn btn-sm btn-default' do
+      i.fa.fa-pencil
+    | &nbsp;&nbsp;
+
   = link_to "&rarr;".html_safe, organization_milestone_path(organization, milestone), class: 'btn btn-sm btn-default'
+  | &nbsp;&nbsp;
 
 .pull-right
   = milestone_state_buttons milestone, organization, css_class: 'milestones-list__state-btn'
