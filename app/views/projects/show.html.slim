@@ -36,10 +36,10 @@
 
   hr
 
-  - if @project.milestones.present?
+  - if @milestones_with_tasks.present?
     h2
       | Этапы и задачи проекта
-    = render 'tasks/list_by_milestone', milestones: @project.milestones, organization: @organization
+    = render 'tasks/list_by_milestone', milestones: @milestones_with_tasks, organization: @organization
 
 - if @empty_milestones.present?
   .tasks-list__container
