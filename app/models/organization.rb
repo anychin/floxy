@@ -1,6 +1,8 @@
 class Organization < ActiveRecord::Base
   resourcify
   include Authority::Abilities
+  
+  self.authorizer_name = 'OrganizationAuthorizer'
 
   validates :title, presence: true
   validates :owner, presence: true
@@ -22,22 +24,6 @@ class Organization < ActiveRecord::Base
   def all_users
     all_users = members << owner
     all_users.uniq
-  end
-
-  def readable_by?(user)
-    owner == user || members.include?(user) || user.has_role?(:admin)
-  end
-
-  def updatable_by?(user)
-    owner == user || user.has_role?(:admin)
-  end
-
-  def creatable_by?(user)
-    user.has_role? :admin
-  end
-
-  def deletable_by? user
-    user.has_role? :admin
   end
 
 end
