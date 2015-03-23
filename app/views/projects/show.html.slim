@@ -26,9 +26,9 @@
             td= @project.team.account_manager if @project.team.present?
           - if @project.team.present?
             tr
-              td= t('activerecord.attributes.project.team')
+              td= t('activerecord.models.team')
               td
-                = @project.team
+                strong= "&laquo;#{@project.team}&raquo;".html_safe
                 | &nbsp;&mdash;&nbsp;
                 = @project.team.members.join(', ')
 
