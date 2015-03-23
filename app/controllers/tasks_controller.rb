@@ -111,7 +111,7 @@ class TasksController < ApplicationController
     try_trigger_for @task, :start
     redirect_to organization_tasks_path(@organization)
   rescue Statesman::GuardFailedError
-    flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач"
+    flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач. Этап задачи должен иметь статус 'В работе'"
     tasks_state_guard_redirect
   end
   authority_actions start: :update
