@@ -46,6 +46,15 @@
 
 
   hr
+
+  - if current_user.can_create?(Task, organization: @organization)
+    h3
+      strong
+        | Добавить задачу
+    = render 'tasks/form', task: Task.new, organization: @organization, milestone: @milestone
+
+  hr
+
   h2
     | Задачи
 

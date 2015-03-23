@@ -6,7 +6,10 @@
         = f.input :title, placeholder: 'Название задачи'
     .col-sm-3
       .form-group
-        = f.association :milestone, as: :select, include_blank: true, label_method: :to_s, collection: milestones
+        - if milestone.present?
+          = f.association :milestone, as: :select, collection: [milestone], include_blank: false
+        - else
+          = f.association :milestone, as: :select, include_blank: true, label_method: :to_s, collection: milestones
 
     .col-sm-2
       .form-group

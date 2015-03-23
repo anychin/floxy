@@ -36,6 +36,12 @@
 
   hr
 
+  - if current_user.can_create?(Milestone, organization: @organization)
+    .container
+      h2= "Добавить #{t('activerecord.models.milestone', count: 1)}"
+      br
+      = render 'milestones/form', milestone: Milestone.new, project: @project, organization: @organization
+
   - if @milestones_with_tasks.present?
     h2
       | Этапы и задачи проекта

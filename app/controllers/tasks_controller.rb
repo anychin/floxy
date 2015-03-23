@@ -49,7 +49,7 @@ class TasksController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, задача не добавлена'
     end
-    redirect_to organization_tasks_path
+    redirect_to request.referrer.presence || organization_tasks_path
   end
 
   def update

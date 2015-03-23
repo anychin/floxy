@@ -29,7 +29,7 @@ class MilestonesController < ApplicationController
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.milestone', count: 1)} не добавлен"
     end
-    redirect_to organization_milestones_path
+    redirect_to request.referrer.presence || organization_milestones_path
   end
 
   def update
