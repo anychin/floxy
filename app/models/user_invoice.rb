@@ -6,8 +6,16 @@ class UserInvoice < ActiveRecord::Base
 
   has_many :tasks
 
+  def to_s
+    "#{id} для #{user}"
+  end
+
   def paid?
     paid_at.present?
+  end
+
+  def total
+    tasks.map{|t| t.estimated_cost}.inject(:+)
   end
 
 end

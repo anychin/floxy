@@ -35,6 +35,7 @@ class Task < ActiveRecord::Base
            to: :state_machine
 
   delegate :team, to: :milestone, allow_nil: true
+  delegate :rate_value, to: :task_level, allow_nil: true
 
   def to_s
     title

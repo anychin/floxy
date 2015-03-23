@@ -5,19 +5,19 @@
 
   hr
 
-  - columns = [:id, :user, :paid?, :created_at, :paid_at, :tasks]
+  - columns = [:id, :user, :total, :paid?, :created_at, :paid_at, :tasks]
   table.table
     thead
       tr
         - columns.each do |field|
-          th= field
+          th= t("activerecord.attributes.user_invoice.#{field}")
+        th
     tbody
       - @user_invoices.each do |inv|
         tr
           - columns.each do |field|
-            td
-              - if field == :tasks
-                = inv.tasks.join(', ') if inv.tasks.present?
-              - else
-                = inv.send(field)
+            td= user_invoice_field inv, field, @organization
+          td= link_to organization_user_invoice_path(@organization, inv), class: 'btn btn-sm btn-default' do
+            | &rarr;
+
 

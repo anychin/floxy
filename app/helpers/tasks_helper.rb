@@ -20,6 +20,8 @@ module TasksHelper
         "#{task_field_icon(field)} #{hours task.send(field)}"
       when :aim, :tool, :task_type, :task_level
         "#{task_field_icon(field)} #{task.send(field)}"
+      when :rate_value
+        "#{price task.send(field)}"
       when :status
         task.status
       when :state
