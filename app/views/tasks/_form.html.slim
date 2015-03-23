@@ -1,3 +1,6 @@
+- milestones ||= nil
+- milestone ||= nil
+
 = simple_form_for([organization, task], :html => { class: 'form-vertical' }) do |f|
   = f.error_notification
   .row
@@ -6,10 +9,12 @@
         = f.input :title, placeholder: 'Название задачи'
     .col-sm-3
       .form-group
-        - if milestone.present?
+        - if milestones.present?
+          = f.association :milestone, as: :select, include_blank: true, label_method: :to_s, collection: milestones
+        - elsif milestone.present?
           = f.association :milestone, as: :select, collection: [milestone], include_blank: false
         - else
-          = f.association :milestone, as: :select, include_blank: true, label_method: :to_s, collection: milestones
+          = f.association :milestone, as: :select
 
     .col-sm-2
       .form-group

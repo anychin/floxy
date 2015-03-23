@@ -1,3 +1,6 @@
+- projects ||= nil
+- project ||= nil
+
 = simple_form_for([organization, milestone], :html => { class: 'form-vertical' }) do |f|
   = f.error_notification
   .row
@@ -6,10 +9,13 @@
         = f.input :title, placeholder: 'Название'
     .col-sm-2
       .form-group
-        - if project.present?
+        - if projects.present?
+          = f.association :project, as: :select, include_blank: t('activerecord.models.project', count: 1), collection: projects
+        - elsif project.present?
           = f.association :project, as: :select, collection: [project], include_blank: false
         - else
-          = f.association :project, as: :select, include_blank: t('activerecord.models.project', count: 1), collection: Project.by_organization(organization).select{|t| t.readable_by?(current_user)}
+          = f.association :project, as: :select
+
     .col-sm-2
       .form-group
         = f.input :due_date, as: :string, input_html: {role: 'datetimepicker'}
