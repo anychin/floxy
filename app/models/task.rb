@@ -15,11 +15,15 @@ class Task < ActiveRecord::Base
   belongs_to :assignee, class_name: "User", foreign_key: "assignee_id"
   belongs_to :task_level
   belongs_to :organization
+  belongs_to :user_invoice
 
   has_many :task_transitions
 
   scope :ordered_by_id, -> { order("id asc") }
   scope :by_organization, -> (id) { where(:organization_id => id) }
+  scope :user_uninvoiced, -> {where(:user_invoice_id => nil)}
+  scope :user_invoiced, -> {where('user_invoice_id is not null')}
+
   # join(:project=>[:owner])
   #scope :by_team, -> (id) {joins(:milestone => [:project]).where('milestone.project.team_id = ?', id) }
 
@@ -94,6 +98,10 @@ class Task < ActiveRecord::Base
 
   def can_be_updated?
     ["current", "deferred", "resolved", "done"].include?(self.current_state)
+  end
+
+  def user_invoice_summary
+    "#{title} / #{estimated_time} / #{estimated_cost}"
   end
 
   private

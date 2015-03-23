@@ -1,0 +1,5 @@
+.container
+  h1= "#{t('activerecord.models.user_invoice')} для #{@user}"
+  hr
+  = render 'user_invoices/form', user_invoice: @user_invoice, organization: @organization, user_id: @user.id, tasks: @tasks
+

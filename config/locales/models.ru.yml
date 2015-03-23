@@ -11,6 +11,7 @@ ru:
         other: Этапы
       team: Команда
       task_level: Уровень задачи
+      user_invoice: Выплата
     attributes:
       milestone:
         aim: Цель

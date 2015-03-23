@@ -32,6 +32,7 @@ Floxy::Application.routes.draw do
     end
     resources :projects
     resources :task_levels
+    resources :user_invoices
     get 'settings' => 'settings#index'
     resources :profiles, only: [:show, :index, :edit, :update]
     resources :teams
