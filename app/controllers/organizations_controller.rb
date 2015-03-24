@@ -1,6 +1,7 @@
 class OrganizationsController < ApplicationController
   include OrganizationHelper
   before_action :authenticate_user!
+  before_filter :load_organization
 
   layout 'organization'
 
@@ -15,7 +16,6 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    @organization = Organization.find(params[:id])
     authorize_action_for @organization
     not_found unless @organization.present?
   rescue Authority::SecurityViolation
@@ -23,7 +23,6 @@ class OrganizationsController < ApplicationController
   end
 
   def edit
-    @organization = Organization.find(params[:id])
     authorize_action_for @organization
     not_found unless @organization.present?
   rescue Authority::SecurityViolation
@@ -52,7 +51,6 @@ class OrganizationsController < ApplicationController
   end
 
   def update
-    @organization = Organization.find(params[:id])
     authorize_action_for @organization
     if @organization.update_attributes(permitted_params)
       update_organization_roles @organization
@@ -66,7 +64,6 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
-    @organization = Organization.find(params[:id])
     authorize_action_for @organization
     if @organization.destroy
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} удален"

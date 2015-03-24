@@ -71,7 +71,7 @@ class MilestonesController < ApplicationController
 
   def hold
     try_trigger_for @milestone, :hold
-    redirect_to organization_task_path(@organization, @milestone)
+    redirect_to organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
   end
