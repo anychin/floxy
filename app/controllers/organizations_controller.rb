@@ -77,6 +77,10 @@ class OrganizationsController < ApplicationController
 
   private
 
+  def permitted_params
+    params.require(:organization).permit!
+  end
+
   def update_organization_roles organization
     # TODO refactor this
     organization.roles.destroy_all
@@ -86,8 +90,8 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  def permitted_params
-    params.require(:organization).permit!
+  def load_organization
+    @organization = Organization.find(params[:id])
   end
 
 end
