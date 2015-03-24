@@ -20,7 +20,7 @@ class TasksController < ApplicationController
       if params[:milestone] == "false"
         @tasks = org_tasks.select{|t| t.readable_by?(current_user) && t.milestone.nil? }
       else
-        @milestones = Milestone.by_organization(params[:organization_id]).not_in_state(:done).select{|t| t.readable_by?(current_user) && t.tasks.present? }
+        @milestones = Milestone.by_organization(@organization).not_in_state(:done).select{|t| t.readable_by?(current_user) && t.tasks.present? }
       end
     end
   end
@@ -42,7 +42,7 @@ class TasksController < ApplicationController
 
   def create
     params[:task][:owner_id] = current_user.id
-    params[:task][:organization_id] = params[:organization_id]
+    params[:task][:organization_id] = @organization.id
     @task = Task.new(permitted_params)
     if @task.save
       flash[:notice] = 'Задача добавлена'
@@ -156,8 +156,7 @@ class TasksController < ApplicationController
   end
 
   def load_task
-    task_id = params[:id] || params[:task_id]
-    @task = Task.find(task_id)
+    @task = Task.find(params[:id])
   end
 
   def tasks_state_guard_redirect
