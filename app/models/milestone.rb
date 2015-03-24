@@ -14,6 +14,7 @@ class Milestone < ActiveRecord::Base
   has_many :milestone_transitions
 
   scope :ordered_by_id, -> { order("id asc") }
+  scope :ordered_by_due_date, -> { order(due_date: :asc, id: :asc) }
   scope :by_organization, -> (id) { where(:organization_id => id) }
 
   def state_machine
