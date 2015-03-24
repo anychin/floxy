@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
   before_filter :load_task, except: [:index, :create, :new]
-  before_filter :load_new_task_milestones, only: [:index, :create, :new, :update, :edit]
+  before_filter :load_available_milestones, only: [:index, :create, :new, :update, :edit]
   before_filter :authorize_organization
   #authorize_actions_for :parent_organization, all_actions: :read
   authorize_actions_for :load_task, except: [:index, :new, :create]
@@ -164,8 +164,8 @@ class TasksController < ApplicationController
     redirect_to organization_task_path(@organization, @task)
   end
 
-  def load_new_task_milestones
-    @new_task_milestones = Milestone.by_organization(@organization).not_in_state(:current, :resolved, :done).select{|t| t.readable_by?(current_user)}
+  def load_available_milestones
+    @available_milestones = Milestone.by_organization(@organization).not_in_state(:current, :resolved, :done).select{|t| t.readable_by?(current_user)}
   end
 
 end
