@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150319093156) do
+ActiveRecord::Schema.define(version: 20150323135834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,10 +135,12 @@ ActiveRecord::Schema.define(version: 20150319093156) do
     t.text     "description"
     t.datetime "accepted_at"
     t.decimal  "estimated_cost"
+    t.integer  "user_invoice_id"
   end
 
   add_index "tasks", ["accepted_at"], name: "index_tasks_on_accepted_at", using: :btree
   add_index "tasks", ["status"], name: "index_tasks_on_status", using: :btree
+  add_index "tasks", ["user_invoice_id"], name: "index_tasks_on_user_invoice_id", using: :btree
 
   create_table "team_memberships", force: :cascade do |t|
     t.integer  "user_id"
@@ -162,6 +164,18 @@ ActiveRecord::Schema.define(version: 20150319093156) do
 
   add_index "teams", ["account_manager_id"], name: "index_teams_on_account_manager_id", using: :btree
   add_index "teams", ["team_lead_id"], name: "index_teams_on_team_lead_id", using: :btree
+
+  create_table "user_invoices", force: :cascade do |t|
+    t.datetime "paid_at"
+    t.integer  "user_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "organization_id"
+  end
+
+  add_index "user_invoices", ["organization_id"], name: "index_user_invoices_on_organization_id", using: :btree
+  add_index "user_invoices", ["paid_at"], name: "index_user_invoices_on_paid_at", using: :btree
+  add_index "user_invoices", ["user_id"], name: "index_user_invoices_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

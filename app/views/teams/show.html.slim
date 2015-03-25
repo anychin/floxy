@@ -8,7 +8,7 @@
       = link_to 'Изменить', edit_organization_team_path(@organization, @team), class: 'btn btn-default'
     - if current_user.can_delete?(@team)
       .pull-right
-        = link_to 'delete', organization_team_path(current_organization, @team), method: :delete, confirm: "Расформировать команду #{@team}?", class: 'btn btn-default'
+        = link_to 'delete', organization_team_path(@organization, @team), method: :delete, confirm: "Расформировать команду #{@team}?", class: 'btn btn-default'
     .clearfix
   - columns = [:due_date, :description]
   hr

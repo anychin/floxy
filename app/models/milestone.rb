@@ -10,10 +10,11 @@ class Milestone < ActiveRecord::Base
   belongs_to :project
   belongs_to :organization
 
-  has_many :tasks
-  has_many :milestone_transitions
+  has_many :tasks, dependent: :nullify
+  has_many :milestone_transitions, dependent: :destroy
 
   scope :ordered_by_id, -> { order("id asc") }
+  scope :ordered_by_due_date, -> { order(due_date: :asc, id: :asc) }
   scope :by_organization, -> (id) { where(:organization_id => id) }
 
   def state_machine

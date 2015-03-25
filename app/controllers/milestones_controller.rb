@@ -1,12 +1,12 @@
 class MilestonesController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
-  before_filter :load_milestone, except: [:index, :new, :create]
   before_filter :authorize_organization
+  before_filter :load_milestone, except: [:index, :new, :create]
   authorize_actions_for :load_milestone, except: [:index, :new, :create]
 
   def index
-    @milestones = Milestone.by_organization(params[:organization_id]).ordered_by_id
+    @milestones = Milestone.by_organization(params[:organization_id]).ordered_by_due_date
     @actual_milestones = @milestones.not_in_state(:done).select{|t| t.readable_by?(current_user)}
     @done_milestones = @milestones.in_state(:done).select{|t| t.readable_by?(current_user)}
     @new_milestone = Milestone.new
@@ -71,7 +71,7 @@ class MilestonesController < ApplicationController
 
   def hold
     try_trigger_for @milestone, :hold
-    redirect_to organization_task_path(@organization, @milestone)
+    redirect_to organization_milestone_path(@organization, @milestone)
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
   end
@@ -111,10 +111,6 @@ class MilestonesController < ApplicationController
   def load_milestone
     milestone_id = params[:id] || params[:milestone_id]
     @milestone = Milestone.find(milestone_id)
-  end
-
-  def load_organization
-    @organization = Organization.find(params[:organization_id])
   end
 
   def milestones_state_guard_redirect

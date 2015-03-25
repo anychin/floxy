@@ -1,0 +1,23 @@
+.container
+  p
+    strong= "Добавить #{t('activerecord.models.user_invoice')}"
+  = render 'user_invoices/request_form', user_invoice_request_form: @user_invoice_request_form, users: @users, organization: @organization
+
+  hr
+
+  - columns = [:id, :user, :total, :paid?, :created_at, :paid_at]
+  table.table
+    thead
+      tr
+        - columns.each do |field|
+          th= t("activerecord.attributes.user_invoice.#{field}")
+        th
+    tbody
+      - @user_invoices.each do |inv|
+        tr
+          - columns.each do |field|
+            td= user_invoice_field inv, field, @organization
+          td= link_to organization_user_invoice_path(@organization, inv), class: 'btn btn-sm btn-default' do
+            | &rarr;
+
+

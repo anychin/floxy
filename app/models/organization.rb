@@ -2,6 +2,8 @@ class Organization < ActiveRecord::Base
   resourcify
   include Authority::Abilities
 
+  self.authorizer_name = 'OrganizationAuthorizer'
+
   validates :title, presence: true
   validates :owner, presence: true
 
@@ -12,32 +14,13 @@ class Organization < ActiveRecord::Base
 
   validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
 
-  # TODO add invites
-  #has_many :invites
-  
   def to_s
     title
   end
 
   def all_users
-    all_users = members << owner
+    all_users = members.push owner
     all_users.uniq
-  end
-
-  def readable_by?(user)
-    owner == user || members.include?(user) || user.has_role?(:admin)
-  end
-
-  def updatable_by?(user)
-    owner == user || user.has_role?(:admin)
-  end
-
-  def creatable_by?(user)
-    user.has_role? :admin
-  end
-
-  def deletable_by? user
-    user.has_role? :admin
   end
 
 end

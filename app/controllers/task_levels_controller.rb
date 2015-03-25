@@ -1,9 +1,10 @@
 class TaskLevelsController < ApplicationController
   before_action :authenticate_user!
+  before_filter :load_organization
   before_filter :authorize_organization
 
   def index
-    @task_levels = TaskLevel.by_organization(params[:organization_id]).order(:id)
+    @task_levels = TaskLevel.by_organization(@organization).order(:id)
     @new_task_level = TaskLevel.new
   end
 

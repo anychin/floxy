@@ -41,4 +41,8 @@ module ApplicationHelper
     email.split("@").first
   end
 
+  def boolean_icon statement
+    content_tag :i , '', class: "#{statement ? 'fa fa-check text-success' : 'fa fa-times text-danger'}"
+  end
+
 end

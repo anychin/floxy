@@ -3,7 +3,7 @@
     p
       strong
         | Добавить задачу
-    = render 'tasks/form', task: @new_task, organization: @organization, milestones: @new_task_milestones
+    = render 'tasks/form', task: @new_task, organization: @organization, milestones: @available_milestones
 
 div(class="#{is_current_user_tasks_page? ? '' : 'tasks-list__container'}")
   .container

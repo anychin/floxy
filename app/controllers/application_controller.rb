@@ -20,10 +20,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => 'У вас нет прав для просмотра ресурса'
   end
 
-  def parent_organization
-    Organization.find(params[:organization_id])
-  end
-
   def load_organization
     @organization = Organization.find(params[:organization_id])
   end

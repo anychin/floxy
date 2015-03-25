@@ -4,7 +4,7 @@
   - if @task.milestone.present?
     span.text-muted
       | Этап&nbsp;
-    strong= link_to @task.milestone, organization_milestone_path(current_organization, @task.milestone)
+    strong= link_to @task.milestone, organization_milestone_path(@organization, @task.milestone)
     span.text-muted
       | &nbsp;&bull;&nbsp;
   span.text-muted= "Задача ##{@task.id}"
@@ -16,10 +16,10 @@
         small= t "activerecord.attributes.task.states.#{@task.current_state}"
       | &nbsp;&nbsp;
     .pull-left
-      = link_to 'edit', edit_organization_task_path(current_organization, @task), class: 'btn btn-default'
+      = link_to 'edit', edit_organization_task_path(@organization, @task), class: 'btn btn-default'
     - if current_user.can_delete?(@task)
       .pull-right
-        = link_to 'delete', organization_task_path(current_organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
+        = link_to 'delete', organization_task_path(@organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
     .clearfix
   = task_state_buttons @task, @organization, css_class: "task-show__state-btn"
   hr
@@ -31,7 +31,7 @@
           - columns.each do |field|
             tr
               td= t("activerecord.attributes.task.#{field}")
-              td= task_field @task, field, current_organization
+              td= task_field @task, field, @organization
     .col-md-4.col-md-offset-2
       h4 История
       - @task.state_machine.history.each do |t|

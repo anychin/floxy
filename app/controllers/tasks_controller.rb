@@ -1,10 +1,9 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
-  before_filter :load_task, except: [:index, :create, :new]
-  before_filter :load_new_task_milestones, only: [:index, :create, :new, :update, :edit]
   before_filter :authorize_organization
-  #authorize_actions_for :parent_organization, all_actions: :read
+  before_filter :load_task, except: [:index, :create, :new]
+  before_filter :load_available_milestones, only: [:index, :create, :new, :update, :edit]
   authorize_actions_for :load_task, except: [:index, :new, :create]
 
 
@@ -20,7 +19,7 @@ class TasksController < ApplicationController
       if params[:milestone] == "false"
         @tasks = org_tasks.select{|t| t.readable_by?(current_user) && t.milestone.nil? }
       else
-        @milestones = Milestone.by_organization(params[:organization_id]).not_in_state(:done).select{|t| t.readable_by?(current_user) && t.tasks.present? }
+        @milestones = Milestone.by_organization(@organization).not_in_state(:done).select{|t| t.readable_by?(current_user) && t.tasks.present? }
       end
     end
   end
@@ -42,7 +41,7 @@ class TasksController < ApplicationController
 
   def create
     params[:task][:owner_id] = current_user.id
-    params[:task][:organization_id] = params[:organization_id]
+    params[:task][:organization_id] = @organization.id
     @task = Task.new(permitted_params)
     if @task.save
       flash[:notice] = 'Задача добавлена'
@@ -111,7 +110,7 @@ class TasksController < ApplicationController
     try_trigger_for @task, :start
     redirect_to organization_tasks_path(@organization)
   rescue Statesman::GuardFailedError
-    flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач"
+    flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач. Этап задачи должен иметь статус 'В работе'"
     tasks_state_guard_redirect
   end
   authority_actions start: :update
@@ -165,8 +164,8 @@ class TasksController < ApplicationController
     redirect_to organization_task_path(@organization, @task)
   end
 
-  def load_new_task_milestones
-    @new_task_milestones = Milestone.by_organization(@organization).not_in_state(:current, :resolved, :done).select{|t| t.readable_by?(current_user)}
+  def load_available_milestones
+    @available_milestones = Milestone.by_organization(@organization).not_in_state(:current, :resolved, :done).select{|t| t.readable_by?(current_user)}
   end
 
 end

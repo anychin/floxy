@@ -11,6 +11,7 @@ ru:
         other: Этапы
       team: Команда
       task_level: Уровень задачи
+      user_invoice: Выплата
     attributes:
       milestone:
         aim: Цель
@@ -38,6 +39,7 @@ ru:
         estimated_cost: Стоимость работ
         task_level: Уровень
         task_type: Тип
+        rate_value: Ставка
         accepted_at: Дата принятия
         states:
           idea: Идея
@@ -47,6 +49,14 @@ ru:
           deferred: Отложена
           resolved: Выполнена
           done: Принята
+      user_invoice:
+        id: id
+        user: Исполнитель
+        total: Сумма
+        paid?: Оплачен
+        created_at: Дата создания
+        paid_at: Дата оплаты
+        tasks: Задачи
 
   attributes:
     <<: *task_attributes

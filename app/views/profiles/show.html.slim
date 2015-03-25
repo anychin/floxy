@@ -3,7 +3,7 @@
     h1
       | Мой профиль
     p
-      .pull-left= link_to 'edit', edit_organization_profile_path(current_organization, @user), class: 'btn btn-default'
+      .pull-left= link_to 'edit', edit_organization_profile_path(@organization, @user), class: 'btn btn-default'
       .pull-right = link_to 'Выйти', destroy_user_session_path, method: "delete", class: 'btn btn-danger'
       .clearfix
   - else
@@ -30,7 +30,7 @@ hr
     - completed_tasks.each do |month, task_group|
       h3.tasks-list__month-title
         = month.strftime("%B %Y")
-      = render 'tasks/block_list', tasks: task_group, show_month: false, organization: current_organization
+      = render 'tasks/block_list', tasks: task_group, show_month: false, organization: @organization
       hr
   - if other_tasks.present?
     h2
@@ -41,6 +41,6 @@ hr
     - other_tasks.each do |month, task_group|
       h3.tasks-list__month-title
         = month.strftime("%B %Y")
-      = render 'tasks/block_list', tasks: task_group, show_month: false, organization: current_organization
+      = render 'tasks/block_list', tasks: task_group, show_month: false, organization: @organization
     hr
 

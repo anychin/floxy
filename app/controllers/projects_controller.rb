@@ -1,8 +1,8 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
-  before_filter :load_project, except: [:index, :new, :create]
   before_filter :authorize_organization
+  before_filter :load_project, except: [:index, :new, :create]
   authorize_actions_for :load_project, except: [:index, :new, :create]
 
   def index
@@ -11,9 +11,9 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @tasks = @project.tasks.ordered_by_id
-    @milestones_with_tasks = @project.milestones.select{|m| m.tasks.present? }
-    @empty_milestones = @project.milestones.reject{|m| m.tasks.present? }
+    milestones = @project.milestones.ordered_by_due_date
+    @milestones_with_tasks = milestones.select{|m| m.tasks.present? }
+    @empty_milestones = milestones.reject{|m| m.tasks.present? }
     not_found unless @project.present?
   end
 
@@ -57,12 +57,8 @@ class ProjectsController < ApplicationController
   end
 
   def load_project
-    project_id = params[:id] || params[:project_id]
+    project_id = params[:id]
     @project = Project.find(project_id)
-  end
-
-  def load_organization
-    @organization = Organization.find(params[:organization_id])
   end
 
 end

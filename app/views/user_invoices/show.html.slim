@@ -1,0 +1,46 @@
+.container
+  .pull-left
+    h1= "#{t('activerecord.models.user_invoice')} #{@user_invoice}"
+    .text-muted
+      = t("activerecord.attributes.user_invoice.created_at")
+      = ": "
+      = user_invoice_field @user_invoice, :created_at, @organization
+  -# if current_user.can_delete?(@user_invoice)
+  .pull-right
+    = link_to 'delete', organization_user_invoice_path(@organization, @user_invoice), method: :delete, confirm: "Удалить #{t('activerecord.models.user_invoice')}?", class: 'btn btn-default'
+  .clearfix
+  hr
+  .well
+    - columns = [:id, :user, :total, :paid?, :created_at, :paid_at, :tasks]
+    table.table
+      thead
+        tr
+          - columns.each do |field|
+            th= t("activerecord.attributes.user_invoice.#{field}")
+      tbody
+        tr
+          - columns.each do |field|
+            td= user_invoice_field @user_invoice, field, @organization
+
+  table.table
+    thead
+      tr
+        th Итоговая выплата
+        th Сумма
+    tbody
+      tr
+        td Операционный доход
+        td= user_invoice_field @user_invoice, :total, @organization
+
+  h4 Задачи
+  - task_columns = [:title, :estimated_time, :rate_value, :estimated_cost]
+  table.table
+    thead
+      tr
+        - task_columns.each do |field|
+          th= t("activerecord.attributes.task.#{field}")
+    tbody
+      - @user_invoice.tasks.each do |t|
+        tr
+          - task_columns.each do |field|
+            td= task_field t, field, @organization
