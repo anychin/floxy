@@ -1,8 +1,8 @@
 class MilestonesController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
-  before_filter :load_milestone, except: [:index, :new, :create]
   before_filter :authorize_organization
+  before_filter :load_milestone, except: [:index, :new, :create]
   authorize_actions_for :load_milestone, except: [:index, :new, :create]
 
   def index
@@ -111,10 +111,6 @@ class MilestonesController < ApplicationController
   def load_milestone
     milestone_id = params[:id] || params[:milestone_id]
     @milestone = Milestone.find(milestone_id)
-  end
-
-  def load_organization
-    @organization = Organization.find(params[:organization_id])
   end
 
   def milestones_state_guard_redirect

@@ -1,11 +1,11 @@
 class UserInvoicesController < ApplicationController
   before_action :authenticate_user!
-  before_filter :authorize_owner
   before_filter :load_organization
+  before_filter :authorize_organization
+  before_filter :authorize_owner
   before_filter :load_user_invoice, except: [:index, :create, :new]
   before_filter :load_new_user_invoice, only: [:index, :create, :new]
   before_filter :load_users
-  before_filter :authorize_organization
   #authorize_actions_for :load_user_invoice, except: [:index, :new, :create]
 
   def index
@@ -66,6 +66,7 @@ class UserInvoicesController < ApplicationController
   end
 
   def authorize_owner
+    binding.pry
     if !current_user.has_role?(:admin) && !current_user.has_role?(:owner, @organization)
       forbidden_redirect
     end

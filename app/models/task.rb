@@ -17,7 +17,7 @@ class Task < ActiveRecord::Base
   belongs_to :organization
   belongs_to :user_invoice
 
-  has_many :task_transitions
+  has_many :task_transitions, dependent: :destroy
 
   scope :ordered_by_id, -> { order("id asc") }
   scope :by_organization, -> (id) { where(:organization_id => id) }

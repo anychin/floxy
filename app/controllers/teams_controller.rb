@@ -1,8 +1,8 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
-  before_filter :load_team, except: [:index, :new, :create]
   before_filter :authorize_organization
+  before_filter :load_team, except: [:index, :new, :create]
   authorize_actions_for :load_team, except: [:index, :new, :create]
 
   def index
@@ -69,10 +69,6 @@ class TeamsController < ApplicationController
   def load_team
     team_id = params[:id] || params[:team_id]
     @team = Team.find(team_id)
-  end
-
-  def load_organization
-    @organization = Organization.find(params[:organization_id])
   end
 
 end

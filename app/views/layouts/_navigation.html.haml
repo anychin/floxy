@@ -13,7 +13,6 @@
             %button.app-nav__organization-btn{'data-toggle' => "dropdown", 'aria-expanded' => "false"}
               = current_org
               %span.caret
-            -#= link_to current_user.default_current_organization.title, organization_path(current_user.default_current_organization), class: 'btn btn-default'
             %ul.dropdown-menu{role: "menu"}
               - orgs = current_user.all_organizations
               - orgs.each do |org|

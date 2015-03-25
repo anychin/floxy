@@ -4,7 +4,7 @@ class UserInvoice < ActiveRecord::Base
   belongs_to :user
   belongs_to :organization
 
-  has_many :tasks
+  has_many :tasks, dependent: :nullify
 
   def to_s
     "#{id} для #{user}"

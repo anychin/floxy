@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
     if self.has_role? :admin
       Organization.all
     else
-      owned_organizations << joined_organizations
+      owned_organizations + joined_organizations
     end
   end
 
