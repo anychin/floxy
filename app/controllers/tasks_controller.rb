@@ -155,7 +155,8 @@ class TasksController < ApplicationController
   end
 
   def load_task
-    @task = Task.find(params[:id])
+    task_id = params[:id] || params[:task_id]
+    @task = Task.find(task_id)
   end
 
   def tasks_state_guard_redirect
