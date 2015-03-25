@@ -1,6 +1,6 @@
 class UserInvoicesController < ApplicationController
   before_action :authenticate_user!
-  before_filter :authorize_admin_user
+  before_filter :authorize_owner
   before_filter :load_organization
   before_filter :load_user_invoice, except: [:index, :create, :new]
   before_filter :load_new_user_invoice, only: [:index, :create, :new]
@@ -65,8 +65,10 @@ class UserInvoicesController < ApplicationController
     params.require(:user_invoice).permit!
   end
 
-  def authorize_admin_user
-    forbidden_redirect unless current_user.has_role?(:admin)
+  def authorize_owner
+    if !current_user.has_role?(:admin) && !current_user.has_role?(:owner, @organization)
+      forbidden_redirect
+    end
   end
 
   def load_user_invoice
