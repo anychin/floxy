@@ -66,7 +66,6 @@ class UserInvoicesController < ApplicationController
   end
 
   def authorize_owner
-    binding.pry
     if !current_user.has_role?(:admin) && !current_user.has_role?(:owner, @organization)
       forbidden_redirect
     end
