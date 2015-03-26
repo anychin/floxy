@@ -12,7 +12,7 @@ class TasksController < ApplicationController
     # TODO refactor this
     if params[:assignee].present?
       org_tasks = Task.by_organization(@organization).not_in_state(:done).ordered_by_id.select{|t| t.assignee == current_user}
-      @tasks = org_tasks
+      @tasks_by_state = org_tasks.group_by{|t| t.current_state}
       render 'tasks/my'
     else
       org_tasks = Task.by_organization(@organization).ordered_by_id
