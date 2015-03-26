@@ -15,7 +15,9 @@ class UserInvoice < ActiveRecord::Base
   end
 
   def total
-    tasks.map{|t| t.estimated_cost}.inject(:+)
+    if tasks.present?
+      tasks.map{|t| t.estimated_cost}.inject(:+)
+    end
   end
 
 end
