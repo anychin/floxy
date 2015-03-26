@@ -13,7 +13,7 @@
         - if current_user.can_update?(org)
           .row
             .col-xs-10
-              = link_to organization_tasks_path(org), class: 'btn btn-default btn-lg btn-block' do
+              = link_to organization_tasks_path(org, assignee: current_user), class: 'btn btn-default btn-lg btn-block' do
                 .text-left
                   = org
                   - if current_user.has_role?(:owner, org)

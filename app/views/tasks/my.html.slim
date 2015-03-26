@@ -1,9 +1,12 @@
 .container
-  - task_states_order = [:resolved, :deferred, :current, :todo, :approval, :idea]
-  - task_states_order.each do |state|
-    - if @tasks_by_state[state.to_s].present?
-      h4= t("activerecord.attributes.task.states.#{state}")
-      = render 'tasks/block_list', tasks: @tasks_by_state[state.to_s], show_milestone: false, organization: @organization
+  - if @tasks_by_state.present?
+    - task_states_order = [:resolved, :deferred, :current, :todo, :approval, :idea]
+    - task_states_order.each do |state|
+      - if @tasks_by_state[state.to_s].present?
+        h4= t("activerecord.attributes.task.states.#{state}")
+        = render 'tasks/block_list', tasks: @tasks_by_state[state.to_s], show_milestone: false, organization: @organization
+  - else
+    = render 'tasks/empty'
 
 
 
