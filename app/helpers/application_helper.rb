@@ -33,7 +33,7 @@ module ApplicationHelper
 
   def price price, currency = :rub
     if price.present?
-      number_to_currency price, locale: :ru, significant: true
+      number_to_currency price, locale: :ru
     end
   end
 
