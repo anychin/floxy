@@ -1,0 +1,15 @@
+- columns = {"Клиент" => :project, "Название" => :title, "Сумма" => :calculated_cost, "Бюджет" => :estimated_expenses}
+
+h1.print__title= @organization
+
+table.print__table
+  thead
+    - columns.each_with_index do |(k,v), i|
+      th.print__table-cell(class="print__table-cell-#{v}")
+        small= k
+  tbody
+    - columns.each_with_index do |(k,v), i|
+      td.print__table-cell(class="print__table-cell-#{v}")= @milestone.send(v) if @milestone.send(v).present?
+
+- if @milestone.tasks.present?
+  = render 'tasks/table', tasks: @milestone.tasks, organization: @organization, show_milestone: false

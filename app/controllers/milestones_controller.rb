@@ -17,6 +17,13 @@ class MilestonesController < ApplicationController
     not_found unless @milestone.present?
   end
 
+  def print
+    @tasks = @milestone.tasks.ordered_by_id
+    render layout: 'print'
+    not_found unless @milestone.present?
+  end
+  authority_actions print: :read
+
   def edit
     not_found unless @milestone.present?
   end

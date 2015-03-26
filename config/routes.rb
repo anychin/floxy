@@ -29,6 +29,7 @@ Floxy::Application.routes.draw do
       post :finish
       post :accept
       post :reject
+      get :print
     end
     resources :projects
     resources :task_levels

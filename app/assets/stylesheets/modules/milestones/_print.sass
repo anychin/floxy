@@ -1,0 +1,15 @@
+.print__table
+  @extend .table
+  @extend .table-condensed
+
+.print__table-cell
+  &.print__table-cell-title
+    width: 30%
+  &.print__table-cell-project
+    width: 100pt
+
+@media print
+  .print__table
+    font-size: 9px
+  .print__title
+    font-size: 14px

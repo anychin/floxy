@@ -49,6 +49,19 @@ ru:
           deferred: Отложена
           resolved: Выполнена
           done: Принята
+      task_print:
+        milestone: Этап
+        title: Название
+        type: Тип
+        tool: Инструмент
+        aim: Цель
+        estimated_time: Время
+        estimated_expenses: Бюджет
+        calculated_cost: Сумма
+        task_level: Уровень
+        task_type: Тип
+        rate_value: Цена
+
       user_invoice:
         id: id
         user: Исполнитель

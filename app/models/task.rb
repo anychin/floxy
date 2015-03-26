@@ -35,6 +35,7 @@ class Task < ActiveRecord::Base
            to: :state_machine
 
   delegate :team, to: :milestone, allow_nil: true
+  delegate :project, to: :milestone, allow_nil: true
   delegate :rate_value, to: :task_level, allow_nil: true
 
   def to_s
@@ -47,9 +48,15 @@ class Task < ActiveRecord::Base
     end
   end
 
+  def calculated_cost
+    return unless self.hourly?
+    self.estimated_cost = self.estimated_time * self.task_level.rate_value
+  end
+
   def save_estimated_cost
     return unless self.task_level.hourly?
-    self.estimated_cost = self.estimated_time * self.task_level.rate_value
+    calculated_cost
+    self.estimated_cost = self.calculated_cost
     save
   end
 

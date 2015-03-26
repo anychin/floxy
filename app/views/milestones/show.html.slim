@@ -5,22 +5,25 @@
     strong= link_to @milestone.project, organization_project_path(@organization, @milestone.project)
     span.text-muted
       | &nbsp;&bull;&nbsp;
-
   span.text-muted= "#{t('activerecord.models.milestone', count: 1)} ##{@milestone.id}"
+  | &nbsp;&nbsp;&nbsp;
+
+  = link_to organization_milestone_print_path(@organization, @milestone), class: 'btn btn-sm btn-default' do
+    i.fa.fa-print
 
   h1
-    .pull-left
-      = @milestone
-      sup
-        | &nbsp;&nbsp;
-        small= t "activerecord.attributes.milestone.states.#{@milestone.current_state}"
+    = @milestone
+    sup
       | &nbsp;&nbsp;
-    .pull-left
-      = link_to 'Изменить', edit_organization_milestone_path(@organization, @milestone), class: 'btn btn-default'
-    - if current_user.can_delete?(@milestone)
-      .pull-right
-        = link_to 'Удалить', organization_milestone_path(@organization, @milestone), method: :delete, class: 'btn btn-danger'
-    .clearfix
+      nobr
+        small= t "activerecord.attributes.milestone.states.#{@milestone.current_state}"
+    | &nbsp;&nbsp;
+  .pull-left
+    p= link_to 'Изменить', edit_organization_milestone_path(@organization, @milestone), class: 'btn btn-default'
+  - if current_user.can_delete?(@milestone)
+    .pull-right
+      p= link_to 'Удалить', organization_milestone_path(@organization, @milestone), method: :delete, class: 'btn btn-danger'
+  .clearfix
   = milestone_state_buttons @milestone, @organization, css_class: "milestone-show__state-btn"
   - columns = [:due_date, :description]
   hr

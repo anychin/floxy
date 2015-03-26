@@ -37,10 +37,14 @@ class Milestone < ActiveRecord::Base
     time
   end
 
+  def calculated_cost
+    if tasks.present?
+      tasks.select{|t| t.calculated_cost.present? }.map{|t| t.calculated_cost }.inject(:+)
+    end
+  end
+
   def estimated_expenses
-    exp = 0
-    tasks.map{|t| exp += t.estimated_expenses if t.estimated_expenses.present?}
-    exp
+    tasks.select{|t| t.estimated_expenses.present? }.map{|t| t.estimated_expenses }.inject(:+)
   end
 
   def returned_to_approval?
