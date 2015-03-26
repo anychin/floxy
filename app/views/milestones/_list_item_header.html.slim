@@ -14,7 +14,7 @@
       i.fa.fa-clock-o
       | &nbsp;
       = hours milestone.estimated_time
-    - if milestone.estimated_expenses > 0
+    - if milestone.estimated_expenses.present? && milestone.estimated_expenses > 0
       | &nbsp;&nbsp;&nbsp;
       i.fa.fa-money
       | &nbsp;
