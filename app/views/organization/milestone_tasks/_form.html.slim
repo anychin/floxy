@@ -1,0 +1,56 @@
+/- milestones ||= nil
+/- milestone ||= nil
+/
+= simple_form_for([task.organization, task.project, task.milestone, task], :html => { class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-6
+      .form-group
+        = f.input :title
+    .col-sm-3
+
+    .col-sm-2
+      .form-group
+        label &nbsp;
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Сохранить
+  - unless task.new_record?
+    hr
+    .row
+      .col-sm-3
+        .form-group
+          .input-group
+            = f.input :estimated_time
+      .col-sm-3
+        .form-group
+          = f.input :assignee, :collection=>task.team.members.map{|el| [el.to_s, el.id]}
+      .col-sm-3
+        .form-group
+          = f.input :task_level, :collection=>task.organization.task_levels.map{|el| [el.to_s, el.id]}
+    .row
+      .col-sm-3
+        .form-group
+          = f.input :task_type
+      .col-sm-3
+        .form-group
+          = f.input :aim
+      .col-sm-3
+        .form-group
+          = f.input :tool
+      .col-sm-3
+        .form-group
+          label= t :estimated_expenses
+          .input-group
+            = f.input :estimated_expenses, label: false
+            .input-group-addon
+              | руб.
+      .col-sm-6
+        .form-group
+          = f.input :description
+
+      //.col-sm-2
+        .form-group
+          .input-group
+            = f.input :elapsed_expenses
+            .input-group-addon
+              | руб.

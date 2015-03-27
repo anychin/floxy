@@ -14,6 +14,13 @@ GIT
       activesupport (>= 2.3.2)
 
 GIT
+  remote: git://github.com/elabs/pundit.git
+  revision: 1bfe952d09f517faafa7308e6f5941d1b23b2b0e
+  specs:
+    pundit (0.3.0)
+      activesupport (>= 3.0.0)
+
+GIT
   remote: git://github.com/plataformatec/simple_form.git
   revision: b2516e717bca91179b28a49c795b483a6f1425b1
   branch: master
@@ -206,6 +213,8 @@ GEM
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
+    polyamorous (1.1.0)
+      activerecord (>= 3.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -337,6 +346,10 @@ GEM
     sqlite3 (1.3.10)
     sqlite3-ruby (1.3.3)
       sqlite3 (>= 1.3.3)
+    squeel (1.2.3)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      polyamorous (~> 1.1.0)
     statesman (1.1.0)
     temple (0.7.5)
     therubyracer (0.12.1)
@@ -347,7 +360,7 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     thor (0.19.1)
-    thread_safe (0.3.4)
+    thread_safe (0.3.5)
     tilt (1.4.1)
     turbolinks (2.5.3)
       coffee-rails
@@ -404,6 +417,7 @@ DEPENDENCIES
   pry-rails
   pry-stack_explorer
   puma
+  pundit!
   quiet_assets
   railroady
   rails (= 4.2.0)
@@ -421,6 +435,7 @@ DEPENDENCIES
   slim-rails
   spring
   sprockets-rails
+  squeel
   statesman
   therubyracer
   turbolinks

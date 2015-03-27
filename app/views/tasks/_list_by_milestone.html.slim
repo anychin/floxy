@@ -1,8 +1,5 @@
 - milestones.each do |milestone|
-  - if milestone.present?
-    .panel.panel-default.tasks-list__milestone
-      .panel-body
-        = render 'milestones/list_item_header', milestone: milestone, organization: organization
-        = render 'tasks/block_list', tasks: milestone.tasks, show_milestone: false, organization: organization
-
-
+  .panel.panel-default.tasks-list__milestone
+    .panel-body
+      = render :partial=>'milestones/list_item_header', locals: {milestone: milestone}
+      = render :partial=>'tasks/block_list', locals: {tasks: milestone.tasks, show_milestone: false, organization: organization }

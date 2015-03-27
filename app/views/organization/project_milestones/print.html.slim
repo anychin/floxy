@@ -1,0 +1,19 @@
+- columns = [:project, :title, :estimated_time, :calculated_cost, :estimated_expenses, :account_manager, :team_lead, :due_date]
+
+h1.print__title= organization
+/
+/table.print__table
+/  thead
+/    - columns.each do |v|
+/      th.print__table-header-cell(class="print__table-cell-#{v}")
+/        = t("activerecord.attributes.milestone_print.#{v}")
+/  tbody
+/    - columns.each do |v|
+/      td.print__table-cell(class="print__table-cell-#{v}")
+/        - if [:due_date, :calculated_cost, :estimated_expenses].include?(v)
+/          = milestone_field @milestone, v, @organization
+/        - else
+/          = @milestone.send(v) if @milestone.send(v).present?
+/
+/- if @milestone.tasks.present?
+/  = render 'tasks/table', tasks: @milestone.tasks, organization: @organization, show_milestone: false

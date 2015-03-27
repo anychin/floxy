@@ -14,7 +14,7 @@ class UserInvoicesController < ApplicationController
   end
 
   def show
-    not_found unless @user_invoice.present?
+
   end
 
   def new
@@ -25,7 +25,7 @@ class UserInvoicesController < ApplicationController
   end
 
   def edit
-    not_found unless @user_invoice.present?
+
   end
 
   def create

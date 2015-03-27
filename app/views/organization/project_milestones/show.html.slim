@@ -1,0 +1,65 @@
+.container
+  span.text-muted
+    | Проект&nbsp;
+  strong= link_to milestone.project, organization_project_path(milestone.organization, milestone.project)
+  span.text-muted
+    | &nbsp;&bull;&nbsp;
+  span.text-muted= "#{t('activerecord.models.milestone', count: 1)} ##{milestone.id}"
+  | &nbsp;&nbsp;&nbsp;
+
+  - if policy(milestone).print?
+    = link_to print_organization_project_milestone_path(milestone.organization, milestone.project, milestone), class: 'btn btn-sm btn-default' do
+      i.fa.fa-print
+
+  h1
+    = milestone
+    sup
+      | &nbsp;&nbsp;
+      nobr
+        small= t "activerecord.attributes.milestone.states.#{milestone.current_state}"
+    | &nbsp;&nbsp;
+  - if policy(milestone).edit?
+    .pull-left
+      p= link_to 'Изменить', edit_organization_project_milestone_path(milestone.organization, milestone.project, milestone), class: 'btn btn-default'
+  - if policy(milestone).destroy?
+    .pull-right
+      p= link_to 'Удалить', organization_project_milestone_path(milestone.organization, milestone.project, milestone), method: :delete, class: 'btn btn-danger', 'data-confirm'=>'Точно удалить?'
+  .clearfix
+  = milestone_state_buttons milestone, css_class: "milestone-show__state-btn"
+
+  hr
+  .row
+    .col-md-6
+      h4 Детали
+      table.table.table-condensed.table-hover
+        tbody
+          - [:due_date, :description].each do |field|
+            tr
+              td= t("activerecord.attributes.milestone.#{field}")
+              td= milestone_field milestone, field
+    .col-md-3
+      h4 Готовность
+      = milestone_state_tips milestone
+    .col-md-3
+      h4 История
+      - milestone.state_machine.history.each do |t|
+        p
+          = t "activerecord.attributes.task.states.#{t.to_state}"
+          | &nbsp;
+          small.text-muted= l t.updated_at, format: :human
+
+
+  hr
+
+  - if MilestonePolicies::TaskPolicy.new(current_user, milestone.tasks.new, milestone).create?
+    = link_to 'Добавить задачу', new_organization_project_milestone_task_path(milestone.organization, milestone.project, milestone)
+
+  hr
+
+  h2
+    | Задачи
+
+  - if tasks.any?
+    = render :partial=>'tasks/block_list', locals: {tasks: tasks }
+  - else
+    = render :partial=>'tasks/empty'

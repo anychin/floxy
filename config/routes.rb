@@ -9,78 +9,49 @@ Floxy::Application.routes.draw do
 
   #ActiveAdmin.routes(self)
 
-  root 'welcome#index'
+  root 'organizations#index'
 
-  resources :organizations, path: "a", only: [:show, :index, :create, :edit, :update, :new, :destroy] do
-    resources :tasks do
-      post :negotiate
-      post :approve
-      post :hold
-      post :start
-      post :defer
-      post :finish
-      post :accept
-      post :reject
+  resources :organizations, path: "a" do
+    scope :module=>:organization do
+      resources :tasks, only: [:index] do
+        get 'done', on: :collection
+        get 'without_milestone', on: :collection
+      end
+      resources :members, only: [:index, :show, :edit, :update]
+      resources :teams
+      resources :milestones, only: [:index]
+      resources :projects do
+        resources :milestones, :except=>[:index], :controller => 'project_milestones' do
+          member do
+            post :negotiate
+            post :start
+            post :hold
+            post :finish
+            post :accept
+            post :reject
+            get :print
+          end
+          resources :tasks, :except=>[:index], :controller => 'milestone_tasks' do
+            member do
+              post :negotiate
+              post :approve
+              post :hold
+              post :start
+              post :defer
+              post :finish
+              post :accept
+              post :reject
+            end
+          end
+        end
+      end
+
+      get 'me' => 'members#show_current'
+      resource :settings, only: [:show]
+      resources :task_levels, except: [:show]
+      resources :user_invoices
     end
-    resources :milestones do
-      post :negotiate
-      post :start
-      post :hold
-      post :finish
-      post :accept
-      post :reject
-      get :print
-    end
-    resources :projects
-    resources :task_levels
-    resources :user_invoices
-    get 'settings' => 'settings#index'
-    resources :profiles, only: [:show, :index, :edit, :update]
-    resources :teams
-    get 'me' => 'profiles#show_current'
   end
 
   devise_for :users
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

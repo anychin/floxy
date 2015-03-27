@@ -1,0 +1,8 @@
+.container
+  - if policy(task_levels.new).new?
+    = link_to 'добавить', new_organization_task_level_path(organization)
+  hr
+  h2
+    | Все уровни
+  = render :partial=>'list', locals:{task_levels: task_levels}
+

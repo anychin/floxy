@@ -1,0 +1,7 @@
+.container
+  small.text-muted= "Команда ##{team.id}"
+  h1
+    | Редактирование команды
+  hr
+  = render :partial=>'form', locals:{team: team}
+

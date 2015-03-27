@@ -2,13 +2,11 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  include Pundit
+  rescue_from Pundit::NotAuthorizedError, with: :forbidden_redirect
+  helper_method :generic_organization_path
 
   layout :layout_by_resource
-
-  def not_found
-    raise ActionController::RoutingError.new('Not Found')
-    # render :status => 404
-  end
 
   # Send 'em back where they came from with a slap on the wrist
   def authority_forbidden(error)
@@ -20,13 +18,8 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => 'У вас нет прав для просмотра ресурса'
   end
 
-  def load_organization
-    @organization = Organization.find(params[:organization_id])
-  end
-
-  def authorize_organization
-    org = load_organization
-    forbidden_redirect unless current_user.all_organizations.include?(org)
+  def generic_organization_path(organization)
+    organization_tasks_path(organization)
   end
 
   def try_trigger_for resource, event
@@ -46,5 +39,4 @@ class ApplicationController < ActionController::Base
       "application"
     end
   end
-
 end

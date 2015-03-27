@@ -13,10 +13,28 @@ ru:
       task_level: Уровень задачи
       user_invoice: Выплата
     attributes:
+      project:
+        title: Название
+        team: Команда
+        description: Описание
+      team:
+        title: Название
+        owner: Владелец
+        owner_id: Владелец
+        team_lead: Тимлид
+        team_lead_id: Тимлид
+        account_manager: Аккаунт менджер
+        account_manager_id: Аккаунт менджер
+        members: Помощники
+        member_ids: Помощники
       organization:
         title: Короткое название
         full_title: Полное название
       milestone:
+        title: Название
+        project: Проект
+        project_id: Проект
+        due_date: Завершение
         aim: Цель
         description: Описание
         states:
@@ -30,7 +48,10 @@ ru:
         rate_type: Тип ставки
         rate_value: Внутренняя ставка
         client_rate_value: Ставка для клиента
-      task: &task_attributes
+        rate_types:
+          hourly: Почасовая
+          monthly: Помесячная
+      task:
         milestone: Этап
         title: Название
         assignee: Исполнитель
@@ -42,7 +63,7 @@ ru:
         aim: Цель
         estimated_expenses: Планируемый бюджет
         elapsed_expenses: Итоговый бюджет
-        estimated_time: Планируемое время
+        estimated_time: Оцениваемое время (в часах)
         elapsed_time: Итоговое время
         estimated_cost: Стоимость работ
         calculated_cost: Рассчитанная стоимость
@@ -86,7 +107,6 @@ ru:
         calculated_cost: Стоимость работ
         calculated_client_cost: Стоимость работ
         estimated_expenses: Бюджет
-        due_date: Завершение
         account_manager: Аккаунт–менеджер
         team_lead: Руководитель группы
       user_invoice:
@@ -97,9 +117,3 @@ ru:
         created_at: Дата создания
         paid_at: Дата оплаты
         tasks: Задачи
-      team:
-        members: Помощники
-
-
-  attributes:
-    <<: *task_attributes

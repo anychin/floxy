@@ -12,9 +12,9 @@ class User < ActiveRecord::Base
   has_many :owned_tasks, class_name: 'Task', foreign_key: 'owner_id'
   has_many :assigned_tasks, class_name: 'Task', foreign_key: 'assignee_id'
 
-  has_many :memberships, dependent: :destroy
-  has_many :joined_organizations, -> {uniq}, through: :memberships, source: :organization
-  has_many :owned_organizations, -> {uniq}, class_name: 'Organization', foreign_key: :owner_id
+  has_many :organization_memberships, dependent: :destroy
+  has_many :joined_organizations, through: :organization_memberships, source: :organization
+  has_many :owned_organizations, class_name: 'Organization', foreign_key: :owner_id
 
   has_many :team_memberships, dependent: :destroy
   has_many :joined_teams, -> {uniq}, through: :team_memberships, source: :team
@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   end
 
   def to_s
-    name || email
+    name.presence || email.presence
   end
 
   def self.roles_list
@@ -60,6 +60,7 @@ class User < ActiveRecord::Base
     end
   end
 
-
-
+  def superadmin?
+    true
+  end
 end

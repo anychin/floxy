@@ -1,4 +1,0 @@
-class MilestoneAuthorizer < TeamResourceAuthorizer
-
-end
-

@@ -1,0 +1,11 @@
+.container
+  small.text-muted= "Этап ##{milestone.id}"
+  h1
+    | Редактирование этапа
+  - if policy(milestone).destroy?
+    .pull-right
+      p= link_to 'Удалить', organization_project_milestone_path(milestone.organization, milestone.project, milestone), method: :delete, class: 'btn btn-danger', 'data-confirm' => 'Точно удалить?'
+  .clearfix
+  hr
+  = render :partial=>'form', locals:{ milestone: milestone, user: user }
+

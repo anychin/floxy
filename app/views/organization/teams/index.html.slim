@@ -1,0 +1,11 @@
+- if policy(new_team).create?
+  .container
+    = link_to "добавить команду", new_organization_team_path(new_team.organization)
+
+- if teams.any?
+  .tasks-list__container
+    .container
+      = render :partial=>'list', locals: {teams: teams}
+- else
+  .container
+    | Пока ничего нет

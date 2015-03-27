@@ -4,6 +4,7 @@ gem 'rails', '4.2.0'
 
 # Bd
 gem 'pg'
+gem 'squeel'
 # gem 'arel',      github: 'rails/arel'
 # gem 'counter_culture', '~> 0.1.23'
 # gem 'friendly_id', '~> 5.0.0'
@@ -134,6 +135,7 @@ gem 'hashie'
 # gem 'rubylight', :git=>'git://github.com/azfire/rubylight.git'
 
 gem 'puma'
+gem 'pundit', :git=>'git://github.com/elabs/pundit.git'
 
 group :development do
   # gem 'ruby-graphviz'

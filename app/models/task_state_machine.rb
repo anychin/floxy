@@ -47,8 +47,8 @@ class TaskStateMachine
     task.ready_for_approval?
   end
 
-  #guard_transition(from: :approval, to: :todo) do |task|
-  #end
+  guard_transition(from: :approval, to: :todo) do |task|
+  end
 
   guard_transition(to: :current) do |task|
     assignee = task.assignee
@@ -58,10 +58,10 @@ class TaskStateMachine
     assignee_ready && milestone_ready
   end
 
-  #guard_transition(from: :resolved, to: :done) do |task|
+  guard_transition(from: :resolved, to: :done) do |task|
     # TODO enable this with time tracking
-    #task.elapsed_time.present?
-  #end
+    task.elapsed_time.present?
+  end
 
   after_transition(from: :approval, to: :todo) do |task|
     # TODO refactor this in Task model

@@ -1,0 +1,15 @@
+.container
+  small
+    = link_to organization_project_milestone_task_path(task.organization, task.project, task.milestone, task) do
+      = "Задача ##{task.id}"
+      | &nbsp;
+      strong= task
+  h1
+    | Редактирование задачи
+  - if policy(task).destroy?
+    .pull-right
+      = link_to 'delete', organization_project_milestone_task_path(task.organization, task.project, task.milestone, task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
+  .clearfix
+  hr
+  = render :partial=>'form', locals: {task: task}
+

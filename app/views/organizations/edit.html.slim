@@ -1,6 +1,6 @@
 .container
-  small.text-muted= "#{t('activerecord.models.organization', count: 1)} ##{@organization.id}"
+  small.text-muted= "#{t('activerecord.models.organization', count: 1)} ##{organization.id}"
   h1= "#{t('activerecord.models.organization', count: 1)} &mdash; Редактирование".html_safe
   hr
-  = render 'organizations/form', organization: @organization
+  = render 'organizations/form', organization: organization
 

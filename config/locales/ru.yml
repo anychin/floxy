@@ -27,7 +27,7 @@ ru:
   activerecord:
     errors:
       messages:
-        record_invalid: Испорченная запись
+#        record_invalid: Испорченная запись
         invalid_range: Дата окончания периода должна быть больше даты начала
         intersection: Период пересекается с другим (id = %{id})
   form_objects:

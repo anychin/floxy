@@ -21,18 +21,8 @@ ru:
         sending: Отправляем...
         saving: Сохраняем...
         waiting: Подождите...
-    labels: &labels
-      defaults:
-        name: Название
-        title: Название
-        due_date: Дата сдачи
-      task:
-        title: Название
+    labels:
     placeholders:
-      <<: *labels
-      defaults:
-        title: Название
-        due_date: 'DD/MM/YYYY'
     hints:
       defaults:
         price: руб.

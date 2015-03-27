@@ -1,0 +1,26 @@
+.container
+  = render :partial=>'profile_data', locals:{user: user, organization: organization}
+hr
+.container
+  /- if completed_tasks.any?
+  /  h2
+  /    | Выполненные задачи
+  /    | &nbsp;
+  /    small.text-muted
+  /      | по дате создания
+  /  - completed_tasks.each do |month, task_group|
+  /    h3.tasks-list__month-title
+  /      = month.strftime("%B %Y")
+  /    = render :partial=>'tasks/block_list', locals:{tasks: task_group, show_month: false, organization: organization }
+  /    hr
+  /- if incompleted_tasks.any?
+  /  h2
+  /    | Невыполненные задачи
+  /    | &nbsp;
+  /    small.text-muted
+  /      | по дате создания
+  /  - incompleted_tasks.each do |month, task_group|
+  /    h3.tasks-list__month-title
+  /      = month.strftime("%B %Y")
+  /    = render :partial=>'tasks/block_list', locals: {tasks: task_group, show_month: false, organization: organization }
+  /  hr

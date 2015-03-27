@@ -1,0 +1,18 @@
+.container
+  span.text-muted= "#{t('activerecord.models.team', count: 1)} ##{team.id}"
+
+  h1
+    .pull-left
+      = team
+    .pull-left
+      - if policy(team).edit?
+        = link_to 'Изменить', edit_organization_team_path(team.organization, team), class: 'btn btn-default'
+    - if policy(team).destroy?
+      .pull-right
+        = link_to 'delete', organization_team_path(team.organization, team), method: :delete, "data-confirm": "Расформировать команду #{team}?", class: 'btn btn-default'
+    .clearfix
+
+  hr
+  .row
+    .col-md-6
+      = team.members.join(', ')

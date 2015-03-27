@@ -1,42 +1,40 @@
 class Milestone < ActiveRecord::Base
-  resourcify
-  include Authority::Abilities
   include Statesman::Adapters::ActiveRecordQueries
 
-  self.authorizer_name = 'MilestoneAuthorizer'
-
-  validates :title, :organization, :project, presence: true
+  validates :title, :project, presence: true
 
   belongs_to :project
-  belongs_to :organization
+  has_one :organization, :through => :project
+  has_one :team, :through => :project
+  has_many :team_memberships, :through => :team
 
   has_many :tasks, dependent: :nullify
   has_many :milestone_transitions, dependent: :destroy
 
-  scope :ordered_by_id, -> { order("id asc") }
+  # scope :ordered_by_id, -> { order("id asc") }
   scope :ordered_by_due_date, -> { order(due_date: :asc, id: :asc) }
-  scope :by_organization, -> (id) { where(:organization_id => id) }
+  scope :by_team_user, ->(user) {
+    joins{team_memberships.outer}.merge(Project.by_team_user(user))
+  }
 
   def state_machine
      @state_machine ||= MilestoneStateMachine.new(self, transition_class: MilestoneTransition)
   end
 
   # Optionally delegate some methods
-  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events, 
+  delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events,
            to: :state_machine
-
-  delegate :team, to: :project, allow_nil: true
-  delegate :account_manager, to: :team, allow_nil: true
-  delegate :team_lead, to: :team, allow_nil: true
 
   def to_s
     "#{project} / #{title}".html_safe
   end
 
   def estimated_time
-    time = 0
-    tasks.map{|t| time += t.estimated_time if t.estimated_time.present?}
-    time
+    @estimated_time ||= begin
+      time = 0
+      tasks.map{|t| time += t.estimated_time if t.estimated_time.present?}
+      time
+    end
   end
 
   def calculated_cost
@@ -96,6 +94,4 @@ class Milestone < ActiveRecord::Base
   def self.initial_state
     MilestoneStateMachine.initial_state
   end
-
-
 end

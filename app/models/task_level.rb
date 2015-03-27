@@ -1,15 +1,11 @@
 class TaskLevel < ActiveRecord::Base
-  resourcify
-  include Authority::Abilities
-
-  enum rate_type: [:hourly, :monthly]
-
-  validates :title, :rate_value, :client_rate_value, :organization, presence: true
-
-  has_many :tasks
+  enum rate_type:{ hourly: 0, monthly: 1 }
   belongs_to :organization
+  has_many :tasks
 
-  scope :by_organization, -> (id) { where(:organization_id => id) }
+  validates :title, :rate_value, :client_rate_value, :organization, :rate_type, presence: true
+
+  scope :ordered_by_id, ->() { order(:id) }
 
   def to_s
     if rate_value.present?
@@ -18,5 +14,4 @@ class TaskLevel < ActiveRecord::Base
       title
     end
   end
-
 end

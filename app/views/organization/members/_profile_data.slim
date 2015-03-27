@@ -1,0 +1,19 @@
+- if policy(user).edit?
+  h1
+    | Мой профиль
+  p
+    .pull-left= link_to 'редактировать', edit_organization_member_path(organization, current_user), class: 'btn btn-default'
+    .pull-right = link_to 'Выйти', destroy_user_session_path, method: "delete", class: 'btn btn-danger'
+    .clearfix
+- else
+  h1
+    = user
+
+.row
+  - user_attrs = [:name, :email]
+  - user_attrs.each do |attr|
+    - if (val = user.send(attr)).present?
+      .col-sm-3
+        = "#{attr}: "
+        = val
+        hr

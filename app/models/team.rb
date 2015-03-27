@@ -1,10 +1,5 @@
 class Team < ActiveRecord::Base
-  resourcify
-  include Authority::Abilities
-
-  self.authorizer_name = 'TeamAuthorizer'
-
-  validates :owner, presence: true
+  validates :owner, :team_lead, :account_manager, presence: true
   validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
 
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
@@ -12,11 +7,19 @@ class Team < ActiveRecord::Base
   belongs_to :account_manager, class_name: 'User', foreign_key: :account_manager_id
   belongs_to :organization
   has_many :team_memberships, dependent: :destroy
-  has_many :members, -> {uniq}, :through => :team_memberships, :source => :user
-  has_many :projects
+  has_many :members, :through => :team_memberships, :source => :user
+  has_many :projects, dependent: :nullify
 
-  scope :ordered_by_id, -> { order("id asc") }
-  scope :by_organization, -> (id) { where(:organization_id => id) }
+  scope :ordered_by_id, ->{ order("id asc") }
+
+  scope :by_team_user, ->(user) {
+    joins{team_memberships.outer}.where{
+      owner_id.eq(user.id) |
+      team_lead_id.eq(user.id) |
+      account_manager_id.eq(user.id) |
+      team_memberships.user_id.eq(user.id)
+    }.uniq
+  }
 
   MANAGER_ROLES = [:owner, :account_manager, :team_lead]
 
@@ -24,9 +27,16 @@ class Team < ActiveRecord::Base
     title
   end
 
-  def all_users
-    all_users = members << owner
-    all_users.uniq
+  def owner?(user)
+    owner_id == user.id
   end
 
+  def manager? user
+    MANAGER_ROLES.each do |role|
+      if self.send("#{role}_id") == user.id
+        return true
+      end
+    end
+    false
+  end
 end

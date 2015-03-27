@@ -1,15 +1,10 @@
 module TasksHelper
-  def is_current_user_tasks_page?
-    params[:assignee] == current_user.id.to_s
-  end
-
-  def task_field task, field, organization
-    return unless task.send(field).present?
+  def task_field task, field
     html = case field
       when :milestone
-        link_to task.milestone, organization_milestone_path(organization, task.milestone) if task.milestone.present?
+        link_to task.milestone, organization_project_milestone_path(task.organization, task.project, task.milestone) if task.milestone.present?
       when :title
-        link_to organization_task_path(organization, task) do
+        link_to organization_project_milestone_task_path(task.organization, task.project, task.milestone, task) do
           "#{content_tag(:strong, task.title)} #{content_tag(:sup, task.current_state)}".html_safe
         end
       when :assignee
@@ -17,7 +12,7 @@ module TasksHelper
       when :estimated_expenses, :estimated_cost, :rate_cost
         "#{task_field_icon(field)} #{price task.send(field)}"
       when :estimated_time
-        "#{task_field_icon(field)} #{hours task.send(field)}"
+        "#{task_field_icon(field)} #{hours task.estimated_time}"
       when :aim, :tool, :task_type, :task_level
         "#{task_field_icon(field)} #{task.send(field)}"
       when :rate_value
@@ -27,7 +22,7 @@ module TasksHelper
       when :state
         task.current_state
       when :accepted_at
-        "#{l task.send(field), format: :human}"
+        "#{l task.send(field), format: :human}" if task.send(field).present?
       else
         "#{task.send(field)}"
     end
@@ -57,7 +52,7 @@ module TasksHelper
       html = ''
       events.reject{|e| e == :hold}.each do |event|
         #unless (event == :start && task.assignee != current_user)
-        html << link_to(t("helpers.task_state_buttons.#{event}"), send("organization_task_#{event}_path", organization, task), method: :post, class: "btn-task-state-#{event} #{args[:css_class]}")
+        html << link_to(t("helpers.task_state_buttons.#{event}"), send("#{event}_organization_project_milestone_task_path", task.organization, task.project, task.milestone, task), method: :post, class: "btn-task-state-#{event} #{args[:css_class]}")
       end
       html.html_safe
     end

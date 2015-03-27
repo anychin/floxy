@@ -1,0 +1,6 @@
+.container
+  ul.nav.nav-pills
+    = active_link_to 'Мои задачи', organization_tasks_path(organization), wrap_tag: :li, active: :exclusive
+    = active_link_to 'Принятые задачи', done_organization_tasks_path(organization), wrap_tag: :li, active: :exclusive
+    = active_link_to 'Без этапов', without_milestone_organization_tasks_path(organization), wrap_tag: :li, active: :exclusive
+hr
