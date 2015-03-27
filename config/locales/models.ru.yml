@@ -13,6 +13,9 @@ ru:
       task_level: Уровень задачи
       user_invoice: Выплата
     attributes:
+      organization:
+        title: Короткое название
+        full_title: Полное название
       milestone:
         aim: Цель
         description: Описание
@@ -50,8 +53,9 @@ ru:
           resolved: Выполнена
           done: Принята
       task_print:
+        project: Проект
         milestone: Этап
-        title: Название
+        title: Задача
         type: Тип
         tool: Инструмент
         aim: Цель
@@ -61,6 +65,15 @@ ru:
         task_level: Уровень
         task_type: Тип
         rate_value: Цена
+      milestone_print:
+        project: Проект
+        title: Название этапа
+        estimated_time: Время
+        calculated_cost: Стоимость работ
+        estimated_expenses: Бюджет
+        due_date: Завершение
+        account_manager: Аккаунт–менеджер
+        team_lead: Руководитель группы
 
       user_invoice:
         id: id

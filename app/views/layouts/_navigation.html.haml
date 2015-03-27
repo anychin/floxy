@@ -11,7 +11,7 @@
         .navbar-form.navbar-left
           .btn-group
             %button.app-nav__organization-btn{'data-toggle' => "dropdown", 'aria-expanded' => "false"}
-              = current_org
+              = current_org.title
               %span.caret
             %ul.dropdown-menu{role: "menu"}
               - orgs = current_user.all_organizations

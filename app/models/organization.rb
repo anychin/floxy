@@ -15,7 +15,7 @@ class Organization < ActiveRecord::Base
   validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
 
   def to_s
-    title
+    full_title || title
   end
 
   def all_users

@@ -26,6 +26,8 @@ class Milestone < ActiveRecord::Base
            to: :state_machine
 
   delegate :team, to: :project, allow_nil: true
+  delegate :account_manager, to: :team, allow_nil: true
+  delegate :team_lead, to: :team, allow_nil: true
 
   def to_s
     "#{project} / #{title}".html_safe

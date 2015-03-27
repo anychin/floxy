@@ -1,12 +1,12 @@
-- columns = [:project, :title, :estimated_time, :rate_value, :calculated_cost, :task_type, :tool, :estimated_expenses, :aim]
+- columns = [:project, :title, :aim, :estimated_time, :rate_value, :calculated_cost, :task_type, :tool, :estimated_expenses]
 - columns_count = columns.count
 
 - if tasks.present?
   table.print__table
     thead
       - columns.each_with_index do |col, i|
-        th.print__table-cell(class="print__table-cell-#{col}")
-          small= t("activerecord.attributes.task_print.#{col}")
+        th.print__table-header-cell(class="print__table-cell-#{col}")
+          = t("activerecord.attributes.task_print.#{col}")
 
     tbody
       - tasks.each do |t|

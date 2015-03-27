@@ -6,18 +6,17 @@ module MilestonesHelper
           "#{content_tag(:strong, milestone.title)}".html_safe
         end
       when :due_date
-        return unless milestone[field].present?
-        "#{l milestone[field], format: :human}"
-      when :estimated_expenses
-        "#{price milestone[field]}"
+        "#{l milestone.send(field), format: :human}"
+      when :estimated_expenses, :calculated_cost
+        "#{price milestone.send(field)}"
       when :estimated_time
-        "#{hours milestone[field]}"
+        "#{hours milestone.send(field)}"
       when :tasks_count
         "#{milestone.tasks.count} задач"
       #when :state
       #  milestone.current_state
       else
-        "#{milestone[field]}"
+        "#{milestone.send(field)}"
     end
   end
 
