@@ -45,6 +45,8 @@ ru:
         estimated_time: Планируемое время
         elapsed_time: Итоговое время
         estimated_cost: Стоимость работ
+        calculated_cost: Рассчитанная стоимость
+        calculated_client_cost: Рассчитанная стоимость для клиента
         task_level: Уровень
         task_type: Тип
         rate_value: Ставка
@@ -67,6 +69,7 @@ ru:
         estimated_time: Время
         estimated_expenses: Бюджет
         calculated_cost: Сумма
+        calculated_client_cost: Сумма
         task_level: Уровень
         task_type: Тип
         rate_value: Цена
