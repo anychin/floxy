@@ -50,6 +50,7 @@ ru:
         task_level: Уровень
         task_type: Тип
         rate_value: Ставка
+        client_rate_value: Ставка
         accepted_at: Дата принятия
         states:
           idea: Идея
@@ -73,6 +74,7 @@ ru:
         task_level: Уровень
         task_type: Тип
         rate_value: Цена
+        client_rate_value: Цена
       milestone_print:
         project: Проект
         title: Название этапа
@@ -82,7 +84,6 @@ ru:
         due_date: Завершение
         account_manager: Аккаунт–менеджер
         team_lead: Руководитель группы
-
       user_invoice:
         id: id
         user: Исполнитель

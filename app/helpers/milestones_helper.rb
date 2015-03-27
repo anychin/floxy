@@ -1,5 +1,6 @@
 module MilestonesHelper
   def milestone_field milestone, field, organization
+    return unless milestone.send(field).present?
     case field
       when :title
         link_to organization_milestone_path(organization, milestone) do
