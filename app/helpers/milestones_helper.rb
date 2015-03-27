@@ -1,5 +1,9 @@
 module MilestonesHelper
   def milestone_field milestone, field, organization
+    case field
+      when :tasks_count
+        return "#{milestone.tasks.count} задач"
+    end
     return unless milestone.send(field).present?
     case field
       when :title
@@ -12,8 +16,6 @@ module MilestonesHelper
         "#{price milestone.send(field)}"
       when :estimated_time
         "#{hours milestone.send(field)}"
-      when :tasks_count
-        "#{milestone.tasks.count} задач"
       #when :state
       #  milestone.current_state
       else
