@@ -3,13 +3,17 @@
   .row
     .col-sm-4
       .form-group
-        = f.input :title, label: 'Название уровня'
+        = f.input :title
     .col-sm-2
       .form-group
         = f.input :rate_type, as: :select, label: 'Тип оплаты', collection: TaskLevel.rate_types.keys.to_a
     .col-sm-2
       .form-group
-        = f.input :rate_value, label: 'Ставка оплаты'
+        = f.input :rate_value
+    .col-sm-2
+      .form-group
+        = f.input :client_rate_value
+
 
     .col-sm-2
       .form-group

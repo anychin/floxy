@@ -48,38 +48,30 @@ class Task < ActiveRecord::Base
     end
   end
 
+  # подсчитанная внутренняя стоимость работ по задаче в любой момент времени
   def calculated_cost
     return unless self.hourly?
     self.estimated_cost = self.estimated_time * self.task_level.rate_value
   end
 
+  # подсчитанная внешняя (для клиента) стоимость работ по задаче в любой момент времени
+  def calculated_client_cost
+    return unless self.hourly?
+    self.estimated_cost = self.estimated_time * self.task_level.client_rate_value
+  end
+
+  # фиксируем внутреннюю стоимость работ в базе (вызывается при утверждении задачи)
   def save_estimated_cost
     return unless self.task_level.hourly?
-    calculated_cost
     self.estimated_cost = self.calculated_cost
     save
   end
 
-  #def save_elapsed_cost
-    #return unless self.hourly?
-    #self.estimated_cost = self.estimated_time * self.task_level.rate_value
-    #self.save!
-  #end
-
-  def estimated_summary_cost
-    if self.hourly?
-      (self.estimated_time.to_f * self.rate) + self.estimated_expenses.to_f
-    else
-      self.estimated_expenses.to_f
-    end
-  end
-
-  def elapsed_summary_cost
-    if self.hourly?
-      (self.estimated_time.to_f * self.rate) + self.estimated_expenses.to_f
-    else
-      self.estimated_expenses.to_f
-    end
+  # фиксируем внешнюю (для клиента) стоимость работ в базе (вызывается при утверждении задачи)
+  def save_estimated_client_cost
+    return unless self.task_level.hourly?
+    self.estimated_client_cost = self.calculated_client_cost
+    save
   end
 
   def hourly?

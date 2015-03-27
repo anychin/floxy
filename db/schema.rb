@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150327080752) do
+ActiveRecord::Schema.define(version: 20150327124701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,11 +97,12 @@ ActiveRecord::Schema.define(version: 20150327080752) do
 
   create_table "task_levels", force: :cascade do |t|
     t.string   "title"
-    t.integer  "rate_type",       default: 0
+    t.integer  "rate_type",         default: 0
     t.decimal  "rate_value"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "organization_id"
+    t.decimal  "client_rate_value"
   end
 
   create_table "task_transitions", force: :cascade do |t|
@@ -118,18 +119,18 @@ ActiveRecord::Schema.define(version: 20150327080752) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "title"
-    t.decimal  "estimated_time",     default: 0.0
-    t.decimal  "elapsed_time",       default: 0.0
+    t.decimal  "estimated_time",        default: 0.0
+    t.decimal  "elapsed_time",          default: 0.0
     t.integer  "status"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "owner_id"
     t.integer  "assignee_id"
     t.integer  "task_level_id"
     t.string   "aim"
     t.string   "tool"
-    t.decimal  "estimated_expenses", default: 0.0
-    t.decimal  "elapsed_expenses",   default: 0.0
+    t.decimal  "estimated_expenses",    default: 0.0
+    t.decimal  "elapsed_expenses",      default: 0.0
     t.string   "task_type"
     t.integer  "milestone_id"
     t.integer  "organization_id"
@@ -137,6 +138,7 @@ ActiveRecord::Schema.define(version: 20150327080752) do
     t.datetime "accepted_at"
     t.decimal  "estimated_cost"
     t.integer  "user_invoice_id"
+    t.decimal  "estimated_client_cost"
   end
 
   add_index "tasks", ["accepted_at"], name: "index_tasks_on_accepted_at", using: :btree

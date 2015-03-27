@@ -2,6 +2,7 @@ class TaskLevelsController < ApplicationController
   before_action :authenticate_user!
   before_filter :load_organization
   before_filter :authorize_organization
+  before_filter :authorize_owner
 
   def index
     @task_levels = TaskLevel.by_organization(@organization).order(:id)
@@ -49,10 +50,16 @@ class TaskLevelsController < ApplicationController
     redirect_to organization_task_levels_path
   end
 
-
+  private
 
   def permitted_params
     params.require(:task_level).permit!
+  end
+
+  def authorize_owner
+    if !current_user.has_role?(:admin) && !current_user.has_role?(:owner, @organization)
+      forbidden_redirect
+    end
   end
 
 

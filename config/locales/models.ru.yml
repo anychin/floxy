@@ -25,6 +25,11 @@ ru:
           current: В работе
           resolved: Выполнен
           done: Принят
+      task_level:
+        title: Название уровня
+        rate_type: Тип ставки
+        rate_value: Внутренняя ставка
+        client_rate_value: Ставка для клиента
       task: &task_attributes
         milestone: Этап
         title: Название
