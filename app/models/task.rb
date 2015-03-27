@@ -57,7 +57,7 @@ class Task < ActiveRecord::Base
 
   # подсчитанная внешняя (для клиента) стоимость работ по задаче в любой момент времени
   def calculated_client_cost
-    return unless self.hourly?
+    return if !self.hourly? || self.client_rate_value.nil?
     self.estimated_cost = self.estimated_time * self.task_level.client_rate_value
   end
 

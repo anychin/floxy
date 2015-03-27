@@ -13,4 +13,4 @@
         tr
           - columns.each do |field|
             td.print__table-cell(class="print__table-cell-#{field}")
-              = t.send(field)
+              = t.send(field) if t.send(field).present?
