@@ -6,7 +6,7 @@ module MilestonesHelper
           "#{content_tag(:strong, milestone.title)}".html_safe
         end
       when :due_date
-        "#{l milestone.send(field), format: :human}"
+        "#{l milestone.send(field), format: :human}" if milestone.send(field).present?
       when :estimated_expenses, :calculated_cost
         "#{price milestone.send(field)}"
       when :estimated_time
