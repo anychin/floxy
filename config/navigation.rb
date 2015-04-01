@@ -8,8 +8,8 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.dom_class = 'nav navbar-nav'
 
     primary.item :tasks, "Мои задачи", organization_tasks_url(current_organization), highlights_on: lambda{ controller.is_a?(TasksController) && !is_current_user_tasks_page? }
-    primary.item :projects, 'Этапы', organization_milestones_url(current_organization), highlights_on: lambda{ controller.is_a?(MilestonesController)}
     primary.item :projects, 'Проекты', organization_projects_url(current_organization), highlights_on: lambda{ controller.is_a?(ProjectsController)}
+    primary.item :projects, 'Этапы', organization_milestones_url(current_organization), highlights_on: lambda{ controller.is_a?(MilestonesController)}
     primary.item :projects, 'Команды', organization_teams_url(current_organization), highlights_on: lambda{ controller.is_a?(TeamsController)}
     primary.item :projects, 'Люди', organization_profiles_url(current_organization), highlights_on: lambda{ controller.is_a?(ProfilesController)}
     primary.item :projects, 'Выплаты', organization_user_invoices_url(current_organization), highlights_on: lambda{ controller.is_a?(UserInvoicesController)}
