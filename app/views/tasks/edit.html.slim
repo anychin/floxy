@@ -6,6 +6,10 @@
       strong= @task
   h1
     | Редактирование задачи
+  - if current_user.can_delete?(@task)
+    .pull-right
+      = link_to 'delete', organization_task_path(@organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
+  .clearfix
   hr
   = render 'tasks/form', task: @task, organization: @organization, milestones: @available_milestones
 

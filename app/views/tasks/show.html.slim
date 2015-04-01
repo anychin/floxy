@@ -9,18 +9,17 @@
       | &nbsp;&bull;&nbsp;
   span.text-muted= "Задача ##{@task.id}"
   h1
-    .pull-left
-      = @task
-      sup
-        | &nbsp;&nbsp;
-        small= t "activerecord.attributes.task.states.#{@task.current_state}"
+    = @task
+    sup
       | &nbsp;&nbsp;
-    .pull-left
-      = link_to 'edit', edit_organization_task_path(@organization, @task), class: 'btn btn-default'
-    - if current_user.can_delete?(@task)
-      .pull-right
-        = link_to 'delete', organization_task_path(@organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
-    .clearfix
+      small= t "activerecord.attributes.task.states.#{@task.current_state}"
+    | &nbsp;&nbsp;
+  .pull-left
+    = link_to 'edit', edit_organization_task_path(@organization, @task), class: 'btn btn-default'
+  - if current_user.can_delete?(@task)
+    .pull-right
+      = link_to 'delete', organization_task_path(@organization, @task), method: :delete, confirm: "Удалить задачу #{@task}?", class: 'btn btn-default'
+  .clearfix
   = task_state_buttons @task, @organization, css_class: "task-show__state-btn"
   hr
   .row
