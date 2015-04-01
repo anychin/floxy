@@ -70,13 +70,14 @@ class TasksController < ApplicationController
         else
           flash[:notice] = 'Задача обновлена'
         end
+        redirect_to session.delete(:return_to)
       else
         msg = 'Ошибочка вышла, задача не обновлена'
         msg << ":#{@task.errors.messages}" if @task.errors.any?
         flash[:alert] = msg
+        redirect_to edit_organization_task_path(@organization, @task)
       end
     end
-    redirect_to session.delete(:return_to)
   end
 
   def destroy
