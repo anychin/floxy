@@ -38,6 +38,7 @@ class TasksController < ApplicationController
   end
 
   def edit
+    session[:return_to] ||= request.referer
     if @task.can_be_updated?
       flash[:alert] = "Задача со статусом " << t("attributes.task.states.#{@task.current_state}") << " не может быть отредактирована"
     end
@@ -45,6 +46,7 @@ class TasksController < ApplicationController
   end
 
   def create
+    session[:return_to] ||= request.referer
     params[:task][:owner_id] = current_user.id
     params[:task][:organization_id] = @organization.id
     @task = Task.new(permitted_params)
@@ -53,10 +55,11 @@ class TasksController < ApplicationController
     else
       flash[:alert] = 'Ошибочка вышла, задача не добавлена'
     end
-    redirect_to request.referrer.presence || organization_tasks_path
+    redirect_to session.delete(:return_to)
   end
 
   def update
+    session[:return_to] ||= request.referer
     if @task.can_be_updated?
       flash[:alert] = "Задача со статусом " << t("attributes.task.states.#{@task.current_state}") << " не может быть отредактирована"
     else
@@ -73,21 +76,23 @@ class TasksController < ApplicationController
         flash[:alert] = msg
       end
     end
-    redirect_to organization_tasks_path(@organization)
+    redirect_to session.delete(:return_to)
   end
 
   def destroy
+    session[:return_to] ||= request.referer
     if @task.destroy
       flash[:notice] = 'Задача удалена'
     else
       flash[:alert] = 'Ошибочка вышла, задача не удалена'
     end
-    redirect_to organization_tasks_path
+    redirect_to session.delete(:return_to)
   end
 
   def negotiate
+    session[:return_to] ||= request.referer
     try_trigger_for @task, :negotiate
-    redirect_to organization_tasks_path(@organization)
+    redirect_to session.delete(:return_to)
     not_found unless @task.present?
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для отправки на согласование с клиентом задача должна иметь этап, планируемое время, уровень и цель"
@@ -96,24 +101,27 @@ class TasksController < ApplicationController
   authority_actions negotiate: :update
 
   def approve
+    session[:return_to] ||= request.referer
     try_trigger_for @task, :approve
-    redirect_to organization_tasks_path(@organization)
+    redirect_to session.delete(:return_to)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
   authority_actions approve: :update
 
   def hold
+    session[:return_to] ||= request.referer
     try_trigger_for @task, :hold
-    redirect_to organization_tasks_path(@organization)
+    redirect_to session.delete(:return_to)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
   authority_actions hold: :update
 
   def start
+    session[:return_to] ||= request.referer
     try_trigger_for @task, :start
-    redirect_to organization_tasks_path(@organization)
+    redirect_to session.delete(:return_to)
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач. Этап задачи должен иметь статус 'В работе'"
     tasks_state_guard_redirect
@@ -121,24 +129,27 @@ class TasksController < ApplicationController
   authority_actions start: :update
 
   def finish
+    session[:return_to] ||= request.referer
     try_trigger_for @task, :finish
-    redirect_to organization_tasks_path(@organization)
+    redirect_to session.delete(:return_to)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
   authority_actions finish: :update
 
   def defer
+    session[:return_to] ||= request.referer
     try_trigger_for @task, :defer
-    redirect_to organization_tasks_path(@organization)
+    redirect_to session.delete(:return_to)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
   authority_actions defer: :update
 
   def accept
+    session[:return_to] ||= request.referer
     try_trigger_for @task, :accept
-    redirect_to organization_tasks_path(@organization)
+    redirect_to session.delete(:return_to)
   rescue Statesman::GuardFailedError
     #flash[:alert] = 'Задача должна иметь часы, затраченные на выполнение'
     tasks_state_guard_redirect
@@ -146,8 +157,9 @@ class TasksController < ApplicationController
   authority_actions accept: :update
 
   def reject
+    session[:return_to] ||= request.referer
     try_trigger_for @task, :reject
-    redirect_to organization_tasks_path(@organization)
+    redirect_to session.delete(:return_to)
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
