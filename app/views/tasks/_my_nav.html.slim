@@ -1,0 +1,10 @@
+.container
+  ul.nav.nav-pills
+    = active_link_to 'Мои задачи', organization_tasks_path(organization), wrap_tag: :li, active: :exclusive, active: params[:milestone].nil?
+    = active_link_to organization_tasks_path(organization, milestone: false), wrap_tag: :li, active: params[:milestone] == "false" do
+      | Без этапа
+      - if tasks_without_milestone.count > 0
+        | &nbsp;
+        span.label.label-danger= tasks_without_milestone.count
+hr
+

@@ -1,3 +1,4 @@
+= render 'tasks/my_nav', organization: @organization, tasks_without_milestone: @tasks_without_milestone
 .container
   - if @tasks_by_state.present?
     - task_states_order = [:resolved, :deferred, :current, :todo, :approval, :idea]

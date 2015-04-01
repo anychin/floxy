@@ -8,25 +8,18 @@ class TasksController < ApplicationController
 
 
   def index
-    @new_task = Task.new
-    # TODO refactor this
-    if params[:assignee].present?
-      my
-    else
-      org_tasks = Task.by_organization(@organization).ordered_by_id
-      if params[:milestone] == "false"
-        @tasks = org_tasks.select{|t| t.readable_by?(current_user) && t.milestone.nil? }
-      else
-        @milestones = Milestone.by_organization(@organization).not_in_state(:done).select{|t| t.readable_by?(current_user) && t.tasks.present? }
-      end
-    end
+    my
   end
 
   def my
-    @new_task = Task.new
     org_tasks = Task.by_organization(@organization).not_in_state(:done).ordered_by_id.select{|t| t.assignee == current_user}
-    @tasks_by_state = org_tasks.group_by{|t| t.current_state}
-    render 'tasks/my'
+    @tasks_without_milestone = org_tasks.select{|t| t.readable_by?(current_user) && t.milestone.nil? }
+    if params[:milestone] == "false"
+      render 'tasks/my_owned'
+    else
+      @tasks_by_state = org_tasks.group_by{|t| t.current_state}
+      render 'tasks/my'
+    end
   end
 
   def show

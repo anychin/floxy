@@ -1,0 +1,10 @@
+= render 'tasks/my_nav', organization: @organization, tasks_without_milestone: @tasks_without_milestone
+.container
+  - if @tasks_without_milestone.present?
+    .panel.panel-default.tasks-list__milestone
+      .panel-body
+        h3.tasks-list__milestone-title
+          | Распределите эти задачи по этапам
+        = render 'tasks/block_list', tasks: @tasks_without_milestone, show_milestone: false, organization: @organization
+  - else
+    = render 'tasks/empty'
