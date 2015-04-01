@@ -4,7 +4,15 @@
     - task_states_order.each do |state|
       - if @tasks_by_state[state.to_s].present?
         h4= t("activerecord.attributes.task.states.#{state}")
-        = render 'tasks/block_list', tasks: @tasks_by_state[state.to_s], show_milestone: false, organization: @organization
+        - tasks_by_project = @tasks_by_state[state.to_s].group_by{|t| t.project}
+        - tasks_by_project.each_with_index do |(project, tasks, i)|
+          - if project.present?
+            h5= "#{t('activerecord.models.project')} #{project}"
+          - else
+            h5
+              | Без проекта
+          = render 'tasks/block_list', tasks: tasks, show_milestone: false, organization: @organization
+        hr
   - else
     = render 'tasks/empty'
 
