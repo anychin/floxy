@@ -64,6 +64,7 @@ class TaskStateMachine
   #end
 
   after_transition(from: :approval, to: :todo) do |task|
+    # TODO refactor this in Task model
     task.save_rate_cost
     task.save_client_rate_cost
     task.save_estimated_cost
