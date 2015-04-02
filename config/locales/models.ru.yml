@@ -50,7 +50,9 @@ ru:
         task_level: Уровень
         task_type: Тип
         rate_value: Ставка
+        rate_cost: Ставка
         client_rate_value: Ставка
+        client_rate_cost: Ставка
         accepted_at: Дата принятия
         states:
           idea: Идея
@@ -74,7 +76,9 @@ ru:
         task_level: Уровень
         task_type: Тип
         rate_value: Цена
+        rate_cost: Цена
         client_rate_value: Цена
+        client_rate_cost: Цена
       milestone_print:
         project: Проект
         title: Название этапа

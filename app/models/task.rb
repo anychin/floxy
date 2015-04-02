@@ -52,13 +52,27 @@ class Task < ActiveRecord::Base
   # подсчитанная внутренняя стоимость работ по задаче в любой момент времени
   def calculated_cost
     return unless self.hourly?
-    self.estimated_cost = self.estimated_time.to_s.to_d * self.task_level.rate_value.to_s.to_d
+    self.estimated_time.to_s.to_d * self.task_level.rate_value.to_s.to_d
   end
 
   # подсчитанная внешняя (для клиента) стоимость работ по задаче в любой момент времени
   def calculated_client_cost
     return if !self.hourly? || self.client_rate_value.nil?
-    self.estimated_cost = self.estimated_time.to_s.to_d * self.task_level.client_rate_value.to_s.to_d
+    self.estimated_time.to_s.to_d * self.task_level.client_rate_value.to_s.to_d
+  end
+
+  # сохраняем ставку в задачу
+  def save_rate_cost
+    return unless self.task_level.present?
+    self.rate_cost = self.task_level.rate_value
+    save
+  end
+
+  # сохраняем внешнюю ставку в задачу
+  def save_client_rate_cost
+    return unless self.task_level.present?
+    self.client_rate_cost = self.task_level.client_rate_value
+    save
   end
 
   # фиксируем внутреннюю стоимость работ в базе (вызывается при утверждении задачи)
