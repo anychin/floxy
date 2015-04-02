@@ -78,14 +78,14 @@ class Task < ActiveRecord::Base
   # фиксируем внутреннюю стоимость работ в базе (вызывается при утверждении задачи)
   def save_estimated_cost
     return unless self.task_level.hourly?
-    self.estimated_cost = self.calculated_cost
+    self.estimated_cost = self.estimated_time.to_s.to_d * self.rate_cost.to_s.to_d
     save
   end
 
   # фиксируем внешнюю (для клиента) стоимость работ в базе (вызывается при утверждении задачи)
   def save_estimated_client_cost
     return unless self.task_level.hourly?
-    self.estimated_client_cost = self.calculated_client_cost
+    self.estimated_client_cost = self.estimated_time.to_s.to_d * self.client_rate_cost.to_s.to_d
     save
   end
 
