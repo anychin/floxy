@@ -13,7 +13,7 @@ class TasksController < ApplicationController
 
   def my
     org_tasks = Task.by_organization(@organization).not_in_state(:done).ordered_by_id.select{|t| t.assignee == current_user}
-    @tasks_without_milestone = current_user.owned_tasks.select{|t| t.milestone.nil? }
+    @tasks_without_milestone = org_tasks.select{|t| t.milestone.nil? }
     if params[:milestone] == "false"
       render 'tasks/my_owned'
     else
@@ -176,7 +176,7 @@ class TasksController < ApplicationController
   end
 
   def load_available_milestones
-    @available_milestones = Milestone.by_organization(@organization).not_in_state(:current, :resolved, :done).select{|t| t.readable_by?(current_user)}
+    @available_milestones = Milestone.by_organization(@organization).not_in_state(:resolved, :done).select{|t| t.readable_by?(current_user)}
   end
 
 end
