@@ -96,6 +96,9 @@ ru:
         created_at: Дата создания
         paid_at: Дата оплаты
         tasks: Задачи
+      team:
+        members: Помощники
+
 
   attributes:
     <<: *task_attributes

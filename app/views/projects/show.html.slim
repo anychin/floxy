@@ -26,7 +26,7 @@
             td= @project.team.account_manager if @project.team.present?
           - if @project.team.present?
             tr
-              td= t('activerecord.models.team')
+              td= t('activerecord.attributes.team.members')
               td
                 strong= "&laquo;#{@project.team}&raquo;".html_safe
                 | &nbsp;&mdash;&nbsp;

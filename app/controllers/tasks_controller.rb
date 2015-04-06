@@ -16,8 +16,11 @@ class TasksController < ApplicationController
     @tasks_without_milestone = org_tasks.select{|t| t.milestone.nil? }
     if params[:milestone] == "false"
       render 'tasks/my_owned'
+    elsif params[:done] == "true"
+      @tasks = Task.where('organization_id = ? AND assignee_id = ?', @organization.id, current_user.id).in_state(:done).group_by{ |t| t.accepted_at.beginning_of_month }.to_a.reverse.to_h
+      render 'tasks/my_done'
     else
-      @tasks_by_state = org_tasks.group_by{|t| t.current_state}
+      @tasks = org_tasks.group_by{|t| t.current_state}
       render 'tasks/my'
     end
   end

@@ -1,0 +1,17 @@
+= render 'tasks/my_nav', organization: @organization, tasks_without_milestone: @tasks_without_milestone
+.container
+  - if @tasks.present?
+    - @tasks.each do |(month, tasks)|
+      - if month.present?
+        h5
+          = l month, format: :month
+          | &nbsp;
+          | &nbsp;
+          span.text-muted
+            = hours tasks.map{|t| t.estimated_time }.inject(:+)
+      = render 'tasks/block_list', tasks: tasks, show_milestone: false, organization: @organization
+      hr
+  - else
+    = render 'tasks/empty'
+
+

@@ -1,11 +1,11 @@
 = render 'tasks/my_nav', organization: @organization, tasks_without_milestone: @tasks_without_milestone
 .container
-  - if @tasks_by_state.present?
+  - if @tasks.present?
     - task_states_order = [:resolved, :deferred, :current, :todo, :approval, :idea]
     - task_states_order.each do |state|
-      - if @tasks_by_state[state.to_s].present?
+      - if @tasks[state.to_s].present?
         h4= t("activerecord.attributes.task.states.#{state}")
-        - tasks_by_project = @tasks_by_state[state.to_s].group_by{|t| t.project}
+        - tasks_by_project = @tasks[state.to_s].group_by{|t| t.project}
         - tasks_by_project.each_with_index do |(project, tasks, i)|
           - if project.present?
             h5= "#{t('activerecord.models.project')} #{project}"

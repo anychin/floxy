@@ -22,6 +22,8 @@ ru:
       short_human: '%e %B'
       human: '%e %B %Y'
       input: '%e/%m/%Y'
+      month: '%B %Y'
+
   activerecord:
     errors:
       messages:
