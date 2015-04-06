@@ -48,7 +48,8 @@ module TasksHelper
   end
 
   def task_state_buttons task, organization, args = {}
-    return if ["idea", "approval"].include?(task.current_state)
+    # TODO think about hiding buttons
+    #return if ["idea", "approval"].include?(task.current_state)
     if task.current_state == "done"
       content_tag :small, t('helpers.task_state_buttons.accepted'), class: 'btn-task-state-accepted'
     else
