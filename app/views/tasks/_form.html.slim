@@ -33,7 +33,7 @@
           = f.association :assignee, as: :select, include_blank: true, label_method: :title, value_method: :id, collection: organization.all_users
       .col-sm-3
         .form-group
-          = f.association :task_level, as: :select, include_blank: true, collection: TaskLevel.by_organization(organization)
+          = f.association :task_level, as: :select, include_blank: true, collection: TaskLevel.by_organization(organization).order(:rate_value), label_method: :to_s
     .row
       .col-sm-3
         .form-group

@@ -12,7 +12,11 @@ class TaskLevel < ActiveRecord::Base
   scope :by_organization, -> (id) { where(:organization_id => id) }
 
   def to_s
-    title
+    if rate_value.present?
+      "#{title} (#{rate_value})"
+    else
+      title
+    end
   end
 
 end
