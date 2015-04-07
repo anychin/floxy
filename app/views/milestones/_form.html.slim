@@ -18,10 +18,10 @@
 
     .col-sm-2
       .form-group
-        - if milestone.new_record?
-          = f.input :due_date, as: :string, input_html: {role: 'datetimepicker'}
-        - else
+        - if f.object.present? && f.object.due_date.present?
           = f.input :due_date, as: :string, input_html: {role: 'datetimepicker', value: localize(f.object.due_date, format: :input) }
+        - else
+          = f.input :due_date, as: :string, input_html: {role: 'datetimepicker'}
 
     .col-sm-2
       .form-group
