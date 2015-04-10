@@ -1,2 +1,2 @@
 #!/bin/sh
-exec ssh USERNAME@HOSTNAME -p PORTNUM
+ssh deploy@188.226.198.167 -p 523
