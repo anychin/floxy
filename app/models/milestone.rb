@@ -45,6 +45,12 @@ class Milestone < ActiveRecord::Base
     end
   end
 
+  def calculated_client_cost
+    if tasks.present?
+      tasks.select{|t| t.calculated_client_cost.present? }.map{|t| t.calculated_client_cost }.inject(:+)
+    end
+  end
+
   def estimated_expenses
     tasks.select{|t| t.estimated_expenses.present? }.map{|t| t.estimated_expenses }.inject(:+)
   end

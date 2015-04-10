@@ -84,6 +84,7 @@ ru:
         title: Название этапа
         estimated_time: Время
         calculated_cost: Стоимость работ
+        calculated_client_cost: Стоимость работ
         estimated_expenses: Бюджет
         due_date: Завершение
         account_manager: Аккаунт–менеджер

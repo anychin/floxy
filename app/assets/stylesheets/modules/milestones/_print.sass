@@ -15,10 +15,12 @@
     width: 30%
   &.print__table-cell-project
     max-width: 70pt
-  @each $col in estimated_time, rate_value, calculated_cost, estimated_expenses
-    &.print__table-cell-#{$col}
-      text-align: right
-      white-space: nowrap
+
+@each $col in estimated_time, rate_value, calculated_cost, calculated_client_cost, estimated_expenses
+  .print__table-cell.print__table-cell-#{$col},
+  .print__table-header-cell.print__table-header-cell-#{$col}
+    text-align: right
+    white-space: nowrap
 
 
 .print__table-header-cell

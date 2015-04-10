@@ -12,7 +12,7 @@ module MilestonesHelper
         end
       when :due_date
         "#{l milestone.send(field), format: :human}" if milestone.send(field).present?
-      when :estimated_expenses, :calculated_cost
+      when :estimated_expenses, :calculated_cost, :calculated_client_cost
         "#{price milestone.send(field)}"
       when :estimated_time
         "#{hours milestone.send(field)}"
