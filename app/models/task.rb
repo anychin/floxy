@@ -109,7 +109,7 @@ class Task < ActiveRecord::Base
   end
 
   def can_be_updated?
-    !(["current", "deferred", "resolved", "done"].include?(self.current_state))
+    !(["todo","current", "deferred", "resolved", "done"].include?(self.current_state))
   end
 
   private

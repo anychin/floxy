@@ -9,8 +9,8 @@ class Organization::MembersController < Organization::BaseController
     user = User.find(params[:id])
     authorize user
     #FIXME
-    completed_tasks = user.assigned_tasks.select{|t| t.current_state == "done" }.group_by{ |t| t.created_at.beginning_of_month }
-    incompleted_tasks = user.assigned_tasks.reject{|t| t.current_state == "done" }.group_by{ |t| t.created_at.beginning_of_month }
+    completed_tasks = user.assigned_tasks.in_state(:done).group_by{ |t| t.created_at.beginning_of_month }
+    incompleted_tasks = user.assigned_tasks.not_in_state(:done).group_by{ |t| t.created_at.beginning_of_month }
 
     render locals:{user: user, completed_tasks: completed_tasks, incompleted_tasks: incompleted_tasks, organization: current_organization}
   end
