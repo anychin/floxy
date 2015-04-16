@@ -3,6 +3,8 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rvm'
 require 'mina/puma'
+require './config/boot'
+#require 'airbrake/capistrano'
 
 set :rails_env, 'production'
 set :domain, '188.226.198.167'
@@ -54,3 +56,5 @@ task deploy: :environment do
     end
   end
 end
+
+

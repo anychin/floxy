@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/airbrake/airbrake.git
+  revision: b192f3dcff54f135c3702b8b10ad7384844139e9
+  specs:
+    airbrake (4.1.0)
+      builder
+      multi_json
+
+GIT
   remote: git://github.com/andi/simple-navigation.git
   revision: d9a1a5dadb7dd030b6987a177647ce028dfbae5c
   specs:
@@ -67,6 +75,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    airbrake_user_attributes (0.1.1)
+      airbrake (>= 3.0.9)
     arel (6.0.0)
     authority (3.0.0)
       activesupport (>= 3.0.0)
@@ -361,6 +371,8 @@ PLATFORMS
 
 DEPENDENCIES
   active_link_to
+  airbrake!
+  airbrake_user_attributes
   authority
   awesome_print
   better_errors
