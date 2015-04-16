@@ -55,9 +55,12 @@ class TaskStateMachine
     assignee_ready && milestone_ready
   end
 
-  guard_transition(from: :resolved, to: :done) do |task|
-    # TODO enable this with time tracking
-    task.elapsed_time.present?
+  after_transition(from: :approval, to: :todo) do |task|
+    # TODO refactor this in Task model
+    task.save_rate_cost
+    task.save_client_rate_cost
+    task.save_estimated_cost
+    task.save_estimated_client_cost
   end
 
   after_transition(to: :done) do |task, transition|
