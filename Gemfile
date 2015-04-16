@@ -94,7 +94,7 @@ gem 'sass-rails'
 # gem 'whenever', :require => false
 
 # Errors
-gem 'airbrake_user_attributes'
+# gem 'airbrake_user_attributes'
 gem 'airbrake', :github => 'airbrake/airbrake'
 
 # Api
