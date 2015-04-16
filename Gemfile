@@ -137,6 +137,11 @@ gem 'hashie'
 gem 'puma'
 gem 'pundit', :git=>'git://github.com/elabs/pundit.git'
 
+group :development, :staging do
+  gem "better_errors"
+end
+
+
 group :development do
   # gem 'ruby-graphviz'
   # gem 'holepicker', :require => false
@@ -155,8 +160,6 @@ group :development do
   # gem 'meta_request' # rails_panel in chrome
 
   gem 'quiet_assets'
-
-  gem "better_errors"
 
   gem "mailcatcher", :require => false
   gem 'ruby-progressbar'
