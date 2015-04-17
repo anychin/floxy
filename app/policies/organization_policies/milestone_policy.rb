@@ -1,8 +1,4 @@
 class OrganizationPolicies::MilestonePolicy < OrganizationPolicies::BasePolicy
-  def index?
-    organization.owner?(user)
-  end
-
   class Scope < Scope
     def resolve
       if organization.owner?(user)
