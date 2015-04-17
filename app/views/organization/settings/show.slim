@@ -1,4 +1,4 @@
 .container
   ul.nav.nav-pills
-    - if OrganizationPolicies::TaskLevelsPolicy.new(current_user, organization).index?
+    - if OrganizationPolicies::TaskLevelsPolicy.new(current_user, organization, current_organization).index?
       li= link_to 'Уровни задач', organization_task_levels_path(organization)
