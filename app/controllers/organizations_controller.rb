@@ -21,8 +21,9 @@ class OrganizationsController < ApplicationController
   end
 
   def new
-    authorize current_organization
-    render locals: {organization: current_organization}
+    new_organization = Organization.new
+    authorize new_organization
+    render locals: {organization: new_organization}
   end
 
   def create
