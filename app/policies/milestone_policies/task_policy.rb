@@ -21,7 +21,7 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
 
   class Scope < Scope
     def resolve
-      scope.by_assigned_user(user)
+      scope
     end
   end
 end

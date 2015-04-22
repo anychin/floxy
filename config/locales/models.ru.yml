@@ -55,6 +55,7 @@ ru:
         milestone: Этап
         title: Название
         assignee: Исполнитель
+        assignee_id: Исполнитель
         status: Статус
         state: Статус
         owner: Владелец
@@ -69,6 +70,7 @@ ru:
         calculated_cost: Рассчитанная стоимость
         calculated_client_cost: Рассчитанная стоимость для клиента
         task_level: Уровень
+        task_level_id: Уровень
         task_type: Тип
         rate_value: Ставка
         rate_cost: Ставка

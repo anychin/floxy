@@ -1,7 +1,7 @@
 class Organization::MilestoneTasksController < Organization::BaseController
   def new
     task = current_milestone.tasks.new
-    new_task.owner = current_user
+    task.owner = current_user
     authorize(task)
     render locals:{task: task}
   end
