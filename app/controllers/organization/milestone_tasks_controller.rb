@@ -54,9 +54,8 @@ class Organization::MilestoneTasksController < Organization::BaseController
 
   def negotiate
     authorize current_task
-    session[:return_to] ||= request.referer
     try_trigger_for current_task, :negotiate
-    redirect_to session.delete(:return_to)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для отправки на согласование с клиентом задача должна иметь этап, планируемое время, уровень и цель"
     tasks_state_guard_redirect
@@ -65,27 +64,24 @@ class Organization::MilestoneTasksController < Organization::BaseController
 
   def approve
     authorize current_task
-    session[:return_to] ||= request.referer
     try_trigger_for current_task, :approve
-    redirect_to session.delete(:return_to)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
 
   def hold
     authorize current_task
-    session[:return_to] ||= request.referer
     try_trigger_for current_task, :hold
-    redirect_to session.delete(:return_to)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
 
   def start
     authorize current_task
-    session[:return_to] ||= request.referer
     try_trigger_for current_task, :start
-    redirect_to session.delete(:return_to)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач. Этап задачи должен иметь статус 'В работе'"
     tasks_state_guard_redirect
@@ -93,27 +89,24 @@ class Organization::MilestoneTasksController < Organization::BaseController
 
   def finish
     authorize current_task
-    session[:return_to] ||= request.referer
     try_trigger_for current_task, :finish
-    redirect_to session.delete(:return_to)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
 
   def defer
     authorize current_task
-    session[:return_to] ||= request.referer
     try_trigger_for current_task, :defer
-    redirect_to session.delete(:return_to)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
 
   def accept
     authorize current_task
-    session[:return_to] ||= request.referer
     try_trigger_for current_task, :accept
-    redirect_to session.delete(:return_to)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     #flash[:alert] = 'Задача должна иметь часы, затраченные на выполнение'
     tasks_state_guard_redirect
@@ -121,9 +114,8 @@ class Organization::MilestoneTasksController < Organization::BaseController
 
   def reject
     authorize current_task
-    session[:return_to] ||= request.referer
     try_trigger_for current_task, :reject
-    redirect_to session.delete(:return_to)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
@@ -161,5 +153,9 @@ class Organization::MilestoneTasksController < Organization::BaseController
   def tasks_state_guard_redirect
     flash[:alert] ||=  "Не удалось поменять статус задачи (не выполнены требования задачи)"
     redirect_to organization_project_milestone_task_path(current_organization, current_project, current_milestone, current_task)
+  end
+
+  def state_back_url
+    request.referer || organization_project_milestone_task_path(current_organization, current_project, current_milestone, current_task)
   end
 end
