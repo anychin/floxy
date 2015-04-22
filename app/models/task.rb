@@ -1,7 +1,7 @@
 class Task < ActiveRecord::Base
   include Statesman::Adapters::ActiveRecordQueries
 
-  validates :title, presence: true
+  validates :milestone, :owner, :title, presence: true
   validates :estimated_time, numericality: { less_than_or_equal_to: 8 }
 
   belongs_to :milestone

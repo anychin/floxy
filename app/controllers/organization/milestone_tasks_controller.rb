@@ -1,12 +1,14 @@
 class Organization::MilestoneTasksController < Organization::BaseController
   def new
     task = current_milestone.tasks.new
+    new_task.owner = current_user
     authorize(task)
     render locals:{task: task}
   end
 
   def create
     new_task = current_milestone.tasks.new(task_params)
+    new_task.owner = current_user
     authorize new_task
     if new_task.save
       flash[:notice] = "#{t('activerecord.models.task')} добавлена"
