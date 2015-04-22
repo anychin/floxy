@@ -13,7 +13,7 @@ class OrganizationPolicies::TaskPolicy < OrganizationPolicies::BasePolicy
 
   class Scope < Scope
     def resolve
-      scope
+      scope.by_assigned_user(user)
     end
   end
 end
