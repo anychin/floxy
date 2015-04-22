@@ -108,7 +108,6 @@ class Organization::MilestoneTasksController < Organization::BaseController
   rescue Statesman::GuardFailedError
     tasks_state_guard_redirect
   end
-  authority_actions defer: :update
 
   def accept
     authorize current_task

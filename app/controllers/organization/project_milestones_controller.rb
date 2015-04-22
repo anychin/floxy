@@ -96,7 +96,6 @@ class Organization::ProjectMilestonesController < Organization::BaseController
     milestones_state_guard_redirect
   end
 
-
   def reject
     authorize current_milestone
     try_trigger_for current_milestone, :reject
@@ -104,7 +103,6 @@ class Organization::ProjectMilestonesController < Organization::BaseController
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
   end
-
 
   private
 

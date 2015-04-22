@@ -15,6 +15,39 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
     record.organization.owner?(user) or record.team.manager?(user)
   end
 
+  def negotiate?
+
+  end
+
+
+  def approve?
+
+  end
+
+  def hold?
+
+  end
+
+  def start?
+
+  end
+
+  def finish?
+
+  end
+
+  def defer?
+
+  end
+
+  def accept?
+
+  end
+
+  def reject?
+
+  end
+
   def permitted_attributes
     [:title, :estimated_time, :assignee_id, :task_level_id, :task_type, :aim, :tool, :estimated_expenses, :description]
   end
