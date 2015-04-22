@@ -41,6 +41,14 @@ class Task < ActiveRecord::Base
     title
   end
 
+  def owner?(user)
+    self.owner_id == user.id
+  end
+
+  def assigned?(user)
+    self.assignee_id == user.id
+  end
+
   # подсчитанная внутренняя стоимость работ по задаче в любой момент времени
   def calculated_cost
     return unless self.hourly?

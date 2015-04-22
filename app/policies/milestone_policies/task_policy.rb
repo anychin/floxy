@@ -8,44 +8,44 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
   
   def update?
-    (record.organization.owner?(user) or record.team.manager?(user)) and (record.can_be_updated?)
+    (record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user)) and (record.can_be_updated?)
   end
   
   def destroy?
-    record.organization.owner?(user) or record.team.manager?(user)
+    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user)
   end
 
   def negotiate?
-
+    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user.id)
   end
 
 
   def approve?
-
+    record.organization.owner?(user) or record.team.account_manager?(user)
   end
 
   def hold?
-
+    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user.id)
   end
 
   def start?
-
+    record.organization.owner?(user) or record.team.manager?(user) or record.assigned?(user.id)
   end
 
   def finish?
-
+    record.organization.owner?(user) or record.team.manager?(user) or record.assigned?(user.id)
   end
 
   def defer?
-
+    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user.id)
   end
 
   def accept?
-
+    record.organization.owner?(user) or record.team.manager?(user)
   end
 
   def reject?
-
+    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user.id)
   end
 
   def permitted_attributes

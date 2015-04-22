@@ -31,6 +31,10 @@ class Team < ActiveRecord::Base
     owner_id == user.id
   end
 
+  def account_manager?(user)
+    self.account_manager_id = user.id
+  end
+
   def manager? user
     MANAGER_ROLES.each do |role|
       if self.send("#{role}_id") == user.id
