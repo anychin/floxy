@@ -55,7 +55,7 @@ class Organization::ProjectMilestonesController < Organization::BaseController
   def negotiate
     authorize current_milestone
     try_trigger_for current_milestone, :negotiate
-    redirect_to organization_project_milestone_path(current_organization, current_project, current_milestone)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для отправки на согласование с клиентом этап должен иметь цель и задачи; все его задачи должны иметь планируемое время, уровень и цель"
     milestones_state_guard_redirect
@@ -64,7 +64,7 @@ class Organization::ProjectMilestonesController < Organization::BaseController
   def start
     authorize current_milestone
     try_trigger_for current_milestone, :start
-    redirect_to organization_project_milestone_path(current_organization, current_project, current_milestone)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     flash[:alert] = "Для старта этапа должен быть назначен исполнитель"
     milestones_state_guard_redirect
@@ -73,16 +73,15 @@ class Organization::ProjectMilestonesController < Organization::BaseController
   def hold
     authorize current_milestone
     try_trigger_for current_milestone, :hold
-    redirect_to organization_project_milestone_path(current_organization, current_project, current_milestone)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
   end
 
-
   def finish
     authorize current_milestone
     try_trigger_for current_milestone, :finish
-    redirect_to organization_project_milestone_path(current_organization, current_project, current_milestone)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
   end
@@ -90,7 +89,7 @@ class Organization::ProjectMilestonesController < Organization::BaseController
   def accept
     authorize current_milestone
     try_trigger_for current_milestone, :accept
-    redirect_to organization_project_milestone_path(current_organization, current_project, current_milestone)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     flash[:alert] = 'Задачи этапа должны иметь часы, затраченные на выполнение'
     milestones_state_guard_redirect
@@ -99,7 +98,7 @@ class Organization::ProjectMilestonesController < Organization::BaseController
   def reject
     authorize current_milestone
     try_trigger_for current_milestone, :reject
-    redirect_to organization_project_milestone_path(current_organization, current_project, current_milestone)
+    redirect_to state_back_url
   rescue Statesman::GuardFailedError
     milestones_state_guard_redirect
   end
@@ -133,5 +132,9 @@ class Organization::ProjectMilestonesController < Organization::BaseController
   def milestones_state_guard_redirect
     flash[:alert] ||=  "Не удалось поменять статус этапа (не выполнены требования этапа)"
     redirect_to organization_project_milestone_path(current_organization, current_project, current_milestone)
+  end
+
+  def state_back_url
+    :back #organization_project_milestone_path(current_organization, current_project, current_milestone)
   end
 end

@@ -36,9 +36,6 @@ class Organization::MilestoneTasksController < Organization::BaseController
     else
       render :edit, locals:{task: current_task}
     end
-    # if @task.current_state == "todo" && @task.previous_changes.present?
-    #   @task.trigger!(:hold)
-    #   flash[:notice] = "Задача обновлена со статусом '#{t('attributes.task.states.idea')}'"
   end
 
   def destroy
@@ -156,6 +153,6 @@ class Organization::MilestoneTasksController < Organization::BaseController
   end
 
   def state_back_url
-    request.referer || organization_project_milestone_task_path(current_organization, current_project, current_milestone, current_task)
+    :back # request.referer || organization_project_milestone_task_path(current_organization, current_project, current_milestone, current_task)
   end
 end
