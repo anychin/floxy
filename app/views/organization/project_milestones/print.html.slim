@@ -1,19 +1,36 @@
 - columns = [:project, :title, :estimated_time, :calculated_cost, :estimated_expenses, :account_manager, :team_lead, :due_date]
 
 h1.print__title= organization
-/
-/table.print__table
-/  thead
-/    - columns.each do |v|
-/      th.print__table-header-cell(class="print__table-cell-#{v}")
-/        = t("activerecord.attributes.milestone_print.#{v}")
-/  tbody
-/    - columns.each do |v|
-/      td.print__table-cell(class="print__table-cell-#{v}")
-/        - if [:due_date, :calculated_cost, :estimated_expenses].include?(v)
-/          = milestone_field @milestone, v, @organization
-/        - else
-/          = @milestone.send(v) if @milestone.send(v).present?
-/
-/- if @milestone.tasks.present?
-/  = render 'tasks/table', tasks: @milestone.tasks, organization: @organization, show_milestone: false
+
+table.print__table
+  thead
+    - columns.each do |v|
+      th.print__table-header-cell(class="print__table-cell-#{v}")
+        = t("activerecord.attributes.milestone_print.#{v}")
+  tbody
+    - columns.each do |v|
+      td.print__table-cell(class="print__table-cell-#{v}")
+        - if [:due_date, :calculated_cost, :estimated_expenses].include?(v)
+          = milestone_field milestone, v
+        - else
+          - if [:account_manager, :team_lead].include?(v)
+            = milestone.team.account_manager
+          - else
+            = milestone.send(v)
+
+- if milestone.tasks.present?
+  - task_columns = [:project, :title, :aim, :estimated_time, :client_rate_value, :calculated_client_cost, :task_type, :tool, :estimated_expenses]
+  - task_columns_count = task_columns.count
+
+  table.print__table
+    thead
+      - task_columns.each_with_index do |col, i|
+        th.print__table-header-cell(class="print__table-cell-#{col}")
+          = t("activerecord.attributes.task_print.#{col}")
+
+    tbody
+      - milestone.tasks.each do |t|
+        tr
+          - task_columns.each do |field|
+            td.print__table-cell(class="print__table-cell-#{field}")
+              = t.send(field)

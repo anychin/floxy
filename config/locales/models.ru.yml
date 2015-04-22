@@ -111,6 +111,7 @@ ru:
         estimated_expenses: Бюджет
         account_manager: Аккаунт–менеджер
         team_lead: Руководитель группы
+        due_date: Завершение
       user_invoice:
         id: id
         user: Исполнитель
