@@ -52,7 +52,8 @@
   hr
 
   - if MilestonePolicies::TaskPolicy.new(current_user, milestone.tasks.new, milestone).create?
-    = link_to 'Добавить задачу', new_organization_project_milestone_task_path(milestone.organization, milestone.project, milestone)
+    h2 Добавить этап
+    = render :partial=>'organization/milestone_tasks/form', locals: {task: milestone.tasks.new}
 
   hr
 
