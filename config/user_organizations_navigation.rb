@@ -1,10 +1,6 @@
 SimpleNavigation::Configuration.run do |navigation|
   navigation.items do |primary|
-    #primary.item :hotels, I18n.t("admin.menu.hotels"), root_url, if: proc { current_user.admin? }
-
     primary.dom_class = 'nav navbar-nav'
-
-
     if current_user.present?
       organizations = OrganizationPolicy::Scope.new(current_user, Organization).resolve
       if organizations.many?
@@ -15,13 +11,11 @@ SimpleNavigation::Configuration.run do |navigation|
             end
           end
         else
-
-            primary.item :base_organization, 'Выберите организацию', organizations_path do |org_item|
-              organizations.each do |org|
-                org_item.item "org_#{org.id}", org, generic_organization_path(org)
-              end
+          primary.item :base_organization, 'Выберите организацию', organizations_path do |org_item|
+            organizations.each do |org|
+              org_item.item "org_#{org.id}", org, generic_organization_path(org)
             end
-
+          end
         end
       end
     end
