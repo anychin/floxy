@@ -8,8 +8,6 @@
       th
         = t("activerecord.attributes.project.team")
       th
-        = t("activerecord.attributes.team.owner")
-      th
         = t("activerecord.attributes.team.team_lead")
       th
         = t("activerecord.attributes.team.account_manager")
@@ -28,8 +26,6 @@
             = p.team
             | &nbsp;&mdash;&nbsp;
             = p.team.members.join(', ')
-          td
-            = p.team.owner
           td
             = p.team.team_lead
           td
