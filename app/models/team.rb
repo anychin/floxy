@@ -1,8 +1,7 @@
 class Team < ActiveRecord::Base
-  validates :owner, :team_lead, :account_manager, presence: true
-  validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
+  validates :team_lead, :account_manager, presence: true
+  validates :title, presence: true, :uniqueness => { :scope => :organization_id }, length: {within:3..50}
 
-  belongs_to :owner, class_name: 'User', foreign_key: :owner_id
   belongs_to :team_lead, class_name: 'User', foreign_key: :team_lead_id
   belongs_to :account_manager, class_name: 'User', foreign_key: :account_manager_id
   belongs_to :organization
@@ -11,6 +10,8 @@ class Team < ActiveRecord::Base
   has_many :projects, dependent: :nullify
 
   scope :ordered_by_id, ->{ order("id asc") }
+
+  after_save :add_managers_as_members
 
   scope :by_team_user, ->(user) {
     joins{team_memberships.outer}.where{
@@ -21,14 +22,10 @@ class Team < ActiveRecord::Base
     }.uniq
   }
 
-  MANAGER_ROLES = [:owner, :account_manager, :team_lead]
+  MANAGER_ROLES = [:account_manager, :team_lead]
 
   def to_s
     title
-  end
-
-  def owner?(user)
-    owner_id == user.id
   end
 
   def account_manager?(user)
@@ -42,5 +39,14 @@ class Team < ActiveRecord::Base
       end
     end
     false
+  end
+
+  private
+
+  def add_managers_as_members
+    MANAGER_ROLES.each do |mr|
+      mr_subject = self.send(mr)
+      self.members << mr_subject
+    end
   end
 end

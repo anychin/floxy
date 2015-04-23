@@ -8,11 +8,11 @@ class OrganizationPolicies::ProjectPolicy < OrganizationPolicies::BasePolicy
   end
 
   def update?
-    organization.owner?(user) and record.organization_id == organization.id
+    organization.owner?(user)
   end
 
   def destroy?
-    organization.owner?(user) and record.organization_id == organization.id
+    organization.owner?(user)
   end
 
   def permitted_attributes

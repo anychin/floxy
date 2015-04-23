@@ -6,9 +6,6 @@
         = f.input :title
     .col-sm-2
       .form-group
-        = f.association :owner, as: :select, collection: team.organization.members.map{|el| [el.title, el.id]}, include_blank: false
-    .col-sm-2
-      .form-group
         = f.association :team_lead, as: :select, collection: team.organization.members.map{|el| [el.title, el.id]}, include_blank: false
     .col-sm-2
       .form-group

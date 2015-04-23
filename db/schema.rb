@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422105344) do
+ActiveRecord::Schema.define(version: 20150423132434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,7 +164,6 @@ ActiveRecord::Schema.define(version: 20150422105344) do
 
   create_table "teams", force: :cascade do |t|
     t.string   "title",              null: false
-    t.integer  "owner_id",           null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.integer  "organization_id",    null: false
@@ -174,7 +173,6 @@ ActiveRecord::Schema.define(version: 20150422105344) do
 
   add_index "teams", ["account_manager_id"], name: "index_teams_on_account_manager_id", using: :btree
   add_index "teams", ["organization_id"], name: "index_teams_on_organization_id", using: :btree
-  add_index "teams", ["owner_id"], name: "index_teams_on_owner_id", using: :btree
   add_index "teams", ["team_lead_id"], name: "index_teams_on_team_lead_id", using: :btree
 
   create_table "user_invoices", force: :cascade do |t|

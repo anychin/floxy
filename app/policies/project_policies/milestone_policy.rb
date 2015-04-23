@@ -16,7 +16,7 @@ class ProjectPolicies::MilestonePolicy < ProjectPolicies::BasePolicy
   end
 
   def print?
-    project.organization.owner?(user) or project.team.account_manager_id == user.id
+    project.organization.owner?(user) or project.team.account_manager?(user)
   end
 
   def
