@@ -7,13 +7,6 @@ GIT
       multi_json
 
 GIT
-  remote: git://github.com/andi/simple-navigation.git
-  revision: d9a1a5dadb7dd030b6987a177647ce028dfbae5c
-  specs:
-    simple-navigation (3.13.0)
-      activesupport (>= 2.3.2)
-
-GIT
   remote: git://github.com/elabs/pundit.git
   revision: 1bfe952d09f517faafa7308e6f5941d1b23b2b0e
   specs:
@@ -311,6 +304,8 @@ GEM
     semver2 (3.4.1)
     settingslogic (2.0.9)
     sexp_processor (4.4.5)
+    simple-navigation (3.12.2)
+      activesupport (>= 2.3.2)
     simple-navigation-bootstrap (1.0.0)
       railties (>= 3.1)
       simple-navigation (>= 3.7.0)
@@ -426,7 +421,7 @@ DEPENDENCIES
   sass-rails
   semver2
   settingslogic
-  simple-navigation!
+  simple-navigation (~> 3.12.2)
   simple-navigation-bootstrap
   simple_form!
   slim-rails

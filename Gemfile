@@ -45,7 +45,7 @@ gem 'slim-rails'
 gem 'haml-rails'
 
 # View Helpers
-gem 'simple-navigation', :git => 'git://github.com/andi/simple-navigation.git'
+gem 'simple-navigation', '~> 3.12.2'
 gem 'simple-navigation-bootstrap'
 # gem 'authbuttons-rails'
 gem 'active_link_to'

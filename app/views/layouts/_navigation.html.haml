@@ -6,7 +6,7 @@
         %span.icon-bar
         %span.icon-bar
       = link_to Settings.app.title, root_url, :class => 'navbar-brand'
-      -#= render_navigation :context => :user_organizations, :renderer => :user_organizations
+    = render_navigation :context => :user_organizations, :expand_all => true, :renderer => :bootstrap
     .collapse.navbar-collapse
       = render_navigation :context => :user, :expand_all => true, :renderer => :bootstrap
       .clearfix

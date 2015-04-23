@@ -1,21 +1,30 @@
-# configures your navigation
-# https://github.com/codeplant/simple-navigation/wiki/Configuration
-
 SimpleNavigation::Configuration.run do |navigation|
   navigation.items do |primary|
     #primary.item :hotels, I18n.t("admin.menu.hotels"), root_url, if: proc { current_user.admin? }
 
-    primary.dom_class = 'nav navbar-nav pull-right'
+    primary.dom_class = 'nav navbar-nav'
 
 
     if current_user.present?
-      policy_scope(Organization).each do |o|
-        primary.item "organization#{o.id}", o, generic_organization_path(o)
-      end
-      # primary.item :settings, 'Настройки', organization_settings_url
-      # primary.item :user, current_user, organization_profile_url(current_organization, current_user), highlights_on: %r(/me)
-    end
+      organizations = OrganizationPolicy::Scope.new(current_user, Organization).resolve
+      if organizations.many?
+        if self.respond_to?(:current_organization) and current_organization.present?
+          primary.item :base_organization, current_organization, generic_organization_path(current_organization) do |org_item|
+            organizations.reject { |org| org.id == current_organization.id }.each do |org|
+              org_item.item "org_#{org.id}".to_sym, org, generic_organization_path(org)
+            end
+          end
+        else
 
-    primary.auto_highlight = true
+            primary.item :base_organization, 'Выберите организацию', organizations_path do |org_item|
+              organizations.each do |org|
+                org_item.item "org_#{org.id}", org, generic_organization_path(org)
+              end
+            end
+
+        end
+      end
+    end
+    primary.auto_highlight = false
   end
 end
