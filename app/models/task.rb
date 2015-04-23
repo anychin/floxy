@@ -24,6 +24,7 @@ class Task < ActiveRecord::Base
   scope :by_team_user, ->(user) {
     joins{team_memberships.outer}.merge(Project.by_team_user(user))
   }
+
   scope :ordered_by_created_at, ->{order(:created_at)}
   scope :by_assigned_user, ->(user) {where(assignee_id: user.id)}
 

@@ -8,9 +8,9 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.dom_class = 'nav navbar-nav pull-right'
 
     if current_user.present?
+      primary.item :user, current_user, organization_member_path(current_organization, current_user), highlights_on: %r(/me)
       primary.item :logout, 'Выйти', destroy_user_session_path, method: "delete"#, class: 'btn btn-danger'
       # primary.item :settings, 'Настройки', organization_settings_url
-      # primary.item :user, current_user, organization_profile_url(current_organization, current_user), highlights_on: %r(/me)
     end
 
     #primary.item :tasks, 'Люди', users_url
