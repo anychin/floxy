@@ -46,7 +46,7 @@ class Team < ActiveRecord::Base
   def add_managers_as_members
     MANAGER_ROLES.each do |mr|
       mr_subject = self.send(mr)
-      self.members << mr_subject
+      self.members << mr_subject unless members.include?(mr_subject)
     end
   end
 end

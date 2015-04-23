@@ -31,7 +31,7 @@ class OrganizationsController < ApplicationController
     organization.owner = current_user
     authorize organization
     if organization.save
-      organization.members << current_user
+      organization.members << current_user unless organization.members.include?(current_user)
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} добавлен"
       redirect_to organizations_path
     else
