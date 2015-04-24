@@ -16,7 +16,7 @@ class OrganizationPolicies::TeamPolicy < OrganizationPolicies::BasePolicy
   end
 
   def permitted_attributes
-    [:title, :owner_id, :team_lead_id, :account_manager_id, {:member_ids=>[]}]
+    [:title, :team_lead_id, :account_manager_id, {:member_ids=>[]}]
   end
 
   class Scope < Scope

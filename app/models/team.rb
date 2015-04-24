@@ -15,7 +15,6 @@ class Team < ActiveRecord::Base
 
   scope :by_team_user, ->(user) {
     joins{team_memberships.outer}.where{
-      owner_id.eq(user.id) |
       team_lead_id.eq(user.id) |
       account_manager_id.eq(user.id) |
       team_memberships.user_id.eq(user.id)
