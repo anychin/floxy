@@ -16,7 +16,7 @@ gem 'statesman'
 gem 'devise', :git => 'https://github.com/plataformatec/devise.git', :branch => 'master'
 gem 'authority'
 gem 'rolify'
-# gem 'switch_user'
+gem 'switch_user'
 # gem "cancan"
 
 # Validations

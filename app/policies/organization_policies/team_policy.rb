@@ -1,18 +1,18 @@
 class OrganizationPolicies::TeamPolicy < OrganizationPolicies::BasePolicy
   def create?
-    user.superadmin or organization.owner?(user)
+    organization.owner?(user)
   end
 
   def show?
-    user.superadmin or organization.owner?(user) or record.members.include?(user) or record.manager?(user)
+    organization.owner?(user) or record.members.include?(user) or record.manager?(user)
   end
 
   def update?
-    user.superadmin or organization.owner?(user)
+    organization.owner?(user)
   end
 
   def destroy?
-    user.superadmin or organization.owner?(user)
+    organization.owner?(user)
   end
 
   def permitted_attributes

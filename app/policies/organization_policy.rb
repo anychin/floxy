@@ -4,15 +4,15 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def show?
-    user.superadmin or record.owner?(user) or record.members.include?(user)
+    record.owner?(user) or record.members.include?(user)
   end
 
   def update?
-    record.owner?(user) or user.superadmin
+    record.owner?(user)
   end
 
   def destroy?
-    user.superadmin or record.owner?(user)
+    record.owner?(user)
   end
 
   def permitted_attributes

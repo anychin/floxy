@@ -1,4 +1,8 @@
 .container
+  - if current_user.superadmin?
+    = link_to 'зайти под этим пользователем', "/switch_user?scope_identifier=user_#{user.id}"
+
+.container
   = render :partial=>'profile_data', locals:{user: user, organization: organization}
 hr
 .container

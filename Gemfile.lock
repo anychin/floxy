@@ -352,6 +352,7 @@ GEM
       activesupport (>= 3.0)
       polyamorous (~> 1.1.0)
     statesman (1.1.0)
+    switch_user (0.9.5)
     temple (0.7.5)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
@@ -438,6 +439,7 @@ DEPENDENCIES
   sprockets-rails
   squeel
   statesman
+  switch_user
   therubyracer
   turbolinks
   uglifier (~> 1.3)

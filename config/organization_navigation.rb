@@ -12,8 +12,7 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :milestones, 'Этапы', organization_milestones_path(current_organization), highlights_on: lambda{ controller.is_a?(Organization::MilestonesController)}
     primary.item :teams, 'Команды', organization_teams_path(current_organization), highlights_on: lambda{ controller.is_a?(Organization::TeamsController)}
     primary.item :members, 'Люди', organization_members_path(current_organization), highlights_on: lambda{ controller.is_a?(Organization::MembersController)}
-    invoices_policy_class = OrganizationPolicies::UserInvoicePolicy
-    primary.item :projects, 'Выплаты', organization_user_invoices_url(current_organization), highlights_on: lambda{ controller.is_a?(Organization::UserInvoicesController)}, :if => ->{invoices_policy_class.new(current_user, current_organization, current_organization).index?}
+    primary.item :projects, 'Выплаты', organization_user_invoices_url(current_organization), highlights_on: lambda{ controller.is_a?(Organization::UserInvoicesController)}
     settings_policy_class = OrganizationPolicies::SettingsPolicy
     primary.item :settings, 'Настройки', organization_settings_path(current_organization), highlights_on: lambda{ controller.is_a?(Organization::SettingsController)}, :if => ->{settings_policy_class.new(current_user, current_organization, current_organization).show?}
 

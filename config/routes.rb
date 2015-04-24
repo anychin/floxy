@@ -53,5 +53,7 @@ Floxy::Application.routes.draw do
     end
   end
 
+  get 'switch_user' => 'switch_user#set_current_user'
+
   devise_for :users
 end
