@@ -1,5 +1,6 @@
 module TasksHelper
   def task_field task, field
+    return unless task.send(field).present?
     html = case field
       when :milestone
         link_to task.milestone, organization_project_milestone_path(task.organization, task.project, task.milestone) if task.milestone.present?
@@ -42,7 +43,7 @@ module TasksHelper
     end
   end
 
-  def task_state_buttons task, organization, args = {}
+  def task_state_buttons task, args = {}
     # TODO think about hiding buttons
     #return if ["idea", "approval"].include?(task.current_state)
     if task.current_state == "done"

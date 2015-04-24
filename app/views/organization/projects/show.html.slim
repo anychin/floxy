@@ -35,18 +35,16 @@
   - if ProjectPolicies::MilestonePolicy.new(current_user, project.milestones.new, project).create?
     p= link_to "Добавить #{t('activerecord.models.milestone', count: 1)}", new_organization_project_milestone_path(current_organization, project), class: 'btn btn-default'
 
+
   - if milestones_with_tasks.any?
     h2
-      | Этапы и задачи проекта
-      = render 'tasks/list_by_milestone', milestones: milestones_with_tasks, organization: project.organization
+      | Этапы проекта
+    -#= render 'tasks/list_by_milestone', milestones: milestones_with_tasks, organization: project.organization
+    = render :partial=>'milestones/list', locals:{organization: project.organization, project: project, milestones: milestones_with_tasks}
+    hr
 
   - if empty_milestones.any?
-    .tasks-list__container
-      .container
-        h2.tasks-list__milestone-title
-          | Этапы проекта без задач
-        = render :partial=>'milestones/list', locals:{organization: project.organization, project: project, milestones: empty_milestones}
+    h2.tasks-list__milestone-title
+      | Этапы проекта без задач
+    = render :partial=>'milestones/list', locals:{organization: project.organization, project: project, milestones: empty_milestones}
 
-/- unless project.tasks.any?
-/  .container
-/    = render 'tasks/empty'
