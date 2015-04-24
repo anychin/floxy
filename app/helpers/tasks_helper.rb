@@ -43,7 +43,7 @@ module TasksHelper
     end
   end
 
-  def task_state_buttons task, organization, args = {}
+  def task_state_buttons task, args = {}
     # TODO think about hiding buttons
     #return if ["idea", "approval"].include?(task.current_state)
     if task.current_state == "done"
