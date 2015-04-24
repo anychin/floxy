@@ -1,22 +1,18 @@
 class OrganizationPolicy < ApplicationPolicy
   def create?
-    user.superadmin?
+    user.superadmin
   end
 
   def show?
-    record.owner?(user) or record.members.include?(user)
+    user.superadmin or record.owner?(user) or record.members.include?(user)
   end
 
   def update?
-    record.owner?(user)
+    record.owner?(user) or user.superadmin
   end
 
   def destroy?
-    record.owner?(user)
-  end
-
-  def milestones?
-    record.owner?(user)
+    user.superadmin or record.owner?(user)
   end
 
   def permitted_attributes

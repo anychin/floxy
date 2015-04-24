@@ -23,8 +23,4 @@ class User < ActiveRecord::Base
   def to_s
     name.presence || email.presence
   end
-
-  def superadmin?
-    true
-  end
 end
