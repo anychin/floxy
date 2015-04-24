@@ -24,7 +24,7 @@ gem 'rolify'
 # gem 'phony_rails', :git => 'git://github.com/joost/phony_rails.git'
 
 # View Objects
-# gem 'model_pretender', :git => 'git://github.com/TinkerDev/model_pretender.git'
+gem 'model_pretender', :git => 'git://github.com/TinkerDev/model_pretender.git'
 
 # Admin
 # gem 'activeadmin', github: 'activeadmin'

@@ -9,6 +9,7 @@ class Organization < ActiveRecord::Base
   has_many :milestones, :through => :projects
   has_many :tasks, :through => :milestones
   has_many :task_levels, dependent: :destroy
+  has_many :user_invoices
 
   validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
 

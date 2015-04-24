@@ -1,9 +1,9 @@
-= simple_form_for(user_invoice_request_form, url: new_organization_user_invoice_path(organization), html: { method: :get, class: 'form-vertical' }) do |f|
+= simple_form_for(form_object, url: new_organization_user_invoice_path(organization), html: { method: :get, class: 'form-vertical' }) do |f|
   = f.error_notification
   .row
     .col-sm-3
       .form-group
-        = f.input :user_id, as: :select, collection: users, label_method: :to_s
+        = f.input :user_id, as: :select, collection: members, label_method: :to_s
     .col-sm-3
       .form-group
         = f.input :date_from, as: :string, input_html: {role: 'datetimepicker'}

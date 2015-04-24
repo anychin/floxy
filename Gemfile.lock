@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/TinkerDev/model_pretender.git
+  revision: 50ba74cff3558f199b12bf82c596b6ef740cf82e
+  specs:
+    model_pretender (0.0.1)
+      activemodel
+      activerecord
+
+GIT
   remote: git://github.com/airbrake/airbrake.git
   revision: b192f3dcff54f135c3702b8b10ad7384844139e9
   specs:
@@ -189,7 +197,7 @@ GEM
     mina-puma (0.2.0)
       mina
     mini_portile (0.6.2)
-    minitest (5.5.1)
+    minitest (5.6.0)
     momentjs-rails (2.9.0)
       railties (>= 3.1)
     multi_json (1.10.1)
@@ -398,6 +406,7 @@ DEPENDENCIES
   mailcatcher
   mina
   mina-puma
+  model_pretender!
   momentjs-rails
   newrelic_rpm
   pg

@@ -18,7 +18,7 @@ class Task < ActiveRecord::Base
 
   scope :ordered_by_id, -> { order("id asc") }
   scope :without_milestone, ->{ where(milestone_id: nil) }
-  # scope :user_uninvoiced, -> {where(:user_invoice_id => nil)}
+  scope :user_uninvoiced, -> {where(:user_invoice_id => nil)}
   # scope :user_invoiced, -> {where('user_invoice_id is not null')}
 
   scope :by_team_user, ->(user) {
