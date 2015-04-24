@@ -1,6 +1,6 @@
 class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   def create?
-    record.organization.owner?(user) or record.team.manager?(user)
+    record.organization.owner?(user) or record.milestone.team.manager?(user)
   end
 
   def show?
