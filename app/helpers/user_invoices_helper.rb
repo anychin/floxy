@@ -1,5 +1,5 @@
 module UserInvoicesHelper
-  def user_invoice_field user_invoice, field, organization
+  def user_invoice_field user_invoice, field
     return unless user_invoice.send(field).present?
     html = case field
       when :paid_at, :created_at

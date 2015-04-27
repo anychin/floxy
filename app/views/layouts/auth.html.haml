@@ -4,7 +4,7 @@
     = render 'layouts/head'
   %body{:class => "#{controller_name} #{action_name}"}
     .application-container
-      = render 'layouts/auth_navigation'
+      = render 'layouts/navigation'
       = render 'layouts/messages'
       .auth-container
         .container
@@ -14,4 +14,3 @@
 
     %footer.footer
       .container
-        -#%small.muted= app_version

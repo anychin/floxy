@@ -6,19 +6,7 @@
         %span.icon-bar
         %span.icon-bar
       = link_to Settings.app.title, root_url, :class => 'navbar-brand'
-      - current_org = Organization.find(params[:organization_id])
-      - if current_user.present? && current_org.present?
-        .navbar-form.navbar-left
-          .btn-group
-            %button.app-nav__organization-btn{'data-toggle' => "dropdown", 'aria-expanded' => "false"}
-              = current_org.title
-              %span.caret
-            %ul.dropdown-menu{role: "menu"}
-              - orgs = current_user.all_organizations
-              - orgs.each do |org|
-                %li= link_to org.title, organization_tasks_path(org)
-
+    = render_navigation :context => :user_organizations, :expand_all => true, :renderer => :bootstrap
     .collapse.navbar-collapse
-      = render_navigation :expand_all => true, :renderer => :bootstrap
       = render_navigation :context => :user, :expand_all => true, :renderer => :bootstrap
       .clearfix

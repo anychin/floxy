@@ -1,0 +1,4 @@
+.container
+  h1= "#{t('activerecord.models.user_invoice')} для #{user_invoice.user}"
+  hr
+  = render :partial=>'form', locals:{user_invoice:user_invoice, tasks: tasks}

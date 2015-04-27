@@ -1,3 +1,2 @@
-- if tasks.present?
-  - tasks.sort_by{|t| t.created_at}.each do |task|
-    = render 'tasks/block', task: task, organization: organization
+- tasks.each do |task|
+  = render :partial=>'tasks/block', locals:{task: task}

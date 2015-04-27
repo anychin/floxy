@@ -6,36 +6,30 @@
 
 
 .panel.panel-default.task-block
-  /.panel-heading
-    /h3.panel-title
-      /= task.title
-      /| &nbsp;&nbsp;
-  /    small.text-muted= task.assignee
   .panel-body
     .row
       .col-md-4
-        - if current_user.can_update? task
+        / FIXME
+        - if MilestonePolicies::TaskPolicy.new(current_user, task, task.milestone).edit?
           .row
             .col-sm-10
-              = task_field task, :title, organization
+              = task_field task, :title
               br
-              = task_field task, :assignee, organization
+              = task_field task, :assignee
             .col-sm-2
-              = link_to edit_organization_task_path(organization, task), class: 'btn btn-sm btn-default' do
+              = link_to edit_organization_project_milestone_task_path(task.organization, task.project, task.milestone, task), class: 'btn btn-sm btn-default' do
                 i.fa.fa-pencil
         - else
-          = task_field task, :title, organization
+          = task_field task, :title
           br
-          = task_field task, :assignee, organization
+          = task_field task, :assignee
 
       .col-md-6
         .row
           - columns.each_with_index do |field, i|
             div(class="col-sm-#{12/columns_count}")
-              = task_field task, field, organization
+              = task_field task, field
         - additional_columns.each do |field|
-          small= task_field task, field, organization
+          small= task_field task, field
       .col-sm-4.col-md-2
-        = task_state_buttons task, organization, css_class: 'tasks-list__state-btn'
-
-
+        = task_state_buttons task, css_class: 'tasks-list__state-btn'

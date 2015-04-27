@@ -1,37 +1,35 @@
 module MilestonesHelper
-  def milestone_field milestone, field, organization
+  def milestone_field milestone, field
     case field
       when :tasks_count
-        return "#{milestone.tasks.count} задач"
-    end
-    return unless milestone.send(field).present?
-    case field
+        "#{milestone.tasks.count} задач"
       when :title
         link_to organization_milestone_path(organization, milestone) do
           "#{content_tag(:strong, milestone.title)}".html_safe
         end
       when :due_date
-        "#{l milestone.send(field), format: :human}" if milestone.send(field).present?
+        "#{(l milestone.due_date, format: :human) if milestone.due_date.present?}"
       when :estimated_expenses, :calculated_cost, :calculated_client_cost
         "#{price milestone.send(field)}"
       when :estimated_time
         "#{hours milestone.send(field)}"
-      #when :state
-      #  milestone.current_state
+      when :state
+        milestone.current_state
       else
         "#{milestone.send(field)}"
     end
   end
 
-  def milestone_state_buttons milestone, organization, args = {}
-    return unless current_user.can_update?(milestone)
+  def milestone_state_buttons milestone,  args = {}
+
+    return unless ProjectPolicies::MilestonePolicy.new(current_user, milestone, milestone.project).update?
     if milestone.current_state == "done"
       content_tag :small, t('helpers.milestone_state_buttons.accepted'), class: 'btn-milestone-state-accepted'
     else
       events = milestone.available_events
       html = ''
       events.each do |event|
-        html << link_to(t("helpers.milestone_state_buttons.#{event}"), send("organization_milestone_#{event}_path", organization, milestone), method: :post, class: "btn-milestone-state-#{event} #{args[:css_class]}")
+        html << link_to(t("helpers.milestone_state_buttons.#{event}"), send("#{event}_organization_project_milestone_path", milestone.organization, milestone.project, milestone), method: :post, class: "btn-milestone-state-#{event} #{args[:css_class]}")
       end
       html.html_safe
     end

@@ -1,0 +1,4 @@
+.container
+  ul.nav.nav-pills.nav-stacked
+    - members.each do |member|
+      li= link_to member, organization_member_path(organization, member)

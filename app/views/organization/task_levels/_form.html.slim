@@ -1,0 +1,23 @@
+= simple_form_for([task_level.organization, task_level], :html => { class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :title
+    .col-sm-2
+      .form-group
+        = f.input :rate_type, collection: TaskLevel.rate_types.map{|name, id| [I18n.t("activerecord.attributes.task_level.rate_types.#{name}"), name]}, :include_blank=>false
+    .col-sm-2
+      .form-group
+        = f.input :rate_value
+    .col-sm-2
+      .form-group
+        = f.input :client_rate_value
+
+
+    .col-sm-2
+      .form-group
+        label
+          | &nbsp;
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Сохранить

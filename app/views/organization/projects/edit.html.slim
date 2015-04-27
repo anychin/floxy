@@ -1,0 +1,7 @@
+.container
+  small.text-muted= "Проект ##{project.id}"
+  h1
+    | Редактирование проекта
+  hr
+  = render :partial=>'form', locals:{project: project}
+

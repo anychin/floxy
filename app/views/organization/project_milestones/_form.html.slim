@@ -1,0 +1,31 @@
+- available_projects_scope = OrganizationPolicies::ProjectPolicy::Scope.new(user, milestone.organization.projects, milestone.organization).resolve
+
+= simple_form_for([milestone.organization, milestone.project, milestone], :html => { class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :title
+    .col-sm-2
+      .form-group
+        = f.input :project_id, :collection => available_projects_scope.map{|p| [p.to_s, p.id]}, include_blank: false
+
+    .col-sm-2
+      .form-group
+        = f.input :due_date, as: :string, input_html: {role: 'datetimepicker', value: (f.object.due_date.present? ? localize(f.object.due_date, format: :input) : nil)}
+
+    .col-sm-2
+      .form-group
+        label &nbsp;
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Сохранить
+
+  - unless milestone.new_record?
+    .row
+      .col-sm-4
+        .form-group
+          = f.input :aim
+    .row
+      .col-sm-4
+        .form-group
+          = f.input :description

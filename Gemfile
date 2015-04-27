@@ -4,6 +4,7 @@ gem 'rails', '4.2.0'
 
 # Bd
 gem 'pg'
+gem 'squeel'
 # gem 'arel',      github: 'rails/arel'
 # gem 'counter_culture', '~> 0.1.23'
 # gem 'friendly_id', '~> 5.0.0'
@@ -15,7 +16,7 @@ gem 'statesman'
 gem 'devise', :git => 'https://github.com/plataformatec/devise.git', :branch => 'master'
 gem 'authority'
 gem 'rolify'
-# gem 'switch_user'
+gem 'switch_user'
 # gem "cancan"
 
 # Validations
@@ -23,7 +24,7 @@ gem 'rolify'
 # gem 'phony_rails', :git => 'git://github.com/joost/phony_rails.git'
 
 # View Objects
-# gem 'model_pretender', :git => 'git://github.com/TinkerDev/model_pretender.git'
+gem 'model_pretender', :git => 'git://github.com/TinkerDev/model_pretender.git'
 
 # Admin
 # gem 'activeadmin', github: 'activeadmin'
@@ -44,7 +45,7 @@ gem 'slim-rails'
 gem 'haml-rails'
 
 # View Helpers
-gem 'simple-navigation', :git => 'git://github.com/andi/simple-navigation.git'
+gem 'simple-navigation', '~> 3.12.2'
 gem 'simple-navigation-bootstrap'
 # gem 'authbuttons-rails'
 gem 'active_link_to'
@@ -93,7 +94,7 @@ gem 'sass-rails'
 # gem 'whenever', :require => false
 
 # Errors
-gem 'airbrake_user_attributes'
+# gem 'airbrake_user_attributes'
 gem 'airbrake', :github => 'airbrake/airbrake'
 
 # Api
@@ -134,6 +135,12 @@ gem 'hashie'
 # gem 'rubylight', :git=>'git://github.com/azfire/rubylight.git'
 
 gem 'puma'
+gem 'pundit', :git=>'git://github.com/elabs/pundit.git'
+
+group :development, :staging do
+  gem "better_errors"
+end
+
 
 group :development do
   # gem 'ruby-graphviz'
@@ -153,8 +160,6 @@ group :development do
   # gem 'meta_request' # rails_panel in chrome
 
   gem 'quiet_assets'
-
-  gem "better_errors"
 
   gem "mailcatcher", :require => false
   gem 'ruby-progressbar'

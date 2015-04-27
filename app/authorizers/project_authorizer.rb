@@ -1,5 +1,0 @@
-class ProjectAuthorizer < TeamResourceAuthorizer
-
-end
-
-

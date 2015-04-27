@@ -1,0 +1,5 @@
+- teams.each do |team|
+  .panel.panel-default.tasks-list__team
+    .panel-body
+      h4= link_to team, organization_team_path(team.organization, team)
+      p= team.members.join(', ') if team.members.any?

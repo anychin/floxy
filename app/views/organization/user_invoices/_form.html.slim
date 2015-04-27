@@ -1,0 +1,17 @@
+= simple_form_for([user_invoice.organization, user_invoice], :html => { class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-3
+      .form-group
+        = f.association :tasks, as: :check_boxes, collection: tasks, label_method: :user_invoice_summary, input_html: {checked: true},
+              wrapper: :check_boxes_multiple
+
+/    .col-sm-2
+/      .form-group
+/        label &nbsp;
+/        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+/          = "Создать #{t('activerecord.models.user_invoice')}"
+/.col-sm-3
+/  .form-group
+/    = f.association :tasks, as: :check_boxes, collection: tasks, label_method: :user_invoice_summary, input_html: {checked: true},
+/                    wrapper: :check_boxes_multiple

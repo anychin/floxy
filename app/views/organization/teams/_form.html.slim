@@ -1,0 +1,19 @@
+= simple_form_for([team.organization, team], :html => { class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-4
+      .form-group
+        = f.input :title
+    .col-sm-2
+      .form-group
+        = f.association :team_lead, as: :select, collection: team.organization.members.map{|el| [el.title, el.id]}, include_blank: false
+    .col-sm-2
+      .form-group
+        = f.association :account_manager, as: :select, collection: team.organization.members.map{|el| [el.title, el.id]}, include_blank: false
+    .col-sm-2
+      .form-group
+        label &nbsp;
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Сохраняем' } do
+          | Сохранить
+    .col-sm-6
+      = f.association :members, as: :check_boxes, collection: team.organization.members.map{|el| [el.title, el.id]}, wrapper: :check_boxes_multiple

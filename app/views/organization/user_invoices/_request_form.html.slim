@@ -1,0 +1,18 @@
+= simple_form_for(form_object, url: new_organization_user_invoice_path(organization), html: { method: :get, class: 'form-vertical' }) do |f|
+  = f.error_notification
+  .row
+    .col-sm-3
+      .form-group
+        = f.input :user_id, as: :select, collection: members, label_method: :to_s
+    .col-sm-3
+      .form-group
+        = f.input :date_from, as: :string, input_html: {role: 'datetimepicker'}
+    .col-sm-3
+      .form-group
+        = f.input :date_to, as: :string, input_html: {role: 'datetimepicker'}
+
+    .col-sm-2
+      .form-group
+        label &nbsp;
+        = button_tag type: 'submit', class: 'btn btn-block btn-primary', :data => { 'disable-with' => 'Ищем' } do
+          | Найти задачи

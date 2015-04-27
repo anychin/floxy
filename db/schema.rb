@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150402124501) do
+ActiveRecord::Schema.define(version: 20150424132321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,16 +31,6 @@ ActiveRecord::Schema.define(version: 20150402124501) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
-  create_table "memberships", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "memberships", ["organization_id"], name: "index_memberships_on_organization_id", using: :btree
-  add_index "memberships", ["user_id"], name: "index_memberships_on_user_id", using: :btree
-
   create_table "milestone_transitions", force: :cascade do |t|
     t.string   "to_state",                    null: false
     t.text     "metadata",     default: "{}"
@@ -54,19 +44,32 @@ ActiveRecord::Schema.define(version: 20150402124501) do
   add_index "milestone_transitions", ["sort_key", "milestone_id"], name: "index_milestone_transitions_on_sort_key_and_milestone_id", unique: true, using: :btree
 
   create_table "milestones", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",       null: false
     t.string   "description"
-    t.integer  "project_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "organization_id"
+    t.integer  "project_id",  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.datetime "due_date"
     t.string   "aim"
   end
 
+  add_index "milestones", ["project_id"], name: "index_milestones_on_project_id", using: :btree
+
+  create_table "organization_memberships", force: :cascade do |t|
+    t.integer  "user_id",                     null: false
+    t.integer  "organization_id",             null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "role_id",         default: 0, null: false
+  end
+
+  add_index "organization_memberships", ["organization_id", "user_id"], name: "index_organization_memberships_on_organization_id_and_user_id", unique: true, using: :btree
+  add_index "organization_memberships", ["organization_id"], name: "index_organization_memberships_on_organization_id", using: :btree
+  add_index "organization_memberships", ["user_id"], name: "index_organization_memberships_on_user_id", using: :btree
+
   create_table "organizations", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "owner_id"
+    t.string   "title",      null: false
+    t.integer  "owner_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "full_title"
@@ -76,10 +79,13 @@ ActiveRecord::Schema.define(version: 20150402124501) do
     t.text     "description"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.string   "title"
-    t.integer  "organization_id"
-    t.integer  "team_id"
+    t.string   "title",           null: false
+    t.integer  "organization_id", null: false
+    t.integer  "team_id",         null: false
   end
+
+  add_index "projects", ["organization_id"], name: "index_projects_on_organization_id", using: :btree
+  add_index "projects", ["team_id"], name: "index_projects_on_team_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -93,14 +99,16 @@ ActiveRecord::Schema.define(version: 20150402124501) do
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "task_levels", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "rate_type",         default: 0
-    t.decimal  "rate_value"
+    t.string   "title",                         null: false
+    t.integer  "rate_type",         default: 0, null: false
+    t.decimal  "rate_value",                    null: false
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
-    t.integer  "organization_id"
-    t.decimal  "client_rate_value"
+    t.integer  "organization_id",               null: false
+    t.decimal  "client_rate_value",             null: false
   end
+
+  add_index "task_levels", ["organization_id"], name: "index_task_levels_on_organization_id", using: :btree
 
   create_table "task_transitions", force: :cascade do |t|
     t.string   "to_state",                  null: false
@@ -121,7 +129,7 @@ ActiveRecord::Schema.define(version: 20150402124501) do
     t.integer  "status"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "owner_id"
+    t.integer  "owner_id",                            null: false
     t.integer  "assignee_id"
     t.integer  "task_level_id"
     t.string   "aim"
@@ -130,7 +138,6 @@ ActiveRecord::Schema.define(version: 20150402124501) do
     t.decimal  "elapsed_expenses",      default: 0.0
     t.string   "task_type"
     t.integer  "milestone_id"
-    t.integer  "organization_id"
     t.text     "description"
     t.datetime "accepted_at"
     t.decimal  "estimated_cost"
@@ -145,26 +152,27 @@ ActiveRecord::Schema.define(version: 20150402124501) do
   add_index "tasks", ["user_invoice_id"], name: "index_tasks_on_user_invoice_id", using: :btree
 
   create_table "team_memberships", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "team_id"
+    t.integer  "user_id",    null: false
+    t.integer  "team_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id", using: :btree
+  add_index "team_memberships", ["user_id", "team_id"], name: "index_team_memberships_on_user_id_and_team_id", unique: true, using: :btree
   add_index "team_memberships", ["user_id"], name: "index_team_memberships_on_user_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
-    t.string   "title"
-    t.integer  "owner_id"
+    t.string   "title",              null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-    t.integer  "organization_id"
-    t.integer  "team_lead_id"
-    t.integer  "account_manager_id"
+    t.integer  "organization_id",    null: false
+    t.integer  "team_lead_id",       null: false
+    t.integer  "account_manager_id", null: false
   end
 
   add_index "teams", ["account_manager_id"], name: "index_teams_on_account_manager_id", using: :btree
+  add_index "teams", ["organization_id"], name: "index_teams_on_organization_id", using: :btree
   add_index "teams", ["team_lead_id"], name: "index_teams_on_team_lead_id", using: :btree
 
   create_table "user_invoices", force: :cascade do |t|
@@ -180,12 +188,12 @@ ActiveRecord::Schema.define(version: 20150402124501) do
   add_index "user_invoices", ["user_id"], name: "index_user_invoices_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -193,6 +201,7 @@ ActiveRecord::Schema.define(version: 20150402124501) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.boolean  "superadmin",             default: false, null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -205,8 +214,4 @@ ActiveRecord::Schema.define(version: 20150402124501) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
-  add_foreign_key "memberships", "organizations"
-  add_foreign_key "memberships", "users"
-  add_foreign_key "team_memberships", "teams"
-  add_foreign_key "team_memberships", "users"
 end

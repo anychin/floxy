@@ -1,7 +1,12 @@
 .container
-  h2
-    .pull-left= "Все #{t('activerecord.models.organization', count: 10)}"
-    .pull-right= link_to "Создать #{t('activerecord.models.organization', count: 1)}", new_organization_path, class: 'btn btn-default' if current_user.can_create?(Organization)
-    .clearfix
+  .row
+    .col-md-6.col-md-offset-3
+      h2
+        .pull-left= "Выберите #{t('activerecord.models.organization', count: 1)}"
+        .pull-right= link_to "Создать #{t('activerecord.models.organization', count: 1)}", new_organization_path, class: 'btn btn-default' if policy(Organization).create?
+        .clearfix
 
-  = render 'organizations/list', organizations: @organizations
+      br
+      br
+
+  = render :partial =>'list', :locals => {organizations: organizations }

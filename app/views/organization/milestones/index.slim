@@ -1,0 +1,8 @@
+- if milestones.any?
+  .tasks-list__container
+    .container
+      - {"Текущие" => actual_milestones, "Выполненные" => done_milestones}.each_pair do |title, milestones|
+        h2.tasks-list__milestone-title= "#{title} #{t('activerecord.models.milestone', count: 10)}"
+        = render :partial=>'milestones/list', locals:{organization: organization, milestones: milestones}
+- else
+  | Пока ничего нет

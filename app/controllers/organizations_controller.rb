@@ -1,97 +1,71 @@
 class OrganizationsController < ApplicationController
-  include OrganizationHelper
   before_action :authenticate_user!
-  before_filter :load_organization
-
-  layout 'organization'
 
   def index
-    # TODO refactor this
-    if current_user.has_role? :admin
-      @organizations = Organization.all
-    else
-      @organizations = (current_user.owned_organizations.uniq.concat(current_user.joined_organizations.uniq)).uniq
-    end
-    #@new_organization = Organization.new
+    organizations = policy_scope(Organization)
+    # if organizations.many?
+      render :locals=>{:organizations=>organizations}
+    # else
+    #   redirect_to generic_organization_path(organizations.first)
+    # end
   end
 
   def show
-    authorize_action_for @organization
-    not_found unless @organization.present?
-  rescue Authority::SecurityViolation
-    forbidden_redirect
+    authorize current_organization
+    render :locals=>{:organization=>current_organization}
   end
 
   def edit
-    authorize_action_for @organization
-    not_found unless @organization.present?
-  rescue Authority::SecurityViolation
-    forbidden_redirect
+    authorize current_organization
+    render :locals=>{:organization=>current_organization}
   end
 
   def new
-    @organization = Organization.new
-    authorize_action_for @organization
-  rescue Authority::SecurityViolation
-    forbidden_redirect
+    new_organization = Organization.new
+    authorize new_organization
+    render locals: {organization: new_organization}
   end
 
   def create
-    @organization = Organization.new(permitted_params)
-    authorize_action_for @organization
-    if @organization.save
-      update_organization_roles @organization
+    organization = Organization.new(organization_params)
+    organization.owner = current_user
+    authorize organization
+    if organization.save
+      organization.members << current_user unless organization.members.include?(current_user)
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} добавлен"
+      redirect_to organizations_path
     else
-      flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.organization', count: 1)} не добавлен"
+      render :new, locals: {organization: organization}
     end
-    redirect_to organizations_path
-  rescue Authority::SecurityViolation
-    forbidden_redirect
   end
 
   def update
-    authorize_action_for @organization
-    if @organization.update_attributes(permitted_params)
-      update_organization_roles @organization
+    authorize current_organization
+    if current_organization.update_attributes(organization_params)
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} обновлен"
+      redirect_to organization_path(current_organization)
     else
-      flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.organization', count: 1)} не обновлен"
+      render :edit, locals: {organization: current_organization}
     end
-    redirect_to organization_path(@organization)
-  rescue Authority::SecurityViolation
-    forbidden_redirect
   end
 
   def destroy
-    authorize_action_for @organization
-    if @organization.destroy
+    authorize current_organization
+    if current_organization.destroy
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} удален"
     else
       flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.organization', count: 1)} не удален"
     end
     redirect_to organizations_path
-  rescue Authority::SecurityViolation
-    forbidden_redirect
   end
 
   private
 
-  def permitted_params
-    params.require(:organization).permit!
+  def current_organization
+    @current_organization ||= Organization.find(params[:id])
   end
 
-  def update_organization_roles organization
-    # TODO refactor this
-    organization.roles.destroy_all
-    organization.owner.add_role :owner, organization
-    organization.members.each do |member|
-      member.add_role :member, organization
-    end
+  def organization_params
+    params.require(:organization).permit(policy(Organization).permitted_attributes)
   end
-
-  def load_organization
-    @organization = Organization.find(params[:id])
-  end
-
 end

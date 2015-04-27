@@ -1,0 +1,10 @@
+= render :partial=> 'my_nav', locals: {organization: organization}
+.container
+  - if tasks.present?
+    .panel.panel-default.tasks-list__milestone
+      .panel-body
+        h3.tasks-list__milestone-title
+          | Распределите эти задачи по этапам
+        = render :partial=>'tasks/block_list', tasks: tasks
+  - else
+    = render :partial=>'tasks/empty'

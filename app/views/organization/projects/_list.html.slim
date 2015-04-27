@@ -1,0 +1,37 @@
+- if projects.any?
+  table.table.table-striped
+    thead
+      th style="widht: 40px"
+        | id
+      th
+        = t("activerecord.attributes.project.title")
+      th
+        = t("activerecord.attributes.project.team")
+      th
+        = t("activerecord.attributes.team.team_lead")
+      th
+        = t("activerecord.attributes.team.account_manager")
+      th
+        = t("activerecord.attributes.project.description")
+
+
+    tbody
+      - projects.each do |p|
+        tr
+          td
+            = p.id
+          td
+            = link_to p.title, organization_project_path(p.organization, p)
+          td
+            = p.team
+            | &nbsp;&mdash;&nbsp;
+            = p.team.members.join(', ')
+          td
+            = p.team.team_lead
+          td
+            = p.team.account_manager
+          td
+            = p.description
+
+- else
+  | Проектов пока нет

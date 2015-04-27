@@ -1,0 +1,4 @@
+.container
+  h2= "Добавить #{t('activerecord.models.task', count: 1)}"
+  br
+  = render :partial=>'form', locals:{ task: task }

@@ -1,0 +1,9 @@
+- if policy(new_project).new?
+  .container
+    = link_to "добавить проект", new_organization_project_path(organization)
+
+.container
+  h2
+    | Все проекты
+  = render :partial=>'list', locals:{projects: projects}
+

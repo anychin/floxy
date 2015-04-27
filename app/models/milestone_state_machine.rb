@@ -55,6 +55,4 @@ class MilestoneStateMachine
       task.trigger!(:approve)
     end
   end
-
-
 end

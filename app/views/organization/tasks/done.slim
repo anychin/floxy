@@ -1,0 +1,15 @@
+= render :partial=> 'my_nav', locals: {organization: organization}
+.container
+  - if tasks.present?
+    - tasks.each do |(month, tasks)|
+      - if month.present?
+        h5
+          = l month, format: :month
+          | &nbsp;
+          | &nbsp;
+          span.text-muted
+            = hours tasks.map{|t| t.estimated_time }.inject(:+)
+      = render 'tasks/block_list', tasks: tasks
+      hr
+  - else
+    = render 'tasks/empty'

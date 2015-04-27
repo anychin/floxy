@@ -1,28 +1,45 @@
 - columns = [:id, :title, :owner, :members]
+- if organizations.any?
+  /table.table.table-striped
+  /  thead
+  /    - columns.each_with_index do |col, i|
+  /      th(style="#{'width: 40px;' if i == 0}")
+  /        = col
+  /    th
+  /
+  /  tbody
+  /    - organizations.each do |org|
+  /      tr
+  /        td
+  /          = org.id
+  /        td
+  /          = link_to org.title, organization_path(org)
+  /        td
+  /          = org.owner
+  /        td
+  /          = org.members.join(', ')
+  /        td.text-right
+  /          = link_to 'edit', edit_organization_path(org), class: 'btn btn-link'
+  /          = link_to 'delete', organization_path(org), method: :delete, confirm: "Удалить #{org}?", class: 'btn btn-link'
+  - organizations.each do |org|
+    - if policy(org).update?
+      .row
+        .col-xs-10
+          = link_to organization_tasks_path(org), class: 'btn btn-default btn-lg btn-block' do
+            .text-left
+              = org
+              - if org.owner == current_user
+                | &nbsp;
+                | &nbsp;
+                small.text-muted= "Вы владелец"
+        .col-xs-2
+          = link_to edit_organization_path(org), class: 'btn btn-link' do
+            = t(:edit)
+    - else
+      = link_to organization_tasks_path(org), class: 'btn btn-default btn-lg btn-block' do
+        .text-left= org
 
-- if organizations.present?
-  table.table.table-striped
-    thead
-      - columns.each_with_index do |col, i|
-        th(style="#{'width: 40px;' if i == 0}")
-          = col
-      th
-
-    tbody
-      - organizations.each do |org|
-        tr
-          td
-            = org.id
-          td
-            = link_to org.title, organization_path(org)
-          td
-            = org.owner
-          td
-            = org.members.join(', ')
-          td.text-right
-            = link_to 'edit', edit_organization_path(org), class: 'btn btn-link'
-            = link_to 'delete', organization_path(org), method: :delete, confirm: "Удалить #{org}?", class: 'btn btn-link'
-
+    br
 
 - else
   | Пока ничего нет
