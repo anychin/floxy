@@ -23,15 +23,14 @@ class OrganizationsController < ApplicationController
   def new
     new_organization = Organization.new
     authorize new_organization
+    new_organization.organization_memberships.new(user: current_user, role: :owner)
     render locals: {organization: new_organization}
   end
 
   def create
     organization = Organization.new(organization_params)
-    organization.owner = current_user
     authorize organization
     if organization.save
-      organization.members << current_user unless organization.members.include?(current_user)
       flash[:notice] = "#{t('activerecord.models.organization', count: 1)} добавлен"
       redirect_to organizations_path
     else

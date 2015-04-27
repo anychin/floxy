@@ -1,7 +1,7 @@
 class Organization < ActiveRecord::Base
   validates :title, presence: true
 
-  has_many :organization_memberships, dependent: :destroy
+  has_many :organization_memberships, dependent: :destroy, inverse_of: :organization
   has_many :members, :through => :organization_memberships, :source => :user
   has_many :teams, dependent: :destroy
   has_many :projects, dependent: :destroy
@@ -10,7 +10,7 @@ class Organization < ActiveRecord::Base
   has_many :task_levels, dependent: :destroy
   has_many :user_invoices
 
-  validates :title, presence: true, :uniqueness => { :scope => :owner_id }, length: {within:3..50}
+  validates :title, presence: true, length: {within:3..50}
   validate :role_consistency
 
   accepts_nested_attributes_for :organization_memberships, :reject_if => :all_blank, :allow_destroy => true
