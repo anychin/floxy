@@ -4,7 +4,7 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
 
   def show?
-    record.organization.owner?(user) or record.team.manager?(user) or record.team.members.include?(user)
+    record.organization.owner_or_booker?(user) or record.team.manager?(user) or record.team.members.include?(user)
   end
   
   def update?
@@ -18,7 +18,6 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   def negotiate?
     record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user.id)
   end
-
 
   def approve?
     record.organization.owner?(user) or record.team.account_manager?(user)

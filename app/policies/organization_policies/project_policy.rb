@@ -4,7 +4,7 @@ class OrganizationPolicies::ProjectPolicy < OrganizationPolicies::BasePolicy
   end
 
   def show?
-    organization.owner?(user) or record.team.manager?(user) or record.team.members.include?(user)
+    organization.owner_or_booker?(user) or record.team.manager?(user) or record.team.members.include?(user)
   end
 
   def update?
@@ -21,7 +21,7 @@ class OrganizationPolicies::ProjectPolicy < OrganizationPolicies::BasePolicy
 
   class Scope < Scope
     def resolve
-      if organization.owner == user
+      if organization.owner_or_booker?(user)
         scope
       else
         scope.by_team_user(user)

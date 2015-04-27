@@ -4,7 +4,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def show?
-    record.owner?(user) or record.members.include?(user)
+    record.members.include?(user)
   end
 
   def update?
@@ -16,12 +16,12 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:title, :full_title, {:member_ids=>[]}]
+    [:title, :full_title, {:organization_memberships_attributes=>[:id, :user_id, :role, :_destroy]}]
   end
 
   class Scope < Scope
     def resolve
-      scope.by_organization_user(user)
+      scope.by_organization_member(user)
     end
   end
 end

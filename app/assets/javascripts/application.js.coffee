@@ -6,6 +6,7 @@
 #= require bootstrap-datetimepicker
 #= require moment/ru
 #= require metrika
+#= require cocoon
 
 $ ->
   $('@datetimepicker').datetimepicker

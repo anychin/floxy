@@ -30,6 +30,7 @@ ru:
       organization:
         title: Короткое название
         full_title: Полное название
+        organization_memberships: Участники
       milestone:
         title: Название
         project: Проект
@@ -120,3 +121,10 @@ ru:
         created_at: Дата создания
         paid_at: Дата оплаты
         tasks: Задачи
+      organization_membership:
+        user_id: Пользователь
+        role: Роль
+        roles:
+          member: Участник
+          owner: Владелец
+          booker: Бухгалтер

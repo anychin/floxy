@@ -1,6 +1,6 @@
 class OrganizationPolicies::MemberPolicy < OrganizationPolicies::BasePolicy
   def show?
-    organization.owner?(user) or organization.members.include?(user)
+    organization.members.include?(user)
   end
 
   def update?

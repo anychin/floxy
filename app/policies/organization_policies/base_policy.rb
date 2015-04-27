@@ -8,7 +8,7 @@ class OrganizationPolicies::BasePolicy < ApplicationPolicy
   end
 
   def index?
-    organization.owner?(user) or organization.members.include?(user)
+    organization.members.include?(user)
   end
 
   class Scope < Scope
@@ -19,7 +19,7 @@ class OrganizationPolicies::BasePolicy < ApplicationPolicy
       @scope = scope
       @organization = organization
 
-      raise Pundit::NotAuthorizedError unless (@organization.owner == @user or @organization.members.include?(@user))
+      raise Pundit::NotAuthorizedError unless (@organization.members.include?(@user))
     end
   end
 end

@@ -4,7 +4,7 @@ class OrganizationsController < ApplicationController
   def index
     organizations = policy_scope(Organization)
     # if organizations.many?
-      render :locals=>{:organizations=>organizations}
+      render :locals=>{:organizations=>organizations, user: current_user}
     # else
     #   redirect_to generic_organization_path(organizations.first)
     # end

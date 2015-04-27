@@ -15,7 +15,7 @@ class ProjectPolicies::BasePolicy < ApplicationPolicy
       @scope = scope
       @project = project
 
-      raise Pundit::NotAuthorizedError unless (@project.organization.owner == @user or @project.team.manager?(@user) or @project.team.members.include?(@user))
+      raise Pundit::NotAuthorizedError unless (@project.organization.owner_or_booker?(@user) or @project.team.manager?(@user) or @project.team.members.include?(@user))
     end
   end
 end
