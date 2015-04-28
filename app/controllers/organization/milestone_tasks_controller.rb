@@ -47,7 +47,7 @@ class Organization::MilestoneTasksController < Organization::BaseController
     else
       flash[:alert] = 'Ошибочка вышла, задача не удалена'
     end
-    redirect_to :back
+    redirect_to (get_session_return_to || organization_project_milestone_path(current_organization, current_project, current_milestone))
   end
 
   def negotiate
