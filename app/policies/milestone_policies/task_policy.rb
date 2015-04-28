@@ -16,7 +16,7 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
 
   def negotiate?
-    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user.id)
+    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user)
   end
 
   def approve?
@@ -24,19 +24,19 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
 
   def hold?
-    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user.id)
+    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user)
   end
 
   def start?
-    record.organization.owner?(user) or record.team.manager?(user) or record.assigned?(user.id)
+    record.organization.owner?(user) or record.team.manager?(user) or record.assigned?(user)
   end
 
   def finish?
-    record.organization.owner?(user) or record.team.manager?(user) or record.assigned?(user.id)
+    record.organization.owner?(user) or record.team.manager?(user) or record.assigned?(user)
   end
 
   def defer?
-    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user.id)
+    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user)
   end
 
   def accept?
@@ -44,7 +44,7 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
 
   def reject?
-    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user.id)
+    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user)
   end
 
   def permitted_attributes
