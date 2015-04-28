@@ -66,7 +66,7 @@ class Organization::ProjectMilestonesController < Organization::BaseController
     try_trigger_for current_milestone, :start
     redirect_to state_back_url
   rescue Statesman::GuardFailedError
-    flash[:alert] = "Для старта этапа должен быть назначен исполнитель"
+    flash[:alert] = "Для запуска в производство этап должен иметь цель и задачи; все его задачи должны иметь планируемое время, уровень и цель"
     milestones_state_guard_redirect
   end
 

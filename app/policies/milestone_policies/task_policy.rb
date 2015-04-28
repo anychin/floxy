@@ -1,6 +1,6 @@
 class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   def create?
-    record.organization.owner?(user) or record.milestone.team.manager?(user)
+    (record.organization.owner?(user) or record.milestone.team.manager?(user)) and MilestoneStateMachine::NOT_EDITABLE_STATES.exclude?(record.milestone.current_state.to_sym)
   end
 
   def show?
