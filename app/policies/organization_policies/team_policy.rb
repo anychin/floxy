@@ -8,7 +8,7 @@ class OrganizationPolicies::TeamPolicy < OrganizationPolicies::BasePolicy
   end
 
   def update?
-    organization.owner?(user)
+    organization.owner?(user) or record.manager?(user)
   end
 
   def destroy?
