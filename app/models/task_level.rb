@@ -3,15 +3,14 @@ class TaskLevel < ActiveRecord::Base
   belongs_to :organization
   has_many :tasks
 
-  validates :title, :rate_value, :client_rate_value, :organization, :rate_type, presence: true
+  validates :title, :organization, :rate_type, presence: true
+
+  monetize :rate_value_cents, :with_currency=>:rub, :allow_nil => false, :numericality => { :greater_than => 0 }
+  monetize :client_rate_value_cents, :with_currency=>:rub, :allow_nil => false, :numericality => { :greater_than => 0 }
 
   scope :ordered_by_id, ->() { order(:id) }
 
   def to_s
-    if rate_value.present?
-      "#{title} (#{rate_value})"
-    else
-      title
-    end
+    "#{title} (#{rate_value})"
   end
 end

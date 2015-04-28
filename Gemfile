@@ -106,7 +106,7 @@ gem 'airbrake', :github => 'airbrake/airbrake'
 
 # Money
 # gem 'money', :git=>'git://github.com/tinkerdev/money.git'
-# gem 'money-rails', :git=>'git://github.com/tinkerdev/money-rails.git'
+gem 'money-rails'
 # gem 'russian_central_bank'
 
 # Seo
