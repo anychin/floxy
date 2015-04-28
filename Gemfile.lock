@@ -361,7 +361,7 @@ GEM
       activerecord (>= 3.0)
       activesupport (>= 3.0)
       polyamorous (~> 1.1.0)
-    statesman (1.1.0)
+    statesman (1.2.3)
     switch_user (0.9.5)
     temple (0.7.5)
     therubyracer (0.12.1)
