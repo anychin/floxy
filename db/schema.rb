@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150427133106) do
+ActiveRecord::Schema.define(version: 20150428140935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,13 +99,13 @@ ActiveRecord::Schema.define(version: 20150427133106) do
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "task_levels", force: :cascade do |t|
-    t.string   "title",                         null: false
-    t.integer  "rate_type",         default: 0, null: false
-    t.decimal  "rate_value",                    null: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.integer  "organization_id",               null: false
-    t.decimal  "client_rate_value",             null: false
+    t.string   "title",                               null: false
+    t.integer  "rate_type",               default: 0, null: false
+    t.integer  "rate_value_cents",                    null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "organization_id",                     null: false
+    t.integer  "client_rate_value_cents",             null: false
   end
 
   add_index "task_levels", ["organization_id"], name: "index_task_levels_on_organization_id", using: :btree
@@ -126,7 +126,6 @@ ActiveRecord::Schema.define(version: 20150427133106) do
     t.string   "title"
     t.decimal  "estimated_time",        default: 0.0
     t.decimal  "elapsed_time",          default: 0.0
-    t.integer  "status"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "owner_id",                            null: false
@@ -148,7 +147,6 @@ ActiveRecord::Schema.define(version: 20150427133106) do
   end
 
   add_index "tasks", ["accepted_at"], name: "index_tasks_on_accepted_at", using: :btree
-  add_index "tasks", ["status"], name: "index_tasks_on_status", using: :btree
   add_index "tasks", ["user_invoice_id"], name: "index_tasks_on_user_invoice_id", using: :btree
 
   create_table "team_memberships", force: :cascade do |t|
@@ -177,10 +175,10 @@ ActiveRecord::Schema.define(version: 20150427133106) do
 
   create_table "user_invoices", force: :cascade do |t|
     t.datetime "paid_at"
-    t.integer  "user_id"
+    t.integer  "user_id",         null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.integer  "organization_id"
+    t.integer  "organization_id", null: false
   end
 
   add_index "user_invoices", ["organization_id"], name: "index_user_invoices_on_organization_id", using: :btree
