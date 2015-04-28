@@ -14,7 +14,7 @@ table.print__table
           = milestone_field milestone, v
         - else
           - if [:account_manager, :team_lead].include?(v)
-            = milestone.team.account_manager
+            = milestone.team.send(v)
           - else
             = milestone.send(v)
 
