@@ -1,9 +1,6 @@
 class Task < ActiveRecord::Base
   include Statesman::Adapters::ActiveRecordQueries
 
-  validates :milestone, :owner, :title, presence: true
-  validates :estimated_time, numericality: { less_than_or_equal_to: 8 }
-
   belongs_to :milestone
   has_one :project, :through => :milestone
   has_one :organization, :through => :milestone
@@ -27,6 +24,9 @@ class Task < ActiveRecord::Base
 
   scope :ordered_by_created_at, ->{order(:created_at)}
   scope :by_assigned_user, ->(user) {where(assignee_id: user.id)}
+
+  validates :milestone, :owner, :title, presence: true
+  validates :estimated_time, numericality: { less_than_or_equal_to: 8 }
 
   def state_machine
      @state_machine ||= TaskStateMachine.new(self, transition_class: TaskTransition)
@@ -53,26 +53,26 @@ class Task < ActiveRecord::Base
   # подсчитанная внутренняя стоимость работ по задаче в любой момент времени
   def calculated_cost
     return unless self.hourly?
-    self.estimated_time.to_s.to_d * self.task_level.rate_value.to_s.to_d
+    self.estimated_time.to_s.to_d * self.task_level.rate_value.to_d
   end
 
   # подсчитанная внешняя (для клиента) стоимость работ по задаче в любой момент времени
   def calculated_client_cost
     return if !self.hourly? || self.client_rate_value.nil?
-    self.estimated_time.to_s.to_d * self.task_level.client_rate_value.to_s.to_d
+    self.estimated_time.to_s.to_d * self.task_level.client_rate_value.to_d
   end
 
   # сохраняем ставку в задачу
   def save_rate_cost
     return unless self.task_level.present?
-    self.rate_cost = self.task_level.rate_value
+    self.rate_cost = self.task_level.rate_value.to_d
     save
   end
 
   # сохраняем внешнюю ставку в задачу
   def save_client_rate_cost
     return unless self.task_level.present?
-    self.client_rate_cost = self.task_level.client_rate_value
+    self.client_rate_cost = self.task_level.client_rate_value.to_d
     save
   end
 
@@ -108,10 +108,9 @@ class Task < ActiveRecord::Base
 
   def rate
     if self.hourly?
-      self.task_level.rate_value
+      self.task_level.rate_value.to_d
     end
   end
-
 
   def user_invoice_summary
     "#{title} / #{estimated_time} / #{estimated_cost}"
