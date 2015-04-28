@@ -7,6 +7,8 @@ class MilestoneStateMachine
   state :resolved
   state :done
 
+  NOT_EDITABLE_STATES = [:current, :resolved, :done]
+
   event :negotiate do
     transition from: :idea, to: :approval
   end
@@ -43,14 +45,16 @@ class MilestoneStateMachine
     milestone.not_accepted_tasks.count == 0
   end
 
-  after_transition(to: :approval) do |milestone|
+  after_transition(from: :idea, to: :approval) do |milestone|
     milestone.not_negotiated_tasks.each do |task|
       task.trigger!(:negotiate)
-      task.trigger!(:approve)
     end
   end
 
   after_transition(to: :current) do |milestone|
+    milestone.tasks.in_state(:idea).each do |task|
+      task.trigger!(:negotiate)
+    end
     milestone.not_approved_tasks.each do |task|
       task.trigger!(:approve)
     end

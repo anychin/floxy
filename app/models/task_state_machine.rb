@@ -55,7 +55,7 @@ class TaskStateMachine
     assignee_ready && milestone_ready
   end
 
-  after_transition(from: :approval, to: :todo) do |task|
+  after_transition(to: :approval) do |task|
     # TODO refactor this in Task model
     task.save_rate_cost
     task.save_client_rate_cost
