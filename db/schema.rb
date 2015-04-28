@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150428140935) do
+ActiveRecord::Schema.define(version: 20150428144303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20150428140935) do
     t.integer  "milestone_id",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "most_recent"
   end
 
   add_index "milestone_transitions", ["milestone_id"], name: "index_milestone_transitions_on_milestone_id", using: :btree
@@ -111,12 +112,13 @@ ActiveRecord::Schema.define(version: 20150428140935) do
   add_index "task_levels", ["organization_id"], name: "index_task_levels_on_organization_id", using: :btree
 
   create_table "task_transitions", force: :cascade do |t|
-    t.string   "to_state",                  null: false
-    t.text     "metadata",   default: "{}"
-    t.integer  "sort_key",                  null: false
-    t.integer  "task_id",                   null: false
+    t.string   "to_state",                   null: false
+    t.text     "metadata",    default: "{}"
+    t.integer  "sort_key",                   null: false
+    t.integer  "task_id",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "most_recent"
   end
 
   add_index "task_transitions", ["sort_key", "task_id"], name: "index_task_transitions_on_sort_key_and_task_id", unique: true, using: :btree
