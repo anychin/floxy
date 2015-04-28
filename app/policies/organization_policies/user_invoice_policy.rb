@@ -1,10 +1,10 @@
 class OrganizationPolicies::UserInvoicePolicy < OrganizationPolicies::BasePolicy
   def index?
-    organization.owner?(user) or organization.members.include?(user)
+    organization.members.include?(user)
   end
 
   def new?
-    organization.owner?(user) or organization.members.include?(user)
+    organization.members.include?(user)
   end
 
   # def show?

@@ -1,5 +1,5 @@
 class OrganizationPolicies::SettingsPolicy < OrganizationPolicies::BasePolicy
   def show?
-    index?
+    record.owner?(user)
   end
 end

@@ -1,6 +1,6 @@
 class OrganizationPolicies::TaskLevelsPolicy < OrganizationPolicies::BasePolicy
   def index?
-    record.owner?(user) #organization
+    record.owner_or_booker?(user) #organization
   end
 
   def create?
@@ -20,7 +20,7 @@ class OrganizationPolicies::TaskLevelsPolicy < OrganizationPolicies::BasePolicy
 
   class Scope < Scope
     def resolve
-      if organization.owner == user
+      if organization.owner_or_booker?(user)
         scope
       else
         scope.none

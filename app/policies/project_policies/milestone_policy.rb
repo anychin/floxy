@@ -4,7 +4,7 @@ class ProjectPolicies::MilestonePolicy < ProjectPolicies::BasePolicy
   end
 
   def show?
-    project.organization.owner?(user) or project.team.manager?(user) or project.team.members.include?(user)
+    project.organization.owner_or_booker?(user) or project.team.manager?(user) or project.team.members.include?(user)
   end
 
   def update?
@@ -16,7 +16,7 @@ class ProjectPolicies::MilestonePolicy < ProjectPolicies::BasePolicy
   end
 
   def print?
-    project.organization.owner?(user) or project.team.account_manager?(user)
+    project.organization.owner_or_booker?(user) or project.team.account_manager?(user)
   end
 
   def
@@ -35,7 +35,7 @@ class ProjectPolicies::MilestonePolicy < ProjectPolicies::BasePolicy
 
   class Scope < Scope
     def resolve
-      if project.organization.owner == user
+      if project.organization.owner_or_booker?(user)
         scope.uniq
       else
         scope.by_team_user(user).uniq

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424132321) do
+ActiveRecord::Schema.define(version: 20150427133106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,16 +60,16 @@ ActiveRecord::Schema.define(version: 20150424132321) do
     t.integer  "organization_id",             null: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.integer  "role_id",         default: 0, null: false
+    t.integer  "role",            default: 0, null: false
   end
 
+  add_index "organization_memberships", ["organization_id", "role", "user_id"], name: "org_membs_org_role_user_key", using: :btree
   add_index "organization_memberships", ["organization_id", "user_id"], name: "index_organization_memberships_on_organization_id_and_user_id", unique: true, using: :btree
   add_index "organization_memberships", ["organization_id"], name: "index_organization_memberships_on_organization_id", using: :btree
   add_index "organization_memberships", ["user_id"], name: "index_organization_memberships_on_user_id", using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.string   "title",      null: false
-    t.integer  "owner_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "full_title"

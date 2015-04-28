@@ -7,8 +7,10 @@
       = link_to 'Изменить', edit_organization_path(organization), class: 'btn btn-default'
     .clearfix
   p
-    | owner: 
-    = organization.owner
-  p
-    | members: 
-    = organization.members.pluck(:email).join(", ")
+    | members:
+    br
+    - organization.organization_memberships.joins(:user).each do |om|
+      = om.user
+      | -
+      = I18n.t("activerecord.attributes.organization_membership.roles.#{om.role}")
+      br
