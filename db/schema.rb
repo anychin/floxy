@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150428144303) do
+ActiveRecord::Schema.define(version: 20150428153252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,9 +38,10 @@ ActiveRecord::Schema.define(version: 20150428144303) do
     t.integer  "milestone_id",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "most_recent"
+    t.boolean  "most_recent",                 null: false
   end
 
+  add_index "milestone_transitions", ["milestone_id", "most_recent"], name: "index_milestone_transitions_parent_most_recent", unique: true, where: "most_recent", using: :btree
   add_index "milestone_transitions", ["milestone_id"], name: "index_milestone_transitions_on_milestone_id", using: :btree
   add_index "milestone_transitions", ["sort_key", "milestone_id"], name: "index_milestone_transitions_on_sort_key_and_milestone_id", unique: true, using: :btree
 
@@ -118,10 +119,11 @@ ActiveRecord::Schema.define(version: 20150428144303) do
     t.integer  "task_id",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "most_recent"
+    t.boolean  "most_recent",                null: false
   end
 
   add_index "task_transitions", ["sort_key", "task_id"], name: "index_task_transitions_on_sort_key_and_task_id", unique: true, using: :btree
+  add_index "task_transitions", ["task_id", "most_recent"], name: "index_task_transitions_parent_most_recent", unique: true, where: "most_recent", using: :btree
   add_index "task_transitions", ["task_id"], name: "index_task_transitions_on_task_id", using: :btree
 
   create_table "tasks", force: :cascade do |t|
