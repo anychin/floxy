@@ -17,7 +17,7 @@
       .col-sm-3
         .form-group
           .input-group
-            = f.input :estimated_time
+            = f.input :planned_time
       .col-sm-3
         .form-group
           = f.input :assignee_id, :collection=>task.team.members.map{|el| [el.to_s, el.id]}
@@ -36,18 +36,11 @@
           = f.input :tool
       .col-sm-3
         .form-group
-          label= t :estimated_expenses
+          label= t "activerecord.attributes.task.planned_expenses"
           .input-group
-            = f.input :estimated_expenses, label: false
+            = f.input :planned_expenses, label: false
             .input-group-addon
               | руб.
       .col-sm-6
         .form-group
           = f.input :description
-
-      //.col-sm-2
-        .form-group
-          .input-group
-            = f.input :elapsed_expenses
-            .input-group-addon
-              | руб.

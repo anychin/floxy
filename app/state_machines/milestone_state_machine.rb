@@ -38,15 +38,15 @@ class MilestoneStateMachine
   end
 
   guard_transition(to: :resolved) do |milestone|
-    milestone.not_finished_tasks.count == 0
+    milestone.tasks.not_finished.count == 0
   end
 
   guard_transition(to: :done) do |milestone|
-    milestone.not_accepted_tasks.count == 0
+    milestone.tasks.not_accepted.count == 0
   end
 
   after_transition(from: :idea, to: :approval) do |milestone|
-    milestone.not_negotiated_tasks.each do |task|
+    milestone.tasks.not_negotiated.each do |task|
       task.trigger!(:negotiate)
     end
   end
@@ -55,7 +55,7 @@ class MilestoneStateMachine
     milestone.tasks.in_state(:idea).each do |task|
       task.trigger!(:negotiate)
     end
-    milestone.not_approved_tasks.each do |task|
+    milestone.tasks.not_approved.each do |task|
       task.trigger!(:approve)
     end
   end

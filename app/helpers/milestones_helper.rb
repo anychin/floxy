@@ -51,11 +51,11 @@ module MilestonesHelper
           end
         when :finish
           html += content_tag :p do
-            "Все задачи завершены: #{boolean_icon milestone.not_finished_tasks.count == 0}".html_safe
+            "Все задачи завершены: #{boolean_icon milestone.tasks.not_finished.count == 0}".html_safe
           end
         when :accept
           html += content_tag :p do
-            "Все задачи приняты: #{boolean_icon milestone.not_accepted_tasks.count == 0}".html_safe
+            "Все задачи приняты: #{boolean_icon milestone.tasks.not_accepted.count == 0}".html_safe
           end
       end
     end
@@ -63,8 +63,9 @@ module MilestonesHelper
   end
 
   def milestone_tasks_without_estimated_time milestone
-    if milestone.tasks_without_estimated_time_count > 0
-      "Задач без оценки: #{milestone.tasks_without_estimated_time_count}"
+    without_estimated_time_amount = milestone.tasks.without_estimated_time.count
+    if without_estimated_time_amount > 0
+      "Задач без оценки: #{without_estimated_time_amount}"
     end
   end
 
