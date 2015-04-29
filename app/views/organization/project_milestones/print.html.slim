@@ -18,8 +18,8 @@ table.print__table
           - else
             = milestone.send(v)
 
-- if milestone.tasks.present?
-  - task_columns = [:project, :title, :aim, :estimated_time, :client_rate_value, :calculated_client_cost, :task_type, :tool, :estimated_expenses]
+- if milestone.tasks.any?
+  - task_columns = [:project, :title, :aim, :planned_time, :client_rate_value, :client_cost, :task_type, :tool, :planned_expenses]
   - task_columns_count = task_columns.count
 
   table.print__table

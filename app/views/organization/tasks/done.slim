@@ -8,7 +8,7 @@
           | &nbsp;
           | &nbsp;
           span.text-muted
-            = hours tasks.map{|t| t.estimated_time }.inject(:+)
+            = hours tasks.map{|t| t.planned_time }.inject(:+)
       = render 'tasks/block_list', tasks: tasks
       hr
   - else
