@@ -31,58 +31,28 @@ class Milestone < ActiveRecord::Base
 
   def estimated_time
     @estimated_time ||= begin
-      time = 0
-      tasks.map{|t| time += t.estimated_time if t.estimated_time.present?}
-      time
+      tasks.map(&:planned_time).compact.inject(&:+).to_f
     end
   end
 
   def calculated_cost
-    if tasks.present?
-      tasks.select{|t| t.calculated_cost.present? }.map{|t| t.calculated_cost }.inject(:+)
-    end
+    tasks.map(&:cost).compact.inject(:+)
   end
 
   def calculated_client_cost
-    if tasks.present?
-      tasks.select{|t| t.calculated_client_cost.present? }.map{|t| t.calculated_client_cost }.inject(:+)
-    end
+    tasks.map(&:client_cost).compact.inject(:+)
   end
 
   def estimated_expenses
-    tasks.select{|t| t.estimated_expenses.present? }.map{|t| t.estimated_expenses }.inject(:+)
+    tasks.map(&:planned_expenses).compact.inject(:+)
   end
 
   def returned_to_approval?
     self.current_state == "approval" && self.tasks.in_state(:current, :resolved, :done).count > 0
   end
 
-  def ready_for_approval_tasks
-    self.tasks.select{|t| t.ready_for_approval? }
-  end
-
   def not_ready_for_approval_tasks
     self.tasks.reject{|t| t.ready_for_approval? }
-  end
-
-  def not_finished_tasks
-    self.tasks.not_in_state(:resolved, :done)
-  end
-
-  def not_negotiated_tasks
-    self.tasks.in_state(:idea)
-  end
-
-  def not_approved_tasks
-    self.tasks.in_state(:approval)
-  end
-
-  def not_accepted_tasks
-    self.tasks.not_in_state(:done)
-  end
-
-  def tasks_without_estimated_time_count
-    tasks.select{|t| !t.estimated_time.present? }.count
   end
 
   private

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150428153252) do
+ActiveRecord::Schema.define(version: 20150430081532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,26 +128,24 @@ ActiveRecord::Schema.define(version: 20150428153252) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "title"
-    t.decimal  "estimated_time",        default: 0.0
-    t.decimal  "elapsed_time",          default: 0.0
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.integer  "owner_id",                            null: false
+    t.decimal  "planned_time",                   default: 0.0
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.integer  "owner_id",                                     null: false
     t.integer  "assignee_id"
     t.integer  "task_level_id"
     t.string   "aim"
     t.string   "tool"
-    t.decimal  "estimated_expenses",    default: 0.0
-    t.decimal  "elapsed_expenses",      default: 0.0
+    t.integer  "planned_expenses_cents",         default: 0
     t.string   "task_type"
     t.integer  "milestone_id"
     t.text     "description"
     t.datetime "accepted_at"
-    t.decimal  "estimated_cost"
+    t.integer  "stored_cost_cents"
     t.integer  "user_invoice_id"
-    t.decimal  "estimated_client_cost"
-    t.decimal  "rate_cost"
-    t.decimal  "client_rate_cost"
+    t.integer  "stored_client_cost_cents"
+    t.integer  "stored_rate_value_cents"
+    t.integer  "stored_client_rate_value_cents"
   end
 
   add_index "tasks", ["accepted_at"], name: "index_tasks_on_accepted_at", using: :btree
@@ -179,10 +177,10 @@ ActiveRecord::Schema.define(version: 20150428153252) do
 
   create_table "user_invoices", force: :cascade do |t|
     t.datetime "paid_at"
-    t.integer  "user_id",         null: false
+    t.integer  "user_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.integer  "organization_id", null: false
+    t.integer  "organization_id"
   end
 
   add_index "user_invoices", ["organization_id"], name: "index_user_invoices_on_organization_id", using: :btree

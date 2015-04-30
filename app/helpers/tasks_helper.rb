@@ -10,14 +10,12 @@ module TasksHelper
         end
       when :assignee
         "#{task_field_icon(field)} #{email_to_name(task.assignee.to_s)}" if task.assignee.present?
-      when :estimated_expenses, :estimated_cost, :rate_cost
+      when :planned_expenses, :cost, :rate_value
         "#{task_field_icon(field)} #{price task.send(field)}"
-      when :estimated_time
-        "#{task_field_icon(field)} #{hours task.estimated_time}"
+      when :planned_time
+        "#{task_field_icon(field)} #{hours task.planned_time}"
       when :aim, :tool, :task_type, :task_level
         "#{task_field_icon(field)} #{task.send(field)}"
-      when :rate_value
-        "#{price task.send(field)}"
       when :status
         task.status
       when :state
@@ -37,7 +35,7 @@ module TasksHelper
   end
 
   def task_field_icon field
-    icons = {assignee: 'fa fa-user', estimated_time: 'fa fa-clock-o', estimated_expenses: 'fa fa-money', aim: 'fa fa-crosshairs', tool: 'fa fa-wrench', task_level: 'fa fa-puzzle-piece', task_type: 'fa fa-folder-open-o'}
+    icons = {assignee: 'fa fa-user', planned_time: 'fa fa-clock-o', planned_expenses: 'fa fa-money', aim: 'fa fa-crosshairs', tool: 'fa fa-wrench', task_level: 'fa fa-puzzle-piece', task_type: 'fa fa-folder-open-o'}
     if icons[field].present?
       content_tag :i, '', class: "task__field-block-icon #{icons[field]}"
     end

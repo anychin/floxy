@@ -24,9 +24,14 @@ class Task < ActiveRecord::Base
 
   scope :ordered_by_created_at, ->{order(:created_at)}
   scope :by_assigned_user, ->(user) {where(assignee_id: user.id)}
+  scope :without_estimated_time, ->{where(planned_time: nil) }
+  scope :not_accepted, ->{not_in_state(:done)}
+  scope :not_approved, ->{in_state(:approval)}
+  scope :not_negotiated, ->{in_state(:idea)}
+  scope :not_finished, ->{not_in_state(:resolved, :done)}
 
   validates :milestone, :owner, :title, presence: true
-  validates :estimated_time, numericality: { less_than_or_equal_to: 8 }
+  validates :planned_time, numericality: { less_than_or_equal_to: 8 }
 
   def state_machine
      @state_machine ||= TaskStateMachine.new(self, transition_class: TaskTransition)
@@ -35,8 +40,12 @@ class Task < ActiveRecord::Base
   delegate :can_transition_to?, :transition_to!, :transition_to, :current_state, :trigger!, :available_events,
            to: :state_machine
 
-  delegate :rate_value, to: :task_level, allow_nil: true
-  delegate :client_rate_value, to: :task_level, allow_nil: true
+  monetize :planned_expenses_cents, :with_currency=>:rub, :allow_nil => true #false, :numericality => { :greater_than => 0 }
+
+  monetize :stored_rate_value_cents, :with_currency=>:rub, :allow_nil => true #false, :numericality => { :greater_than => 0 }
+  monetize :stored_client_rate_value_cents, :with_currency=>:rub, :allow_nil => true#false, :numericality => { :greater_than => 0 }
+  monetize :stored_cost_cents, :with_currency=>:rub, :allow_nil => true #false, :numericality => { :greater_than => 0 }
+  monetize :stored_client_cost_cents, :with_currency=>:rub, :allow_nil => true#false, :numericality => { :greater_than => 0 }
 
   def to_s
     title
@@ -50,70 +59,77 @@ class Task < ActiveRecord::Base
     self.assignee_id == user.id
   end
 
-  # подсчитанная внутренняя стоимость работ по задаче в любой момент времени
-  def calculated_cost
-    return unless self.hourly?
-    self.estimated_time.to_s.to_d * self.task_level.rate_value.to_d
+  def rate_value
+    if stored_costs?
+      stored_rate_value
+    else
+      if task_level_hourly?
+        task_level.rate_value
+      end
+    end
   end
 
-  # подсчитанная внешняя (для клиента) стоимость работ по задаче в любой момент времени
-  def calculated_client_cost
-    return if !self.hourly? || self.client_rate_value.nil?
-    self.estimated_time.to_s.to_d * self.task_level.client_rate_value.to_d
+  def client_rate_value
+    if stored_costs?
+      stored_client_rate_value
+    else
+      if task_level_hourly?
+        task_level.client_rate_value
+      end
+    end
   end
 
-  # сохраняем ставку в задачу
-  def save_rate_cost
-    return unless self.task_level.present?
-    self.rate_cost = self.task_level.rate_value.to_d
+  def cost
+    if stored_costs?
+      stored_cost
+    else
+      if task_level_hourly?
+        task_level.rate_value * planned_time
+      end
+    end
+  end
+
+  def client_cost
+    if stored_costs?
+      stored_client_cost
+    else
+      if task_level_hourly?
+        task_level.client_rate_value * planned_time
+      end
+    end
+  end
+
+  def task_level_hourly?
+    task_level.present? and task_level.hourly?
+  end
+
+  def stored_costs?
+    ["approval","todo", "current", "deferred", "resolved", "done"].include?(self.current_state)
+  end
+
+  def store_rates_and_costs
+    return unless task_level.hourly?
+    self.stored_rate_value = task_level.rate_value
+    self.stored_client_rate_value = task_level.client_rate_value
+    self.stored_cost = stored_rate_value * planned_time
+    self.stored_client_cost = stored_client_rate_value * planned_time
     save
   end
 
-  # сохраняем внешнюю ставку в задачу
-  def save_client_rate_cost
-    return unless self.task_level.present?
-    self.client_rate_cost = self.task_level.client_rate_value.to_d
-    save
-  end
-
-  # фиксируем внутреннюю стоимость работ в базе (вызывается при утверждении задачи)
-  def save_estimated_cost
-    return unless self.task_level.hourly?
-    self.estimated_cost = self.estimated_time.to_s.to_d * self.rate_cost.to_s.to_d
-    save
-  end
-
-  # фиксируем внешнюю (для клиента) стоимость работ в базе (вызывается при утверждении задачи)
-  def save_estimated_client_cost
-    return unless self.task_level.hourly?
-    self.estimated_client_cost = self.estimated_time.to_s.to_d * self.client_rate_cost.to_s.to_d
-    save
-  end
-
-  def hourly?
-    self.task_level.present? && self.task_level.hourly?
+  def ready_for_approval?
+    milestone.present? && estimated? && aim.present?
   end
 
   def estimated?
-    if self.hourly?
-      self.estimated_time.present?
+    if self.task_level.present? && self.task_level.hourly?
+      planned_time.present?
     else
       true
     end
   end
 
-  def ready_for_approval?
-    self.milestone.present? && self.estimated? && self.aim.present?
-  end
-
-  def rate
-    if self.hourly?
-      self.task_level.rate_value.to_d
-    end
-  end
-
   def user_invoice_summary
-    "#{title} / #{estimated_time} / #{estimated_cost}"
+    "#{title} / #{planned_time} / #{cost}"
   end
 
   def can_be_updated?

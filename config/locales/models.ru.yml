@@ -63,20 +63,18 @@ ru:
         type: Тип
         tool: Инструмент
         aim: Цель
-        estimated_expenses: Планируемый бюджет
-        elapsed_expenses: Итоговый бюджет
-        estimated_time: Оцениваемое время (в часах)
-        elapsed_time: Итоговое время
-        estimated_cost: Стоимость работ
+        description: Описание
+        planned_expenses: Планируемый бюджет
+        planned_epenses_cents: Планируемый бюджет
+        planned_time: Оцениваемое время (в часах)
+        cost: Стоимость работ
         calculated_cost: Рассчитанная стоимость
         calculated_client_cost: Рассчитанная стоимость для клиента
         task_level: Уровень
         task_level_id: Уровень
         task_type: Тип
         rate_value: Ставка
-        rate_cost: Ставка
         client_rate_value: Ставка
-        client_rate_cost: Ставка
         accepted_at: Дата принятия
         states:
           idea: Идея
@@ -86,41 +84,6 @@ ru:
           deferred: Отложена
           resolved: Выполнена
           done: Принята
-      task_print:
-        project: Проект
-        milestone: Этап
-        title: Задача
-        type: Тип
-        tool: Инструмент
-        aim: Цель
-        estimated_time: Время
-        estimated_expenses: Бюджет
-        calculated_cost: Сумма
-        calculated_client_cost: Сумма
-        task_level: Уровень
-        task_type: Тип
-        rate_value: Цена
-        rate_cost: Цена
-        client_rate_value: Цена
-        client_rate_cost: Цена
-      milestone_print:
-        project: Проект
-        title: Название этапа
-        estimated_time: Время
-        calculated_cost: Стоимость работ
-        calculated_client_cost: Стоимость работ
-        estimated_expenses: Бюджет
-        account_manager: Аккаунт–менеджер
-        team_lead: Руководитель группы
-        due_date: Завершение
-      user_invoice:
-        id: id
-        user: Исполнитель
-        total: Сумма
-        paid?: Оплачен
-        created_at: Дата создания
-        paid_at: Дата оплаты
-        tasks: Задачи
       organization_membership:
         user_id: Пользователь
         role: Роль
@@ -128,3 +91,22 @@ ru:
           member: Участник
           owner: Владелец
           booker: Бухгалтер
+      milestone_print:
+        project: Проект
+        title: Название этапа
+        estimated_time: Время
+        calculated_client_cost: Стоимость работ
+        estimated_expenses: Бюджет
+        account_manager: Аккаунт-менджер
+        team_lead: Руководитель группы
+        due_date: Завершение
+      task_print:
+        project: Проект
+        title: Задача
+        aim: Цель
+        planned_time: Время
+        client_rate_value: Цена
+        client_cost: Сумма
+        task_type: Тип
+        tool: Инструмент
+        planned_expenses: Бюджет
