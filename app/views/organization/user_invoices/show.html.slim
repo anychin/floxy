@@ -4,10 +4,10 @@
     .text-muted
       = t("activerecord.attributes.user_invoice.created_at")
       = ": "
-      = user_invoice_field @user_invoice, :created_at, @organization
-  -# if current_user.can_delete?(@user_invoice)
-  .pull-right
-    = link_to 'delete', organization_user_invoice_path(@organization, @user_invoice), method: :delete, confirm: "Удалить #{t('activerecord.models.user_invoice')}?", class: 'btn btn-default'
+      = user_invoice_field invoice, :created_at
+  - if policy(invoice).destroy?
+    .pull-right
+      = link_to 'delete', organization_user_invoice_path(invoice.organization, invoice), method: :delete, confirm: "Удалить #{t('activerecord.models.user_invoice')}?", class: 'btn btn-default'
   .clearfix
   hr
   .well
@@ -20,7 +20,7 @@
       tbody
         tr
           - columns.each do |field|
-            td= user_invoice_field @user_invoice, field, @organization
+            td= user_invoice_field invoice, field
 
   table.table
     thead
@@ -30,17 +30,17 @@
     tbody
       tr
         td Операционный доход
-        td= user_invoice_field @user_invoice, :total, @organization
+        td= user_invoice_field invoice, :total
 
   h4 Задачи
-  - task_columns = [:title, :planned_time, :rate_value, :estimated_cost]
+  - task_columns = [:title, :planned_time, :rate_value, :cost]
   table.table
     thead
       tr
         - task_columns.each do |field|
           th= t("activerecord.attributes.task.#{field}")
     tbody
-      - @user_invoice.tasks.each do |t|
+      - invoice.tasks.each do |t|
         tr
           - task_columns.each do |field|
-            td= task_field t, field, @organization
+            td= task_field(t, field)

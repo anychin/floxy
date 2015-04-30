@@ -21,7 +21,8 @@ class Organization::MilestoneTasksController < Organization::BaseController
 
   def show
     authorize(current_task)
-    render locals:{task: current_task}
+    task = TaskDecorator.new(current_task)
+    render locals:{task: task}
   end
 
   def edit

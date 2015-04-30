@@ -36,11 +36,11 @@ class Milestone < ActiveRecord::Base
   end
 
   def calculated_cost
-    tasks.map(&:cost).compact.inject(:+)
+    tasks.with_task_level.map(&:cost).compact.inject(:+)
   end
 
   def calculated_client_cost
-    tasks.map(&:client_cost).compact.inject(:+)
+    tasks.with_task_level.map(&:client_cost).compact.inject(:+)
   end
 
   def estimated_expenses

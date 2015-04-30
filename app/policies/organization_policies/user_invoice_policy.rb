@@ -3,29 +3,29 @@ class OrganizationPolicies::UserInvoicePolicy < OrganizationPolicies::BasePolicy
     organization.members.include?(user)
   end
 
-  def new?
-    organization.members.include?(user)
+  def create?
+    record.organization.owner_or_booker?(user)
   end
 
-  # def show?
-  #   organization.owner?(user) or organization.members.include?(user)
-  # end
+  def show?
+    record.user_id == user.id or record.organization.owner_or_booker?(user)
+  end
 
-  # def update?
-  #   record == user
-  # end
+  def destroy?
+    record.organization.owner_or_booker?(user)
+  end
 
-  # def show_current?
-  #   true
-  # end
-  #
-  # def permitted_attributes
-  #   [:name]
-  # end
+  def permitted_attributes
+    [:user_id, :task_ids=>[]]
+  end
 
   class Scope < Scope
     def resolve
-      scope
+      if organization.owner_or_booker?(user)
+        scope
+      else
+        scope.by_user(user)
+      end
     end
   end
 end
