@@ -15,6 +15,7 @@ class Task < ActiveRecord::Base
 
   scope :ordered_by_id, -> { order("id asc") }
   scope :without_milestone, ->{ where(milestone_id: nil) }
+  scope :with_task_level, ->{where.not(task_level_id: nil)}
 
   scope :by_team_user, ->(user) {
     joins{team_memberships.outer}.merge(Project.by_team_user(user))
