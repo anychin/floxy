@@ -121,10 +121,12 @@ class Task < ActiveRecord::Base
   end
 
   def estimated?
-    if self.task_level.present? && self.task_level.hourly?
-      planned_time.present?
-    else
-      true
+    if task_level.present?
+      if task_level.hourly?
+        planned_time.present?
+      else
+        true
+      end
     end
   end
 
