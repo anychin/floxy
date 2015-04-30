@@ -63,7 +63,7 @@ class Task < ActiveRecord::Base
     if stored_costs?
       stored_rate_value
     else
-      if task_level.hourly?
+      if task_level_hourly?
         task_level.rate_value
       end
     end
@@ -73,7 +73,7 @@ class Task < ActiveRecord::Base
     if stored_costs?
       stored_client_rate_value
     else
-      if task_level.hourly?
+      if task_level_hourly?
         task_level.client_rate_value
       end
     end
@@ -83,7 +83,7 @@ class Task < ActiveRecord::Base
     if stored_costs?
       stored_cost
     else
-      if task_level.hourly?
+      if task_level_hourly?
         task_level.rate_value * planned_time
       end
     end
@@ -93,10 +93,14 @@ class Task < ActiveRecord::Base
     if stored_costs?
       stored_client_cost
     else
-      if task_level.hourly?
+      if task_level_hourly?
         task_level.client_rate_value * planned_time
       end
     end
+  end
+
+  def task_level_hourly?
+    task_level.present? and task_level.hourly?
   end
 
   def stored_costs?
