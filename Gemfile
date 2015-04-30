@@ -52,7 +52,7 @@ gem 'active_link_to'
 # gem 'breadcrumbs_on_rails'
 
 # Presenters Decorators
-# gem 'draper'
+gem 'draper'
 gem 'cells'
 
 # Forms
