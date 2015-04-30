@@ -49,7 +49,7 @@ Floxy::Application.routes.draw do
       get 'me' => 'members#show_current'
       resource :settings, only: [:show]
       resources :task_levels, except: [:show]
-      resources :user_invoices, only: [:index, :new]
+      resources :user_invoices, only: [:index, :new, :create, :show, :destroy]
     end
   end
 

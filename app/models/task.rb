@@ -15,8 +15,6 @@ class Task < ActiveRecord::Base
 
   scope :ordered_by_id, -> { order("id asc") }
   scope :without_milestone, ->{ where(milestone_id: nil) }
-  scope :user_uninvoiced, -> {where(:user_invoice_id => nil)}
-  # scope :user_invoiced, -> {where('user_invoice_id is not null')}
 
   scope :by_team_user, ->(user) {
     joins{team_memberships.outer}.merge(Project.by_team_user(user))
@@ -29,6 +27,8 @@ class Task < ActiveRecord::Base
   scope :not_approved, ->{in_state(:approval)}
   scope :not_negotiated, ->{in_state(:idea)}
   scope :not_finished, ->{not_in_state(:resolved, :done)}
+  scope :without_user_invoice, -> {where(:user_invoice_id => nil)}
+  scope :for_user_invoice, ->(user, accepted_period) {without_user_invoice.by_assigned_user(user).where(accepted_at: accepted_period)}
 
   validates :milestone, :owner, :title, presence: true
   validates :planned_time, numericality: { less_than_or_equal_to: 8 }
@@ -113,7 +113,7 @@ class Task < ActiveRecord::Base
   end
 
   def ready_for_approval?
-    milestone.present? && estimated? && aim.present?
+    milestone.present? && estimated? && aim.present? && assignee.present?
   end
 
   def estimated?

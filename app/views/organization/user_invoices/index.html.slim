@@ -5,17 +5,17 @@
 
   hr
 
-  /- columns = [:id, :user, :total, :paid?, :created_at, :paid_at]
-  /table.table
-  /  thead
-  /    tr
-  /      - columns.each do |field|
-  /        th= t("activerecord.attributes.user_invoice.#{field}")
-  /      th
-  /  tbody
-  /    - user_invoices.each do |inv|
-  /      tr
-  /        - columns.each do |field|
-  /          td= user_invoice_field inv, field
-  /        td= link_to organization_user_invoice_path(organization, inv), class: 'btn btn-sm btn-default' do
-  /          | &rarr;
+  - columns = [:id, :user, :total, :paid?, :created_at, :paid_at]
+  table.table
+    thead
+      tr
+        - columns.each do |field|
+          th= t("activerecord.attributes.user_invoice.#{field}")
+        th
+    tbody
+      - invoices.each do |inv|
+        tr
+          - columns.each do |field|
+            td= user_invoice_field inv, field
+          td= link_to organization_user_invoice_path(organization, inv), class: 'btn btn-sm btn-default' do
+            | &rarr;

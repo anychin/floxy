@@ -6,6 +6,9 @@ class UserInvoice < ActiveRecord::Base
 
   has_many :tasks, dependent: :nullify
 
+  scope :by_user, ->(user) {where(user_id: user.id)}
+  scope :ordered, ->{order(:created_at)}
+
   def to_s
     "#{id} для #{user}"
   end
@@ -16,8 +19,7 @@ class UserInvoice < ActiveRecord::Base
 
   def total
     if tasks.present?
-      tasks.map{|t| t.estimated_cost.to_s.to_d}.inject(:+)
+      tasks.map(&:cost).compact.inject(:+)
     end
   end
-
 end
