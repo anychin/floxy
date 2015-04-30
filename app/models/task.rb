@@ -121,12 +121,11 @@ class Task < ActiveRecord::Base
   end
 
   def estimated?
-    if task_level.present?
-      if task_level.hourly?
-        planned_time.present?
-      else
-        true
-      end
+    return false unless task_level.present?
+    if task_level.hourly?
+      planned_time.present?
+    else
+      true
     end
   end
 
@@ -135,7 +134,7 @@ class Task < ActiveRecord::Base
   end
 
   def can_be_updated?
-    !(["todo","current", "deferred", "resolved", "done"].include?(self.current_state))
+    !(["approval","todo","current", "deferred", "resolved", "done"].include?(self.current_state))
   end
 
   private
