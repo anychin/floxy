@@ -20,13 +20,7 @@ ru:
       team:
         title: Название
         owner: Владелец
-        owner_id: Владелец
-        team_lead: Тимлид
-        team_lead_id: Тимлид
-        account_manager: Аккаунт менджер
-        account_manager_id: Аккаунт менджер
-        members: Помощники
-        member_ids: Помощники
+        members: Участники
       organization:
         title: Короткое название
         full_title: Полное название
@@ -91,6 +85,13 @@ ru:
           member: Участник
           owner: Владелец
           booker: Бухгалтер
+      team_membership:
+        user_id: Пользователь
+        role: Роль
+        roles:
+          member: Участник
+          team_lead: Тимлид
+          account_manager: Аккаунт менджер
       milestone_print:
         project: Проект
         title: Название этапа

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430081532) do
+ActiveRecord::Schema.define(version: 20150506094353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,16 @@ ActiveRecord::Schema.define(version: 20150430081532) do
 
   add_index "task_levels", ["organization_id"], name: "index_task_levels_on_organization_id", using: :btree
 
+  create_table "task_to_user_invoices", force: :cascade do |t|
+    t.integer "user_id",                     null: false
+    t.integer "user_invoice_id",             null: false
+    t.integer "task_id",                     null: false
+    t.integer "user_role",       default: 0, null: false
+  end
+
+  add_index "task_to_user_invoices", ["user_id"], name: "index_task_to_user_invoices_on_user_id", using: :btree
+  add_index "task_to_user_invoices", ["user_invoice_id"], name: "index_task_to_user_invoices_on_user_invoice_id", using: :btree
+
   create_table "task_transitions", force: :cascade do |t|
     t.string   "to_state",                   null: false
     t.text     "metadata",    default: "{}"
@@ -152,10 +162,11 @@ ActiveRecord::Schema.define(version: 20150430081532) do
   add_index "tasks", ["user_invoice_id"], name: "index_tasks_on_user_invoice_id", using: :btree
 
   create_table "team_memberships", force: :cascade do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "team_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",                null: false
+    t.integer  "team_id",                null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "role",       default: 0, null: false
   end
 
   add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id", using: :btree
@@ -163,24 +174,20 @@ ActiveRecord::Schema.define(version: 20150430081532) do
   add_index "team_memberships", ["user_id"], name: "index_team_memberships_on_user_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
-    t.string   "title",              null: false
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.integer  "organization_id",    null: false
-    t.integer  "team_lead_id",       null: false
-    t.integer  "account_manager_id", null: false
+    t.string   "title",           null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "organization_id", null: false
   end
 
-  add_index "teams", ["account_manager_id"], name: "index_teams_on_account_manager_id", using: :btree
   add_index "teams", ["organization_id"], name: "index_teams_on_organization_id", using: :btree
-  add_index "teams", ["team_lead_id"], name: "index_teams_on_team_lead_id", using: :btree
 
   create_table "user_invoices", force: :cascade do |t|
     t.datetime "paid_at"
-    t.integer  "user_id"
+    t.integer  "user_id",         null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.integer  "organization_id"
+    t.integer  "organization_id", null: false
   end
 
   add_index "user_invoices", ["organization_id"], name: "index_user_invoices_on_organization_id", using: :btree

@@ -1,51 +1,50 @@
 class Team < ActiveRecord::Base
-  validates :team_lead, :account_manager, presence: true
-  validates :title, presence: true, :uniqueness => { :scope => :organization_id }, length: {within:3..50}
-
-  belongs_to :team_lead, class_name: 'User', foreign_key: :team_lead_id
-  belongs_to :account_manager, class_name: 'User', foreign_key: :account_manager_id
   belongs_to :organization
   has_many :team_memberships, dependent: :destroy
   has_many :members, :through => :team_memberships, :source => :user
   has_many :projects, dependent: :nullify
 
+
   scope :ordered_by_id, ->{ order("id asc") }
 
-  after_save :add_managers_as_members
-
   scope :by_team_user, ->(user) {
-    joins{team_memberships.outer}.where{
-      team_lead_id.eq(user.id) |
-      account_manager_id.eq(user.id) |
-      team_memberships.user_id.eq(user.id)
-    }.uniq
+    joins(team_memberships).where(:team_memberships=>{user_id: user.id}).uniq
   }
 
-  MANAGER_ROLES = [:account_manager, :team_lead]
+  validates :title, presence: true, :uniqueness => { :scope => :organization_id }, length: {within:3..50}
+  validate :role_consistency
+
+  accepts_nested_attributes_for :team_memberships, :reject_if => :all_blank, :allow_destroy => true
 
   def to_s
     title
   end
 
   def account_manager?(user)
-    self.account_manager_id = user.id
+    team_memberships.account_manager.by_user(user).present?
   end
 
-  def manager? user
-    MANAGER_ROLES.each do |role|
-      if self.send("#{role}_id") == user.id
-        return true
-      end
-    end
-    false
+  def manager?(user)
+    team_memberships.managers.by_user(user).present?
+  end
+
+  def team_lead
+    team_memberships.team_lead.first
+  end
+
+  def account_manager
+    team_memberships.account_manager.first
   end
 
   private
 
-  def add_managers_as_members
-    MANAGER_ROLES.each do |mr|
-      mr_subject = self.send(mr)
-      self.members << mr_subject unless members.include?(mr_subject)
+  def role_consistency
+    if team_memberships.find_all(&:account_manager?).count != 1
+      errors.add(:team_memberships, "должен быть 1 #{I18n.t("activerecord.attributes.team_membership.roles.account_manager")}")
+    end
+
+    if team_memberships.find_all(&:team_lead?).count != 1
+      errors.add(:team_memberships, "должен быть 1 #{I18n.t("activerecord.attributes.team_membership.roles.team_lead")}")
     end
   end
 end

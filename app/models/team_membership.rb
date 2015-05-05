@@ -1,6 +1,5 @@
 class TeamMembership < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :team
+  ROLES = {:member=>0, :team_lead=>1, :account_manager=>2}
 
   belongs_to :user, inverse_of: :team_memberships
   belongs_to :team, inverse_of: :team_memberships
@@ -8,17 +7,8 @@ class TeamMembership < ActiveRecord::Base
   validates :team, :user, presence: true
   validates :team_id, uniqueness: { scope: :user_id }
 
-  # delegate :name, :email, :to => :user
+  enum role: ROLES
 
-  # def title
-  #   "#{name} <#{email}>"
-  # end
-  #
-  # def to_s
-  #   title
-  # end
-
-  # def owner?
-  #   team.owner_id == user_id
-  # end
+  scope :by_user, ->(user) {where(user_id: user.id)}
+  scope :managers, ->{where(role: [ROLES[:account_manager], ROLES[:team_lead]])}
 end

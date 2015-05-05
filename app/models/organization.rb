@@ -34,8 +34,8 @@ class Organization < ActiveRecord::Base
   private
 
   def role_consistency
-    if organization_memberships.find_all(&:owner?).count != 1
-      errors.add(:organization_memberships, "должен быть 1 админстратор")
+    if organization_memberships.reject(&:marked_for_destruction?).find_all(&:owner?).count != 1
+      errors.add(:organization_memberships, "должен быть 1 #{I18n.t("activerecord.attributes.organization_membership.roles.owner")}")
     end
   end
 end

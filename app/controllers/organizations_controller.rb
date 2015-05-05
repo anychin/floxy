@@ -65,6 +65,19 @@ class OrganizationsController < ApplicationController
   end
 
   def organization_params
-    params.require(:organization).permit(policy(Organization).permitted_attributes)
+    organization_params = params.require(:organization).permit(policy(Organization).permitted_attributes)
+    new_params = organization_params["organization_memberships_attributes"].find_all{|tma| !tma[1]['id'].present?}
+    user_id_to_param_key = {}
+    new_params.each do |np|
+      user_id = np[1]['user_id']
+      user_id_to_param_key[user_id] = user_id_to_param_key[user_id].to_a + [np[0]]
+    end
+    user_id_to_param_key.each do |user_id, keys|
+      if keys.many?
+        keys.shift
+        keys.map{|k| organization_params["organization_memberships_attributes"].delete(k)}
+      end
+    end
+    organization_params
   end
 end
