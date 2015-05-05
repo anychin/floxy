@@ -16,7 +16,7 @@ class OrganizationPolicies::UserInvoicePolicy < OrganizationPolicies::BasePolicy
   end
 
   def permitted_attributes
-    [:user_id, :task_ids=>[]]
+    [:user_id, :executor_task_ids=>[], :team_lead_task_ids=>[], :account_manager_task_ids=>[]]
   end
 
   class Scope < Scope

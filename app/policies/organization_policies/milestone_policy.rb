@@ -4,7 +4,7 @@ class OrganizationPolicies::MilestonePolicy < OrganizationPolicies::BasePolicy
       if organization.owner_or_booker?(user)
         scope
       else
-        scope.by_team_user(user).uniq
+        scope.by_team_user(user)
       end
     end
   end

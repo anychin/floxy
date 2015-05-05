@@ -111,3 +111,13 @@ ru:
         task_type: Тип
         tool: Инструмент
         planned_expenses: Бюджет
+      task_to_user_invoice:
+        task: Задача
+        time: Время
+        rate_value: Ставка
+        cost: Стоимость
+        user_role: Тип
+        user_roles:
+          executor: Исполнитель
+          account_manager: Аккаунт Менеджер
+          team_lead: Тимлид

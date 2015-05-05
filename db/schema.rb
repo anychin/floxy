@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506153334) do
+ActiveRecord::Schema.define(version: 20150508095030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,13 +115,12 @@ ActiveRecord::Schema.define(version: 20150506153334) do
   add_index "task_levels", ["organization_id"], name: "index_task_levels_on_organization_id", using: :btree
 
   create_table "task_to_user_invoices", force: :cascade do |t|
-    t.integer "user_id",                     null: false
     t.integer "user_invoice_id",             null: false
     t.integer "task_id",                     null: false
     t.integer "user_role",       default: 0, null: false
   end
 
-  add_index "task_to_user_invoices", ["user_id"], name: "index_task_to_user_invoices_on_user_id", using: :btree
+  add_index "task_to_user_invoices", ["task_id", "user_role"], name: "index_task_to_user_invoices_on_task_id_and_user_role", unique: true, using: :btree
   add_index "task_to_user_invoices", ["user_invoice_id"], name: "index_task_to_user_invoices_on_user_invoice_id", using: :btree
 
   create_table "task_transitions", force: :cascade do |t|
@@ -140,15 +139,15 @@ ActiveRecord::Schema.define(version: 20150506153334) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "title"
-    t.decimal  "planned_time",                     default: 0.0
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-    t.integer  "owner_id",                                       null: false
+    t.decimal  "planned_time",                            default: 0.0
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+    t.integer  "owner_id",                                              null: false
     t.integer  "assignee_id"
     t.integer  "task_level_id"
     t.string   "aim"
     t.string   "tool"
-    t.integer  "planned_expenses_cents",           default: 0
+    t.integer  "planned_expenses_cents",                  default: 0
     t.string   "task_type"
     t.integer  "milestone_id"
     t.text     "description"
@@ -158,6 +157,8 @@ ActiveRecord::Schema.define(version: 20150506153334) do
     t.integer  "stored_client_cost_cents"
     t.integer  "stored_executor_rate_value_cents"
     t.integer  "stored_client_rate_value_cents"
+    t.integer  "stored_team_lead_rate_value_cents"
+    t.integer  "stored_account_manager_rate_value_cents"
   end
 
   add_index "tasks", ["accepted_at"], name: "index_tasks_on_accepted_at", using: :btree
@@ -186,10 +187,13 @@ ActiveRecord::Schema.define(version: 20150506153334) do
 
   create_table "user_invoices", force: :cascade do |t|
     t.datetime "paid_at"
-    t.integer  "user_id",         null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "organization_id", null: false
+    t.integer  "user_id",                    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "organization_id",            null: false
+    t.integer  "executor_cost_cents"
+    t.integer  "team_lead_cost_cents"
+    t.integer  "account_manager_cost_cents"
   end
 
   add_index "user_invoices", ["organization_id"], name: "index_user_invoices_on_organization_id", using: :btree

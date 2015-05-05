@@ -14,7 +14,7 @@ class Milestone < ActiveRecord::Base
   # scope :ordered_by_id, -> { order("id asc") }
   scope :ordered_by_due_date, -> { order(due_date: :asc, id: :asc) }
   scope :by_team_user, ->(user) {
-    joins{team_memberships.outer}.merge(Project.by_team_user(user))
+    joins(:team_memberships).merge(Team.by_team_user(user))
   }
 
   def state_machine
