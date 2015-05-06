@@ -29,11 +29,11 @@ class Team < ActiveRecord::Base
   end
 
   def team_lead
-    team_memberships.team_lead.first
+    team_memberships.team_lead.first.try(:user)
   end
 
   def account_manager
-    team_memberships.account_manager.first
+    team_memberships.account_manager.first.try(:user)
   end
 
   private
