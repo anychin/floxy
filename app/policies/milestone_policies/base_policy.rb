@@ -15,7 +15,7 @@ class MilestonePolicies::BasePolicy < ApplicationPolicy
       @scope = scope
       @milestone = milestone
 
-      raise Pundit::NotAuthorizedError unless (@milestone.project.organization.owner_or_booker?(@user) or @milestone.project.team.manager?(@user) or @milestone.project.team.members.include?(@user))
+      raise Pundit::NotAuthorizedError unless (@milestone.project.organization.owner_or_booker?(@user) or @milestone.project.team.members.include?(@user))
     end
   end
 end

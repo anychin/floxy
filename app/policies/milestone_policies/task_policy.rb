@@ -4,7 +4,7 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
 
   def show?
-    record.organization.owner_or_booker?(user) or record.team.manager?(user) or record.team.members.include?(user)
+    record.organization.owner_or_booker?(user) or record.team.members.include?(user)
   end
   
   def update?

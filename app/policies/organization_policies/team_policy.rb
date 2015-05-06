@@ -4,7 +4,7 @@ class OrganizationPolicies::TeamPolicy < OrganizationPolicies::BasePolicy
   end
 
   def show?
-    organization.owner_or_booker?(user) or record.members.include?(user) or record.manager?(user)
+    organization.owner_or_booker?(user) or record.members.include?(user)
   end
 
   def update?
@@ -16,7 +16,7 @@ class OrganizationPolicies::TeamPolicy < OrganizationPolicies::BasePolicy
   end
 
   def permitted_attributes
-    [:title, :team_lead_id, :account_manager_id, {:member_ids=>[]}]
+    [:title, {:team_memberships_attributes=>[:id, :user_id, :role, :_destroy]}]
   end
 
   class Scope < Scope

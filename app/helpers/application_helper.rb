@@ -18,4 +18,21 @@ module ApplicationHelper
   def boolean_icon statement
     content_tag :i , '', class: "#{statement ? 'fa fa-check text-success' : 'fa fa-times text-danger'}"
   end
+
+  def organization_membership_role_collection
+    OrganizationMembership::ROLES.map do |role|
+      name = I18n.t("activerecord.attributes.organization_membership.roles.#{role[0]}")
+      key = role[0]
+      [name, key]
+    end
+  end
+
+
+  def team_membership_role_collection
+    TeamMembership::ROLES.map do |role|
+      name = I18n.t("activerecord.attributes.team_membership.roles.#{role[0]}")
+      key = role[0]
+      [name, key]
+    end
+  end
 end
