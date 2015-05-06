@@ -8,7 +8,7 @@ class Team < ActiveRecord::Base
   scope :ordered_by_id, ->{ order("id asc") }
 
   scope :by_team_user, ->(user) {
-    joins(team_memberships).where(:team_memberships=>{user_id: user.id}).uniq
+    joins(:team_memberships).where(:team_memberships=>{user_id: user.id}).uniq
   }
 
   validates :title, presence: true, :uniqueness => { :scope => :organization_id }, length: {within:3..50}
