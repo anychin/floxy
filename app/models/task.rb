@@ -43,9 +43,9 @@ class Task < ActiveRecord::Base
 
   monetize :planned_expenses_cents, :with_currency=>:rub, :allow_nil => true #false, :numericality => { :greater_than => 0 }
 
-  monetize :stored_rate_value_cents, :with_currency=>:rub, :allow_nil => true #false, :numericality => { :greater_than => 0 }
+  monetize :stored_executor_rate_value_cents, :with_currency=>:rub, :allow_nil => true #false, :numericality => { :greater_than => 0 }
   monetize :stored_client_rate_value_cents, :with_currency=>:rub, :allow_nil => true#false, :numericality => { :greater_than => 0 }
-  monetize :stored_cost_cents, :with_currency=>:rub, :allow_nil => true #false, :numericality => { :greater_than => 0 }
+  monetize :stored_executor_cost_cents, :with_currency=>:rub, :allow_nil => true #false, :numericality => { :greater_than => 0 }
   monetize :stored_client_cost_cents, :with_currency=>:rub, :allow_nil => true#false, :numericality => { :greater_than => 0 }
 
   def to_s
@@ -60,12 +60,12 @@ class Task < ActiveRecord::Base
     self.assignee_id == user.id
   end
 
-  def rate_value
+  def executor_rate_value
     if stored_costs?
-      stored_rate_value
+      stored_executor_rate_value
     else
       if task_level.hourly?
-        task_level.rate_value
+        task_level.executor_rate_value
       end
     end
   end
@@ -80,12 +80,12 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def cost
+  def executor_cost
     if stored_costs?
-      stored_cost
+      stored_executor_cost
     else
       if task_level.hourly?
-        task_level.rate_value * planned_time
+        task_level.executor_rate_value * planned_time
       end
     end
   end
@@ -106,9 +106,9 @@ class Task < ActiveRecord::Base
 
   def store_rates_and_costs
     return unless task_level.hourly?
-    self.stored_rate_value = task_level.rate_value
+    self.stored_executor_rate_value = task_level.executor_rate_value
     self.stored_client_rate_value = task_level.client_rate_value
-    self.stored_cost = stored_rate_value * planned_time
+    self.stored_executor_cost = stored_executor_rate_value * planned_time
     self.stored_client_cost = stored_client_rate_value * planned_time
     save
   end
@@ -127,7 +127,7 @@ class Task < ActiveRecord::Base
   end
 
   def user_invoice_summary
-    "#{title} / #{planned_time} / #{cost}"
+    "#{title} / #{planned_time} / #{executor_cost}"
   end
 
   def can_be_updated?

@@ -41,8 +41,10 @@ ru:
       task_level:
         title: Название уровня
         rate_type: Тип ставки
-        rate_value: Внутренняя ставка
+        executor_rate_value: Внутренняя ставка
         client_rate_value: Ставка для клиента
+        team_lead_rate_value: Ставка тимлида
+        account_manager_rate_value: Ставка аккаунт менеджера
         rate_types:
           hourly: Почасовая
           monthly: Помесячная
@@ -61,13 +63,11 @@ ru:
         planned_expenses: Планируемый бюджет
         planned_epenses_cents: Планируемый бюджет
         planned_time: Оцениваемое время (в часах)
-        cost: Стоимость работ
-        calculated_cost: Рассчитанная стоимость
-        calculated_client_cost: Рассчитанная стоимость для клиента
+        executor_cost: Стоимость работ
         task_level: Уровень
         task_level_id: Уровень
         task_type: Тип
-        rate_value: Ставка
+        executor_rate_value: Ставка
         client_rate_value: Ставка
         accepted_at: Дата принятия
         states:

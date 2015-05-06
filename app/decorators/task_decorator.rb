@@ -1,7 +1,7 @@
 class TaskDecorator < Draper::Decorator
   delegate_all
 
-  [:rate_value, :client_rate_value, :cost, :client_cost].each do |m|
+  [:executor_rate_value, :client_rate_value, :executor_cost, :client_cost].each do |m|
     define_method m do
       if object.task_level.present?
         object.send(m)

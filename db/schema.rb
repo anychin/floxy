@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506094353) do
+ActiveRecord::Schema.define(version: 20150506131249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -101,13 +101,15 @@ ActiveRecord::Schema.define(version: 20150506094353) do
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "task_levels", force: :cascade do |t|
-    t.string   "title",                               null: false
-    t.integer  "rate_type",               default: 0, null: false
-    t.integer  "rate_value_cents",                    null: false
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.integer  "organization_id",                     null: false
-    t.integer  "client_rate_value_cents",             null: false
+    t.string   "title",                                        null: false
+    t.integer  "rate_type",                        default: 0, null: false
+    t.integer  "executor_rate_value_cents",                    null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.integer  "organization_id",                              null: false
+    t.integer  "client_rate_value_cents",                      null: false
+    t.integer  "team_lead_rate_value_cents"
+    t.integer  "account_manager_rate_value_cents"
   end
 
   add_index "task_levels", ["organization_id"], name: "index_task_levels_on_organization_id", using: :btree
@@ -138,23 +140,23 @@ ActiveRecord::Schema.define(version: 20150506094353) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "title"
-    t.decimal  "planned_time",                   default: 0.0
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.integer  "owner_id",                                     null: false
+    t.decimal  "planned_time",                     default: 0.0
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.integer  "owner_id",                                       null: false
     t.integer  "assignee_id"
     t.integer  "task_level_id"
     t.string   "aim"
     t.string   "tool"
-    t.integer  "planned_expenses_cents",         default: 0
+    t.integer  "planned_expenses_cents",           default: 0
     t.string   "task_type"
     t.integer  "milestone_id"
     t.text     "description"
     t.datetime "accepted_at"
-    t.integer  "stored_cost_cents"
+    t.integer  "stored_executor_cost_cents"
     t.integer  "user_invoice_id"
     t.integer  "stored_client_cost_cents"
-    t.integer  "stored_rate_value_cents"
+    t.integer  "stored_executor_rate_value_cents"
     t.integer  "stored_client_rate_value_cents"
   end
 
