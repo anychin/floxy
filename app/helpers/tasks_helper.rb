@@ -12,7 +12,7 @@ module TasksHelper
         "#{task_field_icon(field)} #{email_to_name(task.assignee.to_s)}" if task.assignee.present?
       when :planned_expenses
         "#{task_field_icon(field)} #{price task.send(field)}"
-      when :cost, :rate_value
+      when :executor_cost, :executor_rate_value
         if task.task_level.present?
           "#{task_field_icon(field)} #{price task.send(field)}"
         else

@@ -15,7 +15,7 @@ class OrganizationPolicies::TaskLevelsPolicy < OrganizationPolicies::BasePolicy
   end
 
   def permitted_attributes
-    [:title, :rate_type, :rate_value, :client_rate_value]
+    [:title, :rate_type, :executor_rate_value, :client_rate_value, :team_lead_rate_value, :account_manager_rate_value]
   end
 
   class Scope < Scope
