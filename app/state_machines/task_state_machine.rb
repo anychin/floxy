@@ -50,7 +50,8 @@ class TaskStateMachine
   guard_transition(to: :current) do |task|
     assignee = task.assignee
     milestone = task.milestone
-    assignee_ready = assignee.present? && assignee.assigned_tasks.in_state(:current).count < 1 && assignee.assigned_tasks.in_state(:deferred).count <= 2
+    assignee_tasks = task.organization.tasks.by_assigned_user(assignee)
+    assignee_ready = assignee.present? && assignee_tasks.in_state(:current).count < 1 && assignee_tasks.in_state(:deferred).count <= 2
     milestone_ready = milestone.present? && milestone.current_state == "current"
     assignee_ready && milestone_ready
   end
