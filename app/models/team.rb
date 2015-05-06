@@ -1,6 +1,6 @@
 class Team < ActiveRecord::Base
   belongs_to :organization
-  has_many :team_memberships, dependent: :destroy
+  has_many :team_memberships, dependent: :destroy, :inverse_of => :team
   has_many :members, :through => :team_memberships, :source => :user
   has_many :projects, dependent: :nullify
 
