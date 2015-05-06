@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506131249) do
+ActiveRecord::Schema.define(version: 20150506153334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,8 +108,8 @@ ActiveRecord::Schema.define(version: 20150506131249) do
     t.datetime "updated_at",                                   null: false
     t.integer  "organization_id",                              null: false
     t.integer  "client_rate_value_cents",                      null: false
-    t.integer  "team_lead_rate_value_cents"
-    t.integer  "account_manager_rate_value_cents"
+    t.integer  "team_lead_rate_value_cents",                   null: false
+    t.integer  "account_manager_rate_value_cents",             null: false
   end
 
   add_index "task_levels", ["organization_id"], name: "index_task_levels_on_organization_id", using: :btree
