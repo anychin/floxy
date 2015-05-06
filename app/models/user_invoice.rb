@@ -22,4 +22,11 @@ class UserInvoice < ActiveRecord::Base
       tasks.map(&:cost).compact.inject(:+)
     end
   end
+
+  def calucated_total
+    if tasks.present?
+      tasks.map{|t| t.rate_value*t.planned_time}.compact.inject(:+)
+    end
+  end
+
 end

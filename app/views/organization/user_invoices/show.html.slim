@@ -11,7 +11,7 @@
   .clearfix
   hr
   .well
-    - columns = [:id, :user, :total, :paid?, :created_at, :paid_at]
+    - columns = [:id, :user, :total, :created_at, :calucated_total]
     table.table
       thead
         tr
@@ -39,8 +39,12 @@
       tr
         - task_columns.each do |field|
           th= t("activerecord.attributes.task.#{field}")
+        th
+          | ставка &times; время
+
     tbody
       - invoice.tasks.each do |t|
-        tr
+        tr(class="#{(t.rate_value*t.planned_time).to_s != t.cost.to_s ? 'text-danger' : ''}")
           - task_columns.each do |field|
             td= task_field(t, field)
+          td= price (t.rate_value*t.planned_time).to_s
