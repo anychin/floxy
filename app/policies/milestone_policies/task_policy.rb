@@ -48,7 +48,7 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
 
   def permitted_attributes
-    [:title, :planned_time, :assignee_id, :task_level_id, :task_type, :aim, :tool, :planned_expenses, :description]
+    [:title, :planned_time, :assignee_id, :task_level_id, :task_type, :aim, :tool, :planned_expenses, :description, :due_date]
   end
 
   class Scope < Scope

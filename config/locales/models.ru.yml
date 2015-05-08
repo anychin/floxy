@@ -60,6 +60,7 @@ ru:
         tool: Инструмент
         aim: Цель
         description: Описание
+        due_date: Дата завершения
         planned_expenses: Планируемый бюджет
         planned_epenses_cents: Планируемый бюджет
         planned_time: Оцениваемое время (в часах)
