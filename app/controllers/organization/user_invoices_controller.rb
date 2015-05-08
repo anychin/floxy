@@ -14,14 +14,12 @@ class Organization::UserInvoicesController < Organization::BaseController
   end
 
   def new
-    form_object = UserInvoiceRequestForm.new(params[:user_invoice_request_form])
-    if form_object.valid?
+    request_form = UserInvoiceRequestForm.new(params[:user_invoice_request_form])
+    if request_form.valid?
       user_invoice = current_organization.user_invoices.new
-      user_invoice.user = form_object.user
+      user_invoice.user = request_form.user
       authorize(user_invoice)
-
-      tasks = current_organization.tasks.for_user_invoice(form_object.user, form_object.date_from..form_object.date_to)
-      render locals:{user_invoice: user_invoice, tasks: tasks}
+      render locals:{user_invoice: user_invoice, request_form: request_form}
     else
       skip_authorization
       redirect_to organization_user_invoices_path(current_organization)
@@ -38,17 +36,6 @@ class Organization::UserInvoicesController < Organization::BaseController
     end
     redirect_to organization_user_invoices_path(current_organization)
   end
-
-  # def update
-  #   if @user_invoice.update_attributes(permitted_params)
-  #     flash[:notice] = 'Выплата обновлена'
-  #   else
-  #     msg = 'Ошибочка вышла, выплата не обновлена'
-  #     msg << ":#{@user_invoice.errors.messages}" if @user_invoice.errors.any?
-  #     flash[:alert] = msg
-  #   end
-  #   redirect_to organization_user_invoices_path(@organization)
-  # end
 
   def destroy
     authorize(current_user_invoice)

@@ -39,11 +39,11 @@ class Team < ActiveRecord::Base
   private
 
   def role_consistency
-    if team_memberships.find_all(&:account_manager?).count != 1
+    if team_memberships.reject(&:marked_for_destruction?).find_all(&:account_manager?).count != 1
       errors.add(:team_memberships, "должен быть 1 #{I18n.t("activerecord.attributes.team_membership.roles.account_manager")}")
     end
 
-    if team_memberships.find_all(&:team_lead?).count != 1
+    if team_memberships.reject(&:marked_for_destruction?).find_all(&:team_lead?).count != 1
       errors.add(:team_memberships, "должен быть 1 #{I18n.t("activerecord.attributes.team_membership.roles.team_lead")}")
     end
   end

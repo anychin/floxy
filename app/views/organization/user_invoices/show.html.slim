@@ -11,7 +11,7 @@
   .clearfix
   hr
   .well
-    - columns = [:id, :user, :total, :created_at]
+    - columns = [:id, :user, :total_cost, :created_at]
     table.table
       thead
         tr
@@ -30,20 +30,18 @@
     tbody
       tr
         td Операционный доход
-        td= user_invoice_field invoice, :total
+        td= user_invoice_field invoice, :total_cost
 
   h4 Задачи
-  - task_columns = [:title, :planned_time, :executor_rate_value, :executor_cost]
   table.table
     thead
       tr
+        - task_columns = [:task, :user_role, :time, :rate_value, :cost]
         - task_columns.each do |field|
-          th= t("activerecord.attributes.task.#{field}")
-        th
-          | ставка &times; время
-
+          th= t("activerecord.attributes.task_to_user_invoice.#{field}")
     tbody
-      - invoice.tasks.each do |t|
+      - invoice.task_to_user_invoices.includes(:task).each do |t|
+        - t= TaskToUserInvoiceDecorator.new(t)
         tr
           - task_columns.each do |field|
-            td= task_field(t, field)
+            td= t.send(field)

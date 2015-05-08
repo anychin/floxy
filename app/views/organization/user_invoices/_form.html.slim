@@ -5,8 +5,16 @@
   .row
     .col-sm-3
       .form-group
-        = f.association :tasks, as: :check_boxes, collection: tasks, label_method: :user_invoice_summary, input_html: {checked: true},
+        = f.association :executor_tasks, as: :check_boxes, collection: request_form.executor_tasks(user_invoice.organization), label_method: :user_invoice_executor_summary, input_html: {checked: true},
               wrapper: :check_boxes_multiple
+    .col-sm-3
+      .form-group
+        = f.association :team_lead_tasks, as: :check_boxes, collection: request_form.team_lead_tasks(user_invoice.organization), label_method: :user_invoice_team_lead_summary, input_html: {checked: true},
+              wrapper: :check_boxes_multiple
+    .col-sm-3
+      .form-group
+        = f.association :account_manager_tasks, as: :check_boxes, collection: request_form.account_manager_tasks(user_invoice.organization), label_method: :user_invoice_account_manager_summary, input_html: {checked: true},
+                        wrapper: :check_boxes_multiple
 
     .col-sm-2
       - if policy(user_invoice).create?

@@ -8,7 +8,7 @@ module UserInvoicesHelper
         if user_invoice.tasks.present?
           user_invoice.tasks.map{|task| "#{task} (#{price task.estimated_cost})"}.join(', ')
         end
-      when :total
+      when :total_cost
         "#{price user_invoice.send(field)}"
       when :paid?
         "#{boolean_icon user_invoice.send(field)}".html_safe
