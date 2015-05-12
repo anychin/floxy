@@ -31,9 +31,6 @@ module Floxy
     config.i18n.default_locale = :ru
     config.i18n.fallbacks = true
 
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
-    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
-
     # config.paths.add "app/api", glob: "**/*.rb"
     # config.paths.add "app/navigation_renderers", glob: "**/*.rb"
     # config.paths.add "app/policies/organization_policies", glob: "**/*.rb"
