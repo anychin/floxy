@@ -5,7 +5,8 @@
       .form-group
         = f.input :title
     .col-sm-3
-
+      .form-group
+        = f.input :due_date, as: :string, input_html: {role: 'datetimepicker', value: (f.object.due_date.present? ? localize(f.object.due_date, format: :input) : nil)}
     .col-sm-2
       .form-group
         label &nbsp;

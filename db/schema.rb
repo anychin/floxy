@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150508095030) do
+ActiveRecord::Schema.define(version: 20150508123710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 20150508095030) do
     t.integer  "stored_client_rate_value_cents"
     t.integer  "stored_team_lead_rate_value_cents"
     t.integer  "stored_account_manager_rate_value_cents"
+    t.datetime "due_date"
   end
 
   add_index "tasks", ["accepted_at"], name: "index_tasks_on_accepted_at", using: :btree

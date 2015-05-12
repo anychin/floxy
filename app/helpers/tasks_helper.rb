@@ -26,6 +26,8 @@ module TasksHelper
         task.status
       when :state
         task.current_state
+      when :due_date
+        "#{task_field_icon(field)} #{l task.send(field), format: :human}" if task.send(field).present?
       when :accepted_at
         "#{l task.send(field), format: :human}" if task.send(field).present?
       else
@@ -41,7 +43,7 @@ module TasksHelper
   end
 
   def task_field_icon field
-    icons = {assignee: 'fa fa-user', planned_time: 'fa fa-clock-o', planned_expenses: 'fa fa-money', aim: 'fa fa-crosshairs', tool: 'fa fa-wrench', task_level: 'fa fa-puzzle-piece', task_type: 'fa fa-folder-open-o'}
+    icons = {assignee: 'fa fa-user', planned_time: 'fa fa-clock-o', planned_expenses: 'fa fa-money', aim: 'fa fa-crosshairs', tool: 'fa fa-wrench', task_level: 'fa fa-puzzle-piece', task_type: 'fa fa-folder-open-o', due_date: 'fa fa-calendar'}
     if icons[field].present?
       content_tag :i, '', class: "task__field-block-icon #{icons[field]}"
     end
