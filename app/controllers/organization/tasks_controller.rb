@@ -5,6 +5,18 @@ class Organization::TasksController < Organization::BaseController
     render locals: {tasks: tasks, organization: current_organization}
   end
 
+  def review
+    authorize Task
+    tasks = tasks_scope.by_team_lead_user(current_user).in_state(:resolved).ordered_by_id
+    render locals: {tasks: tasks, organization: current_organization}
+  end
+
+  def negotiate
+    authorize Task
+    tasks = current_organization.tasks.by_account_manager_user(current_user).in_state(:approval).ordered_by_id
+    render locals: {tasks: tasks, organization: current_organization}
+  end
+
   def without_milestone
     authorize Task
     tasks = policy_scope(current_organization.tasks.not_in_state(:done).ordered_by_id.without_milestone).group_by{|t| t.current_state}

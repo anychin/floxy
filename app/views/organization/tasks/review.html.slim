@@ -1,0 +1,14 @@
+= render :partial=> 'my_nav', locals: {organization: organization}
+.container
+  - if tasks.any?
+    - tasks_by_milestone = tasks.group_by{|t| t.milestone}
+    - tasks_by_milestone.each_with_index do |(milestone, tasks, i)|
+      - if milestone.present?
+        h3= link_to milestone, organization_project_milestone_path(current_organization, milestone.project, milestone)
+      - else
+        h3
+          | Без этапа
+      = render :partial=>'tasks/block_list', locals:{ tasks: tasks }
+    hr
+  - else
+    = render :partial=>'tasks/empty'
