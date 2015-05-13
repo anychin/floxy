@@ -7,6 +7,14 @@ class OrganizationPolicies::TaskPolicy < OrganizationPolicies::BasePolicy
     true
   end
 
+  def review?
+    true
+  end
+
+  def negotiate?
+    true
+  end
+
   def without_milestone?
     true
   end

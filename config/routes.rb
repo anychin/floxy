@@ -16,6 +16,8 @@ Floxy::Application.routes.draw do
       resources :tasks, only: [:index] do
         get 'done', on: :collection
         get 'without_milestone', on: :collection
+        get 'review', on: :collection
+        get 'negotiate', on: :collection
       end
       resources :members, only: [:index, :show, :edit, :update]
       resources :teams
