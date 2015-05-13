@@ -43,6 +43,7 @@ class Task < ActiveRecord::Base
   scope :not_accepted, ->{not_in_state(:done)}
   scope :not_approved, ->{in_state(:approval)}
   scope :not_negotiated, ->{in_state(:idea)}
+  scope :not_started, ->{in_state(:approval, :todo)}
   scope :not_finished, ->{not_in_state(:resolved, :done)}
   scope :by_accepted_date, ->(date) {where(accepted_at: date)}
 

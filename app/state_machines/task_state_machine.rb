@@ -20,6 +20,7 @@ class TaskStateMachine
   # return to idea if task is edited
   event :hold do
     transition from: :todo, to: :idea
+    transition from: :approval, to: :idea
   end
 
   event :defer do

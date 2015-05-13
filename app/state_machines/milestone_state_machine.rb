@@ -59,4 +59,11 @@ class MilestoneStateMachine
       task.trigger!(:approve)
     end
   end
+
+  after_transition(from: :current, to: :approval) do |milestone|
+    milestone.tasks.not_started.each do |task|
+      task.trigger!(:hold)
+    end
+  end
+
 end
