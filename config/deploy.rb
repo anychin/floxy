@@ -1,60 +1,56 @@
-require 'mina/bundler'
-require 'mina/rails'
-require 'mina/git'
-require 'mina/rvm'
-require 'mina/puma'
-require './config/boot'
-#require 'airbrake/capistrano'
+lock '3.4.0'
 
-set :rails_env, 'production'
-set :domain, '188.226.198.167'
-set :port, 523
-set :user, 'deploy'
-set :term_mode, nil
+set :repo_url, 'git@github.com:WebiumDigital/floxy.git'
 
-set :deploy_to, "/home/#{user}/floxy/#{rails_env}"
-set :app_path, "#{deploy_to}/#{current_path}"
-#set :repository, 'git@bitbucket.org:webiumdigital/floxy_prototype.git'
-set :repository, 'git@github.com:WebiumDigital/floxy.git'
-set :branch, ENV['BRANCH'] || 'master'
-set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'tmp']
-set :keep_releases, 10
-set :rvm_path, "/home/#{user}/.rvm/scripts/rvm"
+set :branch, ENV['branch'] || "master"
+# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
-task :environment do
-  invoke 'rvm:use[ruby-2.2.0@default]'
-end
+# Default value for :format is :pretty
+# set :format, :pretty
 
-#delay. Setup task
-# ==============================================================================
-task :setup do
-  queue! %{
-mkdir -p "#{deploy_to}/shared/tmp/pids"
-}
-  queue! %{
-mkdir -p "#{deploy_to}/shared/tmp/sockets"
-}
-  queue! %{
-mkdir -p "#{deploy_to}/shared/config"
-}
-end
+# Default value for :log_level is :debug
+# set :log_level, :debug
 
-# Deploy task
-# ==============================================================================
-desc "deploys the current version to the server."
-task deploy: :environment do
-  deploy do
-    invoke 'git:clone'
-    invoke 'bundle:install'
-    invoke 'deploy:link_shared_paths'
-    queue! %[bower install --allow-root]
-    invoke 'rails:db_migrate'
-    invoke 'rails:assets_precompile'
+# Default value for :pty is false
+# set :pty, true
 
-    to :launch do
-      invoke :'puma:restart'
+# Default value for :linked_files is []
+# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
+set :linked_files, %w{config/database.yml}
+
+# Default value for linked_dirs is []
+# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/uploads vendor/components}
+
+
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+# Default value for keep_releases is 5
+# set :keep_releases, 5
+
+set :rbenv_type, :user
+set :rbenv_ruby, '2.2.0'
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_roles, :all
+
+set :puma_init_active_record, true
+
+
+set :assets_dir, %w(public/uploads)
+set :local_assets_dir, %w(public/uploads)
+
+
+
+namespace :deploy do
+
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
     end
   end
+
 end
-
-

@@ -165,12 +165,16 @@ group :development do
   gem 'ruby-progressbar'
 
   # gem 'foreman'
+  # deploy
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails-console'
+  gem "capistrano-db-tasks", require: false
+  gem 'capistrano-bower'
 end
 
-# Deploy
-gem 'mina'
-# Tasks for mina
-gem 'mina-puma', :require => false
 
 gem 'rspec-rails', :group => [:development, :test]
 
