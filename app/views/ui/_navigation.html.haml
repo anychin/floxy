@@ -1,0 +1,29 @@
+.navbar.navbar-default.navbar-static-top
+  .container
+    .navbar-header
+      %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{:href => "http://localhost:4000/"} Floxy
+    %ul.nav.navbar-nav
+      %li#base_organization.dropdown
+        %a.dropdown-toggle{"data-target" => "#", "data-toggle" => "dropdown", :href => "/a"}
+          webium
+          %b.caret
+        %ul.dropdown-menu
+          %li#org_3
+            %a{:href => "/a/3/tasks"} sibsfinx test account
+          %li#org_1
+            %a{:href => "/a/1/tasks"} Webium Digital
+    .collapse.navbar-collapse
+      %ul.nav.navbar-nav.pull-left
+        %li
+          %a{:href => "/ui/hr"} HR
+
+      %ul.nav.navbar-nav.pull-right
+        %li#user
+          %a{:href => "#"} Александр М.
+        %li#logout
+          %a{"data-method" => "delete", :href => "/users/sign_out", :rel => "nofollow"} Выйти
+      .clearfix

@@ -1,8 +1,8 @@
 class UiController < ApplicationController
-  #layout 'ui'
+  layout 'ui'
 
   def index
-    redirect_to root_path unless current_person.admin?
+    redirect_to root_path
   end
 
   def show

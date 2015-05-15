@@ -1,2 +1,29 @@
 .container
-  h1 HR опросники
+  h1.pull-left
+    | Анкеты для кандидатов
+  .pull-right
+    a.btn.btn-default(href="/ui/hr/manager_surveys_new")
+      | Создать анкету
+  .clearfix
+  - surveys = [{id: 1, position: 'ruby-разработчик', responses: 2}]
+  table.table
+    thead
+      tr
+        - surveys.first.keys.each do |k|
+          th= k
+        th
+    tbody
+      tr
+        - surveys.each do |s|
+          - surveys.first.keys.each do |k|
+            td
+              - if k == :position
+                a(href='/ui/hr/manager_surveys_show')= s[k]
+              - else
+                = s[k]
+
+        td.text-right
+          a.btn.btn-link edit
+
+
+

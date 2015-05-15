@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    = render 'layouts/head'
+  %body{:class => "#{controller_name} #{action_name}"}
+    = render 'ui/navigation'
+    .application-container
+      = yield
+
+    %footer.footer
+      .container

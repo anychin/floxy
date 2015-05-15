@@ -1,0 +1,100 @@
+.container
+  = link_to "&larr; Назад".html_safe, :back, class: 'btn btn-link'
+  .clearfix
+  h1.page-title
+    | Создать анкету для кандидатов
+  br
+  br
+  form.form.form-vertical
+    .row
+      .col-sm-8
+        .form-group
+          input.form-control(placeholder="Должность")
+      .col-sm-2
+        .form-group
+          a.btn.btn-block.btn-primary(href="/ui/hr/manager_surveys_show") Сохранить
+    h2 Документы в анкете
+    .form-group
+      .row
+        .col-sm-2
+          input(type="file")
+        .col-sm-3
+          input.form-control(placeholder="Название документа")
+        .col-sm-3
+          input.form-control(placeholder="Описание или инструкция")
+        .col-sm-2
+          button.btn.btn-default &times;
+
+    a.btn.btn-default(href="/ui/hr/manager_surveys_show") Добавить ещё документ
+    hr
+    h2 Вопросы
+    .row
+      .col-sm-2
+        select.form-control
+          - question_types = %w( text select multiple_select )
+          - question_types.each_with_index do |qt, i|
+            - if i == 0
+              option(selected)= qt
+            - else
+              option= qt
+      .col-sm-8
+        .form-group
+          input.form-control(placeholder="Текст вопроса")
+      .col-sm-2
+        .form-group
+          = button_tag class: 'btn btn-block btn-default', :data => { 'disable-with' => 'Сохраняем' } do
+            | Удалить
+    hr
+    .row
+      .col-sm-2
+        select.form-control
+          - question_types = %w( text select multiple_select )
+          - question_types.each_with_index do |qt, i|
+            - if i == 1
+              option(selected)= qt
+            - else
+              option= qt
+      .col-sm-8
+        .form-group
+          input.form-control(placeholder="Текст вопроса")
+        .form-group
+          .row
+            .col-sm-9
+              input.form-control(placeholder="Вариант 1")
+            .col-sm-3
+              button.btn.btn-default &times;
+        a.btn.btn-default Ещё вариант
+      .col-sm-2
+        .form-group
+          = button_tag class: 'btn btn-block btn-default', :data => { 'disable-with' => 'Сохраняем' } do
+            | Удалить
+    hr
+    .row
+      .col-sm-2
+        select.form-control
+          - question_types = %w( text select multiple_select )
+          - question_types.each_with_index do |qt, i|
+            - if i == 2
+              option(selected)= qt
+            - else
+              option= qt
+      .col-sm-8
+        .form-group
+          input.form-control(placeholder="Текст вопроса")
+        .form-group
+          .row
+            .col-sm-9
+              input.form-control(placeholder="Вариант 1")
+            .col-sm-3
+              button.btn.btn-default &times;
+        a.btn.btn-default Ещё вариант
+      .col-sm-2
+        .form-group
+          = button_tag class: 'btn btn-block btn-default', :data => { 'disable-with' => 'Сохраняем' } do
+            | Удалить
+    hr
+    .row
+      .col-sm-2
+        .form-group
+          a.btn.btn-block.btn-default Добавить вопрос
+
