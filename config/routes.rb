@@ -55,6 +55,10 @@ Floxy::Application.routes.draw do
     end
   end
 
+  get '/ui' => 'ui#index'
+  get '/ui/:slug' => 'ui#show'
+  get '/ui/:feature/:slug' => 'ui#show_nested'
+
   get 'switch_user' => 'switch_user#set_current_user'
 
   devise_for :users
