@@ -11,7 +11,7 @@ ru:
     task_state_buttons:
       negotiate: На утверждение
       approve: Утвердить
-      hold: Вернуть на утверждение
+      hold: Вернуть в идею
       start: Начать
       finish: Закончить
       defer: Отложить
@@ -21,7 +21,7 @@ ru:
     milestone_state_buttons:
       negotiate: На утверждение
       start: В производство
-      hold: Вернуть на утверждение
+      hold: Вернуть в идею
       finish: Закончить
       accept: Принять
       reject: Отклонить

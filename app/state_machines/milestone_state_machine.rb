@@ -18,7 +18,8 @@ class MilestoneStateMachine
   end
 
   event :hold do
-    transition from: :current, to: :approval
+    transition from: :current, to: :idea
+    transition from: :approval, to: :idea
   end
 
   event :finish do
@@ -60,7 +61,7 @@ class MilestoneStateMachine
     end
   end
 
-  after_transition(from: :current, to: :approval) do |milestone|
+  after_transition(to: :idea) do |milestone|
     milestone.tasks.not_started.each do |task|
       task.trigger!(:hold)
     end
