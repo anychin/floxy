@@ -1,0 +1,39 @@
+- resp = {id: 1, position: 'ruby-разработчик', email: "mail@mail.com", name: 'Иванов Иван', legal_entity: 'ИП'}
+
+.container
+  = link_to "&larr; Назад".html_safe, :back, class: 'btn btn-link'
+  .clearfix
+  h1.pull-left
+    | Анкета кандидата — 
+    = resp[:name]
+  .pull-right
+    a.btn.btn-default(href="/ui/hr/manager_surveys_new")
+      | delete
+  .clearfix
+  .row
+    .col-sm-6
+      table.table.table-condensed
+        tbody
+          - resp.each_pair do |k, v|
+            tr
+              td= k
+              td= v
+
+  h2 Документы
+  - for i in 0..2
+    .row
+      .col-sm-6
+        = "Документ #{i}"
+      .col-sm-6
+        a(href="")
+          = "Файл документа #{i}"
+    hr
+  h2 Ответы
+  - for i in 0..2
+    .row
+      .col-sm-6
+        = "Вопрос #{i}"
+      .col-sm-6
+        = "Ответы на вопрос #{i}"
+    hr
+

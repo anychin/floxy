@@ -1,0 +1,42 @@
+- survey = {id: 1, position: 'ruby-разработчик', responses: 2}
+
+.container
+  = link_to "&larr; Назад".html_safe, :back, class: 'btn btn-link'
+  .clearfix
+  h1.pull-left
+    | Анкета для кандидата — 
+    = survey[:position]
+  .pull-right
+    a.btn.btn-default(href="/ui/hr/manager_surveys_new")
+      | Создать анкету
+  .clearfix
+  .row
+    .col-sm-6
+      table.table.table-condensed
+        tbody
+          - survey.each_pair do |k, v|
+            tr
+              td= k
+              td= v
+  - resps = [{id: 1, position: 'ruby-разработчик', email: "mail@mail.com", name: 'Иванов Иван', legal_entity: 'ИП'}]
+  table.table
+    thead
+      tr
+        - resps.first.keys.each do |k|
+          th= k
+        th
+    tbody
+      tr
+        - resps.each do |s|
+          - resps.first.keys.each do |k|
+            td
+              - if k == :position
+                a(href='/ui/hr/manager_surveys_response_show')= s[k]
+              - else
+                = s[k]
+        td.text-right
+          a.btn.btn-link delete
+
+
+
+

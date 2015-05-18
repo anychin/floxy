@@ -1,0 +1,64 @@
+.container
+  = link_to "&larr; Назад".html_safe, :back, class: 'btn btn-link'
+  .clearfix
+  h1.pull-left
+    | Анкета кандидата
+  .clearfix
+  .row
+    .col-sm-6
+      .form-group
+        label Должность
+        select.form-control
+          option ruby-разработчик
+          option дизайнер
+          option интернет-маркетолог
+      .form-group
+        input.form-control(placeholder="Имя и Фамилия")
+      .form-group
+        input.form-control(placeholder="email" type="email")
+      .form-group
+        select.form-control
+          option ИП
+          option Физическое лицо
+      .form-group
+        select.form-control
+          option Россия
+          option Таиланд
+
+
+  h2 Документы
+  - for i in 0..2
+    .row
+      .col-sm-3
+        = "Документ #{i}"
+      .col-sm-9
+        input(type="file")
+
+
+    hr
+  h2 Ответы
+  .row
+    .col-sm-3
+      = "Вопрос 1"
+    .col-sm-9
+      input.form-control(placeholder="Вопрос 1")
+  hr
+  .row
+    .col-sm-3
+      = "Вопрос 2"
+    .col-sm-9
+      select.form-control
+        - for i in 0..5
+          option= "Вариант #{i}"
+  hr
+  .row
+    .col-sm-3
+      = "Вопрос 3"
+    .col-sm-9
+      - for i in 0..5
+        .checkbox
+          input(type="checkbox")= "Вариант #{i}"
+  hr
+  .form-group
+    button.btn.btn-primary.btn-lg(type="submit") Отправить
+
