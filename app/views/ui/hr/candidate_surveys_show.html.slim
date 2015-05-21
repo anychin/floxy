@@ -4,6 +4,41 @@
   h1.pull-left
     | Анкета кандидата
   .clearfix
+
+  h2 Правила Floxy
+  - for q in 0..2
+    .panel.panel-default
+      .panel-body
+        p
+          | Задачи оплачиваются по планируемому времени
+        .row
+          .col-xs-2.col-xs-offset-8.text-right.text-success
+            label.radio-inline
+              input(type="radio" name="floxy_rule_#{q}" value="true")
+              | Принимаю
+          .col-xs-2.text-right.text-danger
+            label.radio-inline
+              input(type="radio" name="floxy_rule_#{q}" value="false")
+              | Не согласен
+
+  h2 Правила webium
+  - for q in 0..2
+    .panel.panel-default
+      .panel-body
+        p
+          | Выплаты производятся дважды в месяц: 5го и 20го числа
+        .row
+          .col-xs-2.col-xs-offset-8.text-right.text-success
+            label.radio-inline
+              input(type="radio" name="floxy_rule_#{q}" value="true")
+              | Принимаю
+          .col-xs-2.text-right.text-danger
+            label.radio-inline
+              input(type="radio" name="floxy_rule_#{q}" value="false")
+              | Не согласен
+
+
+  h2 Общая информация
   .row
     .col-sm-6
       .form-group
@@ -25,18 +60,7 @@
           option Россия
           option Таиланд
 
-
-  h2 Документы
-  - for i in 0..2
-    .row
-      .col-sm-3
-        = "Документ #{i}"
-      .col-sm-9
-        input(type="file")
-
-
-    hr
-  h2 Ответы
+  h2 Ответьте на вопросы
   .row
     .col-sm-3
       = "Вопрос 1"
@@ -58,7 +82,16 @@
       - for i in 0..5
         .checkbox
           input(type="checkbox")= "Вариант #{i}"
-  hr
+
+  h2 Документы
+  - for i in 0..2
+    .row
+      .col-sm-3
+        = "Документ #{i}"
+      .col-sm-9
+        input(type="file")
+    hr
+
   .form-group
     button.btn.btn-primary.btn-lg(type="submit") Отправить
 

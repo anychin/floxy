@@ -27,6 +27,26 @@
 
     a.btn.btn-default(href="/ui/hr/manager_surveys_show") Добавить ещё документ
     hr
+    h2 Правила Floxy
+    - for q in 0..2
+      .row
+        .col-sm-2
+          select.form-control(disabled="disabled")
+            option system_rule
+        .col-sm-8
+          .form-group
+            input.form-control(disabled="disabled" value="Задачи оплачиваются по планируемому времени")
+
+    h2 Правила аккаунта webium
+    - for q in 0..2
+      .row
+        .col-sm-2
+          select.form-control(disabled="disabled")
+            option org_rule
+        .col-sm-8
+          .form-group
+            input.form-control(disabled="disabled" value="Выплаты производятся дважды в месяц: 5го и 20го числа")
+
     h2 Вопросы
     .row
       .col-sm-2
