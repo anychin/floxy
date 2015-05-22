@@ -13,6 +13,6 @@ class TaskToUserInvoice < ActiveRecord::Base
   end
 
   def cost
-    task.planned_time * rate_value if rate_value.present?
+    task.send("#{user_role}_cost")
   end
 end
