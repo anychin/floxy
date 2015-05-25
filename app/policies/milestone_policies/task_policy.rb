@@ -1,6 +1,6 @@
 class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   def create?
-    (record.organization.owner?(user) or record.milestone.team.manager?(user)) and MilestoneStateMachine::NOT_EDITABLE_STATES.exclude?(record.milestone.current_state.to_sym)
+    (record.organization.owner?(user) or record.milestone.team.administrative?(user)) and MilestoneStateMachine::NOT_EDITABLE_STATES.exclude?(record.milestone.current_state.to_sym)
   end
 
   def show?
@@ -8,43 +8,43 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
   
   def update?
-    (record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user)) and (record.can_be_updated?)
+    (record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user)) and (record.can_be_updated?)
   end
   
   def destroy?
-    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user)
+    record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user)
   end
 
   def negotiate?
-    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user)
+    record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user) or record.assigned?(user)
   end
 
   def approve?
-    record.organization.owner?(user) or record.team.account_manager?(user)
-  end
-
-  def hold?
-    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user)
-  end
-
-  def start?
-    record.organization.owner?(user) or record.team.manager?(user) or record.assigned?(user)
-  end
-
-  def finish?
-    record.organization.owner?(user) or record.team.manager?(user) or record.assigned?(user)
-  end
-
-  def defer?
-    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user)
-  end
-
-  def accept?
     record.organization.owner?(user) or record.team.manager?(user)
   end
 
+  def hold?
+    record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user) or record.assigned?(user)
+  end
+
+  def start?
+    record.organization.owner?(user) or record.team.administrative?(user) or record.assigned?(user)
+  end
+
+  def finish?
+    record.organization.owner?(user) or record.team.administrative?(user) or record.assigned?(user)
+  end
+
+  def defer?
+    record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user) or record.assigned?(user)
+  end
+
+  def accept?
+    record.organization.owner?(user) or record.team.administrative?(user)
+  end
+
   def reject?
-    record.organization.owner?(user) or record.team.manager?(user) or record.owner?(user) or record.assigned?(user)
+    record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user) or record.assigned?(user)
   end
 
   def permitted_attributes

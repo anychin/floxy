@@ -30,12 +30,12 @@ class Task < ActiveRecord::Base
 
   scope :by_account_manager_user, ->(user) {
     where.not(assignee_id: user.id).joins(:team_memberships).
-    merge(TeamMembership.account_manager).merge(TeamMembership.by_user(user))
+    merge(TeamMembership.managers).merge(TeamMembership.by_user(user))
   }
 
   scope :by_team_lead_user, ->(user) {
     where.not(assignee_id: user.id).joins(:team_memberships).
-    merge(TeamMembership.team_lead).merge(TeamMembership.by_user(user))
+    merge(TeamMembership.team_leads).merge(TeamMembership.by_user(user))
   }
 
   scope :ordered_by_created_at, ->{order(:created_at)}

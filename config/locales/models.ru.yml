@@ -93,6 +93,7 @@ ru:
           member: Участник
           team_lead: Тимлид
           account_manager: Аккаунт менджер
+          team_lead_manager: Тимлид Аккаунт менеджер
       milestone_print:
         project: Проект
         title: Название этапа

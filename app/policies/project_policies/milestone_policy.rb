@@ -1,6 +1,6 @@
 class ProjectPolicies::MilestonePolicy < ProjectPolicies::BasePolicy
   def create?
-    project.organization.owner?(user) or project.team.manager?(user)
+    project.organization.owner?(user) or project.team.administrative?(user)
   end
 
   def show?
@@ -8,15 +8,15 @@ class ProjectPolicies::MilestonePolicy < ProjectPolicies::BasePolicy
   end
 
   def update?
-    project.organization.owner?(user) or project.team.manager?(user)
+    project.organization.owner?(user) or project.team.administrative?(user)
   end
 
   def destroy?
-    project.organization.owner?(user) or project.team.manager?(user)
+    project.organization.owner?(user) or project.team.administrative?(user)
   end
 
   def print?
-    project.organization.owner_or_booker?(user) or project.team.account_manager?(user)
+    project.organization.owner_or_booker?(user) or project.team.manager?(user)
   end
 
   def
