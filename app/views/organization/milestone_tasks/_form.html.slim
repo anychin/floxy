@@ -24,7 +24,7 @@
           = f.input :assignee_id, :collection=>task.team.members.map{|el| [el.to_s, el.id]}
       .col-sm-3
         .form-group
-          = f.input :task_level_id, :collection=>task.organization.task_levels.map{|el| [el.to_s, el.id]}
+          = f.input :task_level_id, :collection=>task.organization.task_levels.order(:executor_rate_value_cents).map{|el| [el.to_s, el.id]}
     .row
       .col-sm-3
         .form-group
