@@ -1,0 +1,3 @@
+= simple_form_for(:team_membership, :url=>create_membership_organization_team_path(team.organization, team)) do |f|
+  = f.input_field :user_id, as: :select, :collection => team_new_member_collection(team), :include_blank=>false
+  = f.submit :добавить

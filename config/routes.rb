@@ -12,6 +12,9 @@ Floxy::Application.routes.draw do
   root 'organizations#index'
 
   resources :organizations, path: "a" do
+    member do
+      post :create_membership
+    end
     scope :module=>:organization do
       resources :tasks, only: [:index] do
         get 'done', on: :collection
@@ -20,7 +23,11 @@ Floxy::Application.routes.draw do
         get 'negotiate', on: :collection
       end
       resources :members, only: [:index, :show, :edit, :update]
-      resources :teams
+      resources :teams do
+        member do
+          post :create_membership
+        end
+      end
       resources :milestones, only: [:index]
       resources :projects do
         resources :milestones, :except=>[:index], :controller => 'project_milestones' do

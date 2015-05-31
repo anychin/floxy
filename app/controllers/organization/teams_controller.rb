@@ -22,7 +22,7 @@ class Organization::TeamsController < Organization::BaseController
     authorize new_team
     if new_team.save
       flash[:notice] = "#{t('activerecord.models.team')} добавлена"
-      redirect_to organization_teams_path(current_organization)
+      redirect_to edit_organization_team_path(current_organization, current_team)
     else
       render :new, locals:{new_team: new_team}
     end
@@ -54,27 +54,24 @@ class Organization::TeamsController < Organization::BaseController
     redirect_to organization_teams_path(current_organization)
   end
 
+  def create_membership
+    authorize(current_team)
+    current_team.team_memberships.create(membership_params)
+    redirect_to :back
+  end
+
   private
+
+  def membership_params
+    params.require(:team_membership).permit([:user_id])
+  end
 
   def current_team
     @current_team ||= current_organization.teams.find(params[:id])
   end
 
   def team_params
-    team_params = params.require(:team).permit(policy(resource_policy_class).permitted_attributes)
-    new_params = team_params["team_memberships_attributes"].find_all{|tma| !tma[1]['id'].present?}
-    user_id_to_param_key = {}
-    new_params.each do |np|
-      user_id = np[1]['user_id']
-      user_id_to_param_key[user_id] = user_id_to_param_key[user_id].to_a + [np[0]]
-    end
-    user_id_to_param_key.each do |user_id, keys|
-      if keys.many?
-        keys.shift
-        keys.map{|k| team_params["team_memberships_attributes"].delete(k)}
-      end
-    end
-    team_params
+    params.require(:team).permit(policy(resource_policy_class).permitted_attributes)
   end
 
   def resource_policy_class

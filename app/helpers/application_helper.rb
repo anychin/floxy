@@ -35,4 +35,14 @@ module ApplicationHelper
       [name, key]
     end
   end
+
+  def organization_new_member_collection organization
+    existing_user_ids = organization.members.pluck(:id)
+    User.where.not(id: existing_user_ids).pluck(:email, :id)
+  end
+
+  def team_new_member_collection team
+    existing_user_ids = team.members.pluck(:id)
+    team.organization.members.where.not(id: existing_user_ids).map{|m| [m.title, m.id]}
+  end
 end
