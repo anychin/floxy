@@ -9,6 +9,8 @@ class TaskStateMachine
   state :resolved
   state :done
 
+  NOT_EDITABLE_STATES = [:approval, :todo, :current, :deferred, :resolved, :done]
+
   event :negotiate do
     transition from: :idea, to: :approval
   end
@@ -48,6 +50,10 @@ class TaskStateMachine
     task.ready_for_approval?
   end
 
+  after_transition(to: :approval) do |task|
+    task.store_rates_and_costs
+  end
+
   guard_transition(to: :current) do |task|
     assignee = task.assignee
     milestone = task.milestone
@@ -55,10 +61,6 @@ class TaskStateMachine
     assignee_ready = assignee.present? && assignee_tasks.in_state(:current).count < 1 && assignee_tasks.in_state(:deferred).count <= 2
     milestone_ready = milestone.present? && milestone.current_state == "current"
     assignee_ready && milestone_ready
-  end
-
-  after_transition(to: :approval) do |task|
-    task.store_rates_and_costs
   end
 
   after_transition(to: :done) do |task, transition|

@@ -147,8 +147,6 @@ class Task < ActiveRecord::Base
     end
   end
 
-
-
   def stored_costs?
     ["approval","todo", "current", "deferred", "resolved", "done"].include?(self.current_state)
   end
@@ -187,10 +185,6 @@ class Task < ActiveRecord::Base
 
   def user_invoice_account_manager_summary
     "#{title} / #{planned_time} / #{account_manager_cost}"
-  end
-
-  def can_be_updated?
-    !(["approval","todo","current", "deferred", "resolved", "done"].include?(self.current_state))
   end
 
   private

@@ -51,71 +51,10 @@ class Organization::MilestoneTasksController < Organization::BaseController
     redirect_to (get_session_return_to || organization_project_milestone_path(current_organization, current_project, current_milestone))
   end
 
-  def negotiate
-    authorize current_task
-    try_trigger_for current_task, :negotiate
-    redirect_to :back
-  rescue Statesman::GuardFailedError
-    flash[:alert] = "Для отправки на согласование с клиентом задача должна иметь этап, планируемое время, уровень и цель"
-    tasks_state_guard_redirect
-  end
-
-  def approve
-    authorize current_task
-    try_trigger_for current_task, :approve
-    redirect_to :back
-  rescue Statesman::GuardFailedError
-    tasks_state_guard_redirect
-  end
-
-  def hold
-    authorize current_task
-    try_trigger_for current_task, :hold
-    redirect_to :back
-  rescue Statesman::GuardFailedError
-    tasks_state_guard_redirect
-  end
-
-  def start
-    authorize current_task
-    try_trigger_for current_task, :start
-    redirect_to :back
-  rescue Statesman::GuardFailedError
-    flash[:alert] = "Для старта задачи должен быть назначен исполнитель, у которого не больше 1 задачи в работе и не больше 2 отложенных задач. Этап задачи должен иметь статус 'В работе'"
-    tasks_state_guard_redirect
-  end
-
-  def finish
-    authorize current_task
-    try_trigger_for current_task, :finish
-    redirect_to :back
-  rescue Statesman::GuardFailedError
-    tasks_state_guard_redirect
-  end
-
-  def defer
-    authorize current_task
-    try_trigger_for current_task, :defer
-    redirect_to :back
-  rescue Statesman::GuardFailedError
-    tasks_state_guard_redirect
-  end
-
-  def accept
-    authorize current_task
-    try_trigger_for current_task, :accept
-    redirect_to :back
-  rescue Statesman::GuardFailedError
-    #flash[:alert] = 'Задача должна иметь часы, затраченные на выполнение'
-    tasks_state_guard_redirect
-  end
-
-  def reject
-    authorize current_task
-    try_trigger_for current_task, :reject
-    redirect_to :back
-  rescue Statesman::GuardFailedError
-    tasks_state_guard_redirect
+  [:negotiate, :approve, :hold, :start, :finish, :defer, :accept, :reject].each do |state_event|
+    define_method "#{state_event}" do
+      trigger_state_event current_task, state_event
+    end
   end
 
   private
@@ -148,8 +87,8 @@ class Organization::MilestoneTasksController < Organization::BaseController
     policy_scopes[scope] ||= resource_policy_class::Scope.new(current_user, scope, current_project).resolve
   end
 
-  def tasks_state_guard_redirect
-    flash[:alert] ||=  "Не удалось поменять статус задачи (не выполнены требования задачи)"
+  def trigger_failed_redirect event
+    flash[:alert] = I18n.t(event, :default => :default, scope: 'activerecord.attributes.task.state_event_errors')
     redirect_to organization_project_milestone_task_path(current_organization, current_project, current_milestone, current_task)
   end
 
