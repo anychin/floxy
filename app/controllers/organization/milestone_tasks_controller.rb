@@ -76,7 +76,7 @@ class Organization::MilestoneTasksController < Organization::BaseController
   end
 
   def task_params
-    params.require(:task).permit(policy(resource_policy_class).permitted_attributes)
+    params.require(:task).permit(policy(current_task).permitted_attributes)
   end
 
   def policy(record)
@@ -91,8 +91,6 @@ class Organization::MilestoneTasksController < Organization::BaseController
     flash[:alert] = I18n.t(event, :default => :default, scope: 'activerecord.attributes.task.state_event_errors')
     redirect_to organization_project_milestone_task_path(current_organization, current_project, current_milestone, current_task)
   end
-
-  private
 
   def set_session_return_to
     session[:return_to] = request.referer

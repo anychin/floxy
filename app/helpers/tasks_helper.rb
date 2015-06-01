@@ -66,4 +66,8 @@ module TasksHelper
       html.html_safe
     end
   end
+
+  def task_field_edit_disabled task
+    TaskStateMachine::EXECUTION_EDITABLE_STATES.include?(task.current_state.to_sym)
+  end
 end
