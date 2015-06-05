@@ -22,12 +22,18 @@ class ApplicationController < ActionController::Base
     organization_tasks_path(organization)
   end
 
-  def try_trigger_for resource, event
+  def trigger_state_event resource, event
+    authorize resource
+
     if resource.available_events.include? event
       resource.trigger! event
     else
       flash[:alert] = "Невозможно событие #{event} для #{resource}"
     end
+
+    redirect_to :back
+  rescue Statesman::GuardFailedError
+    trigger_failed_redirect(event)
   end
 
   protected

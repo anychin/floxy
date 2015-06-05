@@ -8,7 +8,7 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
   
   def update?
-    (record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user)) and (record.can_be_updated?)
+    (record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user)) and TaskStateMachine::NOT_EDITABLE_STATES.exclude?(record.current_state.to_sym)
   end
   
   def destroy?

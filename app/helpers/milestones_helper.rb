@@ -29,7 +29,7 @@ module MilestonesHelper
       events = milestone.available_events
       html = ''
       events.each do |event|
-        html << link_to(t("helpers.milestone_state_buttons.#{event}"), send("#{event}_organization_project_milestone_path", milestone.organization, milestone.project, milestone), method: :post, class: "btn-milestone-state-#{event} #{args[:css_class]}")
+        html << link_to(t("helpers.milestone_state_buttons.#{event}"), send("#{event}_organization_project_milestone_path", milestone.organization, milestone.project, milestone), method: :get, class: "btn-milestone-state-#{event} #{args[:css_class]}")
       end
       html.html_safe
     end

@@ -25,24 +25,24 @@ Floxy::Application.routes.draw do
       resources :projects do
         resources :milestones, :except=>[:index], :controller => 'project_milestones' do
           member do
-            post :negotiate
-            post :start
-            post :hold
-            post :finish
-            post :accept
-            post :reject
+            get :negotiate
+            get :start
+            get :hold
+            get :finish
+            get :accept
+            get :reject
             get :print
           end
           resources :tasks, :except=>[:index], :controller => 'milestone_tasks' do
             member do
-              post :negotiate
-              post :approve
-              post :hold
-              post :start
-              post :defer
-              post :finish
-              post :accept
-              post :reject
+              get :negotiate
+              get :approve
+              get :hold
+              get :start
+              get :defer
+              get :finish
+              get :accept
+              get :reject
             end
           end
         end

@@ -52,55 +52,10 @@ class Organization::ProjectMilestonesController < Organization::BaseController
     render locals:{milestone: current_milestone, organization: current_organization}, layout: 'print'
   end
 
-  def negotiate
-    authorize current_milestone
-    try_trigger_for current_milestone, :negotiate
-    redirect_to state_back_url
-  rescue Statesman::GuardFailedError
-    flash[:alert] = "Для отправки на согласование с клиентом этап должен иметь цель и задачи; все его задачи должны иметь планируемое время, уровень и цель"
-    milestones_state_guard_redirect
-  end
-
-  def start
-    authorize current_milestone
-    try_trigger_for current_milestone, :start
-    redirect_to state_back_url
-  rescue Statesman::GuardFailedError
-    flash[:alert] = "Для запуска в производство этап должен иметь цель и задачи; все его задачи должны иметь планируемое время, уровень и цель"
-    milestones_state_guard_redirect
-  end
-
-  def hold
-    authorize current_milestone
-    try_trigger_for current_milestone, :hold
-    redirect_to state_back_url
-  rescue Statesman::GuardFailedError
-    milestones_state_guard_redirect
-  end
-
-  def finish
-    authorize current_milestone
-    try_trigger_for current_milestone, :finish
-    redirect_to state_back_url
-  rescue Statesman::GuardFailedError
-    milestones_state_guard_redirect
-  end
-
-  def accept
-    authorize current_milestone
-    try_trigger_for current_milestone, :accept
-    redirect_to state_back_url
-  rescue Statesman::GuardFailedError
-    flash[:alert] = 'Задачи этапа должны иметь часы, затраченные на выполнение'
-    milestones_state_guard_redirect
-  end
-
-  def reject
-    authorize current_milestone
-    try_trigger_for current_milestone, :reject
-    redirect_to state_back_url
-  rescue Statesman::GuardFailedError
-    milestones_state_guard_redirect
+  [:negotiate, :start, :hold, :finish, :accept, :reject].each do |state_event|
+    define_method "#{state_event}" do
+      trigger_state_event current_milestone, state_event
+    end
   end
 
   private
@@ -129,12 +84,8 @@ class Organization::ProjectMilestonesController < Organization::BaseController
     policy_scopes[scope] ||= resource_policy_class::Scope.new(current_user, scope, current_project).resolve
   end
 
-  def milestones_state_guard_redirect
-    flash[:alert] ||=  "Не удалось поменять статус этапа (не выполнены требования этапа)"
+  def trigger_failed_redirect event
+    flash[:alert] = I18n.t(event, :default => :default, scope: 'activerecord.attributes.milestone.state_event_errors')
     redirect_to organization_project_milestone_path(current_organization, current_project, current_milestone)
-  end
-
-  def state_back_url
-    :back #organization_project_milestone_path(current_organization, current_project, current_milestone)
   end
 end
