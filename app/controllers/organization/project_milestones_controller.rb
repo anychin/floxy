@@ -9,7 +9,7 @@ class Organization::ProjectMilestonesController < Organization::BaseController
     new_milestone = current_project.milestones.new(milestone_params)
     authorize new_milestone
     if new_milestone.save
-      flash[:notice] = "#{t('activerecord.models.milestone')} добавлена"
+      flash[:notice] = "#{t('activerecord.models.milestone.one')} добавлен"
       redirect_to organization_project_path(current_organization, current_project)
     else
       render :new, locals:{milestone: new_milestone, user: current_user}
@@ -40,9 +40,9 @@ class Organization::ProjectMilestonesController < Organization::BaseController
   def destroy
     authorize current_milestone
     if current_milestone.destroy
-      flash[:notice] = "#{t('activerecord.models.milestone', count: 1)} удален"
+      flash[:notice] = "#{t('activerecord.models.milestone.one', count: 1)} удален"
     else
-      flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.milestone', count: 1)} не удален"
+      flash[:alert] = "Ошибочка вышла, #{t('activerecord.models.milestone.one', count: 1)} не удален"
     end
     redirect_to organization_project_path(current_organization, current_project)
   end
