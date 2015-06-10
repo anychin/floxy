@@ -9,7 +9,8 @@ class TaskStateMachine
   state :resolved
   state :done
 
-  NOT_EDITABLE_STATES = [:approval, :todo, :current, :deferred, :resolved, :done]
+  NOT_EDITABLE_STATES = [:current, :resolved, :done]
+  EXECUTION_EDITABLE_STATES = [:approval, :todo, :deferred]
 
   event :negotiate do
     transition from: :idea, to: :approval

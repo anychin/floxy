@@ -48,7 +48,11 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
   end
 
   def permitted_attributes
-    [:title, :planned_time, :assignee_id, :task_level_id, :task_type, :aim, :tool, :planned_expenses, :description, :due_date]
+    if TaskStateMachine::EXECUTION_EDITABLE_STATES.include?(record.current_state.to_sym)
+      [:assignee_id, :due_date]
+    else
+      [:title, :planned_time, :assignee_id, :task_level_id, :task_type, :aim, :tool, :planned_expenses, :description, :due_date]
+    end
   end
 
   class Scope < Scope
