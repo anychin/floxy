@@ -19,5 +19,3 @@
       #organization_memberships
         = f.fields_for :organization_memberships do |om|
           = render 'organization_membership_fields', :f => om
-        .links
-          = link_to_add_association 'добавить', f, :organization_memberships

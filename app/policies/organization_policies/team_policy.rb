@@ -11,6 +11,10 @@ class OrganizationPolicies::TeamPolicy < OrganizationPolicies::BasePolicy
     organization.owner?(user) or record.administrative?(user)
   end
 
+  def create_membership?
+    update?
+  end
+
   def destroy?
     organization.owner?(user)
   end

@@ -15,6 +15,10 @@ class OrganizationPolicy < ApplicationPolicy
     record.owner?(user)
   end
 
+  def create_membership?
+    update?
+  end
+
   def permitted_attributes
     [:title, :full_title, {:organization_memberships_attributes=>[:id, :user_id, :role, :_destroy]}]
   end

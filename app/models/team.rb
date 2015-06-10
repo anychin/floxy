@@ -44,5 +44,10 @@ class Team < ActiveRecord::Base
         errors.add(:team_memberships, "должен быть 1 #{I18n.t("activerecord.attributes.team_membership.roles.#{role}")}")
       end
     end
+    [:team_lead, :account_manager].each do |role|
+      if team_memberships.reject(&:marked_for_destruction?).find_all{|m| m.send("#{role}?") or m.team_lead_manager?}.count > 1
+        errors.add(:team_memberships, "должен быть 1 #{I18n.t("activerecord.attributes.team_membership.roles.#{role}")}")
+      end
+    end
   end
 end
