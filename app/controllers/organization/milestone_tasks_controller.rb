@@ -8,7 +8,7 @@ class Organization::MilestoneTasksController < Organization::BaseController
   end
 
   def create
-    new_task = current_milestone.tasks.new(task_params)
+    new_task = current_milestone.tasks.new(task_params(nil))
     new_task.owner = current_user
     authorize new_task
     if new_task.save
@@ -33,7 +33,7 @@ class Organization::MilestoneTasksController < Organization::BaseController
 
   def update
     authorize current_task
-    if current_task.update_attributes(task_params)
+    if current_task.update_attributes(task_params(current_task))
       flash[:notice] = "#{t('activerecord.models.task.one')} обновлен"
       redirect_to (get_session_return_to || organization_project_milestone_task_path(current_organization, current_project, current_milestone, current_task))
     else
@@ -75,8 +75,8 @@ class Organization::MilestoneTasksController < Organization::BaseController
     MilestonePolicies::TaskPolicy
   end
 
-  def task_params
-    params.require(:task).permit(policy(current_task).permitted_attributes)
+  def task_params task
+    params.require(:task).permit(policy(task).permitted_attributes)
   end
 
   def policy(record)
