@@ -1,6 +1,6 @@
 class Project < ActiveRecord::Base
   validates :title, :organization, :team, presence: true
-  has_many :milestones, dependent: :nullify
+  has_many :milestones, dependent: :destroy
 
   belongs_to :organization
   belongs_to :team
