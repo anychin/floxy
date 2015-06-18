@@ -28,9 +28,28 @@ class Organization::CustomersController < Organization::BaseController
   end
 
   def edit
+    authorize(current_customer)
+    render locals:{customer: current_customer, organization: current_organization}
   end
 
   def update
+    authorize current_customer
+    if current_customer.update_attributes(customer_params)
+      flash[:notice] = "#{t('activerecord.models.project')} добавлен"
+      redirect_to organization_customers_path(current_organization)
+    else
+      render :new, locals:{customer: current_customer}
+    end
+  end
+
+  def destroy
+    authorize current_customer
+    if current_customer.destroy
+      flash[:notice] = 'Клиент удален'
+    else
+      flash[:alert] = 'Ошибочка вышла, клиент не удален'
+    end
+    redirect_to organization_customers_path(current_organization)
   end
 
   private

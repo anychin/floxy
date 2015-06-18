@@ -1,5 +1,14 @@
 <% customers.each do |customer| %>
-  <p><%= customer.name_id %></p>
+  <p>
+    <%= customer.name_id %>
+    <%= link_to 'просмотреть', organization_customer_path(organization, customer.id) %>
+    <%= link_to 'редактировать', edit_organization_customer_path(organization, customer.id) %>
+    <%= link_to 'удалить',
+      organization_customer_path(organization, customer.id),
+      method: :delete,
+      "data-confirm": "Удалить клиента #{customer.name_id}?"
+    %>
+  </p>
 <% end %>
 
 <%= link_to 'добавить', new_organization_customer_path(organization) %>
