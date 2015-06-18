@@ -15,7 +15,7 @@ class Organization::CustomersController < Organization::BaseController
     new_customer = Customer.new(customer_params)
     authorize new_customer
     if new_customer.save
-      flash[:notice] = "#{t('activerecord.models.project')} добавлен"
+      flash[:notice] = "#{t('activerecord.models.customer')} добавлен"
       redirect_to organization_customers_path(current_organization)
     else
       render :new, locals:{new_customer: new_customer}
@@ -35,7 +35,7 @@ class Organization::CustomersController < Organization::BaseController
   def update
     authorize current_customer
     if current_customer.update_attributes(customer_params)
-      flash[:notice] = "#{t('activerecord.models.project')} добавлен"
+      flash[:notice] = "#{t('activerecord.models.customer')} добавлен"
       redirect_to organization_customers_path(current_organization)
     else
       render :new, locals:{customer: current_customer}
