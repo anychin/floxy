@@ -9,7 +9,8 @@
         = link_to 'Изменить', edit_organization_project_path(project.organization, project), class: 'btn btn-default'
     - if policy(project).destroy?
       .pull-right
-        = link_to 'Удалить', organization_project_path(project.organization, project), method: :delete, "data-confirm": "Расформировать проект #{project}?", class: 'btn btn-danger'
+        = link_to 'Удалить', organization_project_path(project.organization, project), 
+          method: :delete, "data-confirm": t('views.project.dependent.destroy'), class: 'btn btn-danger'
 
     .clearfix
 

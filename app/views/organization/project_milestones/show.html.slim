@@ -23,7 +23,9 @@
       p= link_to 'Изменить', edit_organization_project_milestone_path(milestone.organization, milestone.project, milestone), class: 'btn btn-default'
   - if policy(milestone).destroy?
     .pull-right
-      p= link_to 'Удалить', organization_project_milestone_path(milestone.organization, milestone.project, milestone), method: :delete, class: 'btn btn-danger', 'data-confirm'=>'Точно удалить?'
+      p
+        = link_to 'Удалить', organization_project_milestone_path(milestone.organization, milestone.project, milestone), 
+          method: :delete, class: 'btn btn-danger', 'data-confirm' => t('views.milestone.dependent.destroy')
   .clearfix
   = milestone_state_buttons milestone, css_class: "milestone-show__state-btn"
 
