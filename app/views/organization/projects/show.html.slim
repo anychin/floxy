@@ -37,15 +37,14 @@
     p= link_to "Добавить #{t('activerecord.models.milestone', count: 1)}", new_organization_project_milestone_path(current_organization, project), class: 'btn btn-default'
 
 
-  - if milestones_with_tasks.any?
     h2
       | Этапы проекта
     -#= render 'tasks/list_by_milestone', milestones: milestones_with_tasks, organization: project.organization
+    = render partial: 'organization/projects/nav', locals: {organization: project.organization, project: project}
+  - if milestones_with_tasks.any?
     = render :partial=>'milestones/list', locals:{organization: project.organization, project: project, milestones: milestones_with_tasks}
     hr
 
   - if empty_milestones.any?
-    h2.tasks-list__milestone-title
-      | Этапы проекта без задач
     = render :partial=>'milestones/list', locals:{organization: project.organization, project: project, milestones: empty_milestones}
 

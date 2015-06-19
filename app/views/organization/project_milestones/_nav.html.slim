@@ -1,0 +1,8 @@
+ul.nav.nav-pills
+  = active_link_to organization_project_milestone_path(organization, project, milestone), wrap_tag: :li, active: :exclusive do
+    | В производстве
+  = active_link_to planning_organization_project_milestone_path(organization, project, milestone), wrap_tag: :li, active: :exclusive do
+    | В планировании
+  = active_link_to done_organization_project_milestone_path(organization, project, milestone), wrap_tag: :li, active: :exclusive do
+    | Принятые
+br

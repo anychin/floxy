@@ -61,6 +61,7 @@
 
   h2
     | Задачи
+  = render :partial => 'organization/project_milestones/nav', locals: {organization: milestone.organization, project: milestone.project, milestone: milestone}
 
   - if tasks.any?
     = render :partial=>'tasks/block_list', locals: {tasks: tasks }

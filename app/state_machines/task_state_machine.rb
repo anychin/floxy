@@ -11,6 +11,8 @@ class TaskStateMachine
 
   NOT_EDITABLE_STATES = [:current, :resolved, :done]
   EXECUTION_EDITABLE_STATES = [:approval, :todo, :deferred]
+  PLANNING_STATES = [:idea, :approval]
+  PRODUCTION_STATES = [:todo, :current, :deferred, :resolved]
 
   event :negotiate do
     transition from: :idea, to: :approval

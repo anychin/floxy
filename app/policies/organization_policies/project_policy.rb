@@ -7,6 +7,18 @@ class OrganizationPolicies::ProjectPolicy < OrganizationPolicies::BasePolicy
     organization.owner_or_booker?(user) or record.team.members.include?(user)
   end
 
+  def planning?
+    show?
+  end
+
+  def done?
+    show?
+  end
+
+  def empty?
+    show?
+  end
+
   def update?
     organization.owner?(user)
   end

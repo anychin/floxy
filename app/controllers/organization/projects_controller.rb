@@ -6,13 +6,17 @@ class Organization::ProjectsController < Organization::BaseController
     render locals:{new_project: new_project, projects: projects, organization: current_organization}
   end
 
-  def show
-    authorize(current_project)
-    milestones_scope = ProjectPolicies::MilestonePolicy::Scope.new(current_user, current_project.milestones.ordered_by_due_date, current_project).resolve
-    #FIXME
-    milestones_with_tasks = milestones_scope.find_all{|m| m.tasks.any? }
-    empty_milestones = milestones_scope.find_all{|m| !m.tasks.any? }
-    render locals:{project: current_project, milestones_with_tasks: milestones_with_tasks, empty_milestones: empty_milestones}
+  {show: MilestoneStateMachine::PRODUCTION_STATES, planning: MilestoneStateMachine::PLANNING_STATES, done: :done}.each_pair do |section, states|
+    define_method "#{section}" do
+      authorize current_project
+      milestones_with_tasks = milestones_scope.in_state(states).find_all{|m| m.tasks.any? }
+      render :show, locals: {project: current_project, milestones_with_tasks: milestones_with_tasks, empty_milestones: []}
+    end
+  end
+
+  def empty
+    authorize current_project
+    render :show, locals: {project: current_project, milestones_with_tasks: [], empty_milestones: empty_milestones}
   end
 
   def new
@@ -61,6 +65,14 @@ class Organization::ProjectsController < Organization::BaseController
 
   def current_project
     @current_project ||= current_organization.projects.find(params[:id])
+  end
+
+  def milestones_scope
+    ProjectPolicies::MilestonePolicy::Scope.new(current_user, current_project.milestones.ordered_by_due_date, current_project).resolve
+  end
+
+  def empty_milestones
+    milestones_scope.find_all{|m| !m.tasks.any? }
   end
 
   def resource_policy_class
