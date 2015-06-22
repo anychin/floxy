@@ -16,6 +16,7 @@ Floxy::Application.routes.draw do
       post :create_membership
     end
     scope :module=>:organization do
+      resources :customers
       resources :tasks, only: [:index] do
         get 'done', on: :collection
         get 'without_milestone', on: :collection
