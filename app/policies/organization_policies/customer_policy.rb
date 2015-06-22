@@ -1,18 +1,9 @@
 class OrganizationPolicies::CustomerPolicy < OrganizationPolicies::BasePolicy
-  def create?
-    organization.owner?(user)
-  end
 
-  def show?
-    organization.owner_or_booker?(user)
-  end
-
-  def update?
-    organization.owner?(user)
-  end
-
-  def destroy?
-    organization.owner?(user)
+  %w(index? destroy? show? update? create?).each do |action|
+    define_method(action) do
+      organization.owner?(user)
+    end
   end
 
   def permitted_attributes
@@ -21,9 +12,10 @@ class OrganizationPolicies::CustomerPolicy < OrganizationPolicies::BasePolicy
 
   class Scope < Scope
     def resolve
-      if organization.owner_or_booker?(user)
+      if organization.owner?(user)
         scope
       end
     end
   end
+
 end
