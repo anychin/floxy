@@ -31,6 +31,11 @@ Floxy::Application.routes.draw do
       end
       resources :milestones, only: [:index]
       resources :projects do
+        member do
+          get :planning
+          get :done
+          get :empty
+        end
         resources :milestones, :except=>[:index], :controller => 'project_milestones' do
           member do
             get :negotiate
@@ -40,6 +45,8 @@ Floxy::Application.routes.draw do
             get :accept
             get :reject
             get :print
+            get :planning
+            get :done
           end
           resources :tasks, :except=>[:index], :controller => 'milestone_tasks' do
             member do
