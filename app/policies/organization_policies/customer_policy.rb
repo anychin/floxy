@@ -4,7 +4,7 @@ class OrganizationPolicies::CustomerPolicy < OrganizationPolicies::BasePolicy
   end
 
   def show?
-    organization.owner_or_booker?(user) or record.team.members.include?(user)
+    organization.owner_or_booker?(user)
   end
 
   def update?
@@ -23,8 +23,6 @@ class OrganizationPolicies::CustomerPolicy < OrganizationPolicies::BasePolicy
     def resolve
       if organization.owner_or_booker?(user)
         scope
-      else
-        scope.by_team_user(user)
       end
     end
   end
