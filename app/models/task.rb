@@ -1,4 +1,6 @@
 class Task < ActiveRecord::Base
+  acts_as_paranoid
+
   include Statesman::Adapters::ActiveRecordQueries
 
   belongs_to :milestone

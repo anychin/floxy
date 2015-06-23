@@ -1,6 +1,8 @@
 class TeamMembership < ActiveRecord::Base
   ROLES = {:member=>0, :team_lead=>1, :account_manager=>2, :team_lead_manager=>3}
 
+  acts_as_paranoid
+
   belongs_to :user, inverse_of: :team_memberships
   belongs_to :team, inverse_of: :team_memberships
 

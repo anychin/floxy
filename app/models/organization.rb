@@ -1,4 +1,6 @@
 class Organization < ActiveRecord::Base
+  acts_as_paranoid
+
   validates :title, presence: true
 
   has_many :organization_memberships, dependent: :destroy, inverse_of: :organization

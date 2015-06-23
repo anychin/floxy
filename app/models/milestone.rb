@@ -1,4 +1,6 @@
 class Milestone < ActiveRecord::Base
+  acts_as_paranoid
+
   include Statesman::Adapters::ActiveRecordQueries
 
   validates :title, :project, presence: true

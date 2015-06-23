@@ -1,4 +1,6 @@
 class UserInvoice < ActiveRecord::Base
+  acts_as_paranoid
+
   validates :user, :organization, presence: true
 
   belongs_to :user
