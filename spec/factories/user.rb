@@ -20,7 +20,7 @@ FactoryGirl.define do
             :organization_membership,
             organization: organization,
             user: user,
-            role: 2
+            role: OrganizationMembership::ROLES[:booker]
           )
           user.save
         end
@@ -34,7 +34,7 @@ FactoryGirl.define do
             :organization_membership,
             organization: organization,
             user: user,
-            role: 1
+            role: OrganizationMembership::ROLES[:owner]
           )
           user.save
         end
@@ -48,7 +48,7 @@ FactoryGirl.define do
             :organization_membership,
             organization: organization,
             user: user,
-            role: 0
+            role: OrganizationMembership::ROLES[:member]
           )
           user.save
         end
