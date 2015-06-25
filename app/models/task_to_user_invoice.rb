@@ -1,4 +1,6 @@
 class TaskToUserInvoice < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :user_invoice
   belongs_to :task
 

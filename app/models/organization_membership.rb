@@ -1,6 +1,8 @@
 class OrganizationMembership < ActiveRecord::Base
   ROLES = {:member=>0, :owner=>1, :booker=>2}
 
+  acts_as_paranoid
+
   belongs_to :user, inverse_of: :organization_memberships
   belongs_to :organization, inverse_of: :organization_memberships
 
