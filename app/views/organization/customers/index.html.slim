@@ -1,9 +1,21 @@
-- customers.each do |customer|
-  p
-    = customer.name_id
-    = link_to 'просмотреть', organization_customer_path(organization, customer.id)
-    = link_to 'редактировать', edit_organization_customer_path(organization, customer.id)
-    = link_to 'удалить', organization_customer_path(organization, customer.id),
-      method: :delete,
-      "data-confirm": "Удалить клиента #{customer.name_id}?"
-= link_to 'добавить', new_organization_customer_path(organization)
+.container
+  = link_to 'добавить клиента', new_organization_customer_path(organization), class: 'btn btn-primary'
+  h2
+    | Все клиенты
+  br
+  table.table.table-striped
+    tbody
+      - customers.each do |customer|
+        tr
+          td
+            = link_to organization_customer_path(organization, customer.id) do
+              = customer.name_id
+          td.text-right
+            - if policy(customer).edit?
+              = link_to 'редактировать', edit_organization_customer_path(organization, customer.id), class: 'btn btn-sm btn-link'
+              | &nbsp;
+            - if policy(customer).destroy?
+              = link_to 'удалить', organization_customer_path(organization, customer.id),
+                method: :delete, "data-confirm": "Удалить клиента #{customer.name_id}?",
+                class: 'btn btn-sm btn-link'
+
