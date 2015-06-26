@@ -10,7 +10,7 @@
     - if policy(team).destroy?
       .pull-right
         = link_to 'delete', organization_team_path(team.organization, team), 
-          method: :delete, "data-confirm":  t('views.projects.dependent.destroy'), class: 'btn btn-default'
+          method: :delete, "data-confirm":  "#{t('views.projects.dependent.destroy')}", class: 'btn btn-default'
     .clearfix
 
   hr

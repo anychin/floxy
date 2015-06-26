@@ -24,7 +24,7 @@ class Organization::CustomersController < Organization::BaseController
 
   def show
     authorize(current_customer)
-    render locals:{customer: current_customer}
+    render locals:{customer: current_customer, organization: current_organization}
   end
 
   def edit
@@ -35,7 +35,7 @@ class Organization::CustomersController < Organization::BaseController
   def update
     authorize current_customer
     if current_customer.update_attributes(customer_params)
-      flash[:notice] = "#{t('activerecord.models.customer')} добавлен"
+      flash[:notice] = "#{t('activerecord.models.customer')} отредактирован"
       redirect_to organization_customers_path(current_organization)
     else
       render :new, locals:{customer: current_customer}

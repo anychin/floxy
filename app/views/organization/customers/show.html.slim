@@ -1,2 +1,21 @@
-p
-  = customer.name_id
+.container
+  = link_to organization_customers_path(current_organization) do
+    i.fa.fa-angle-left
+    | &nbsp;
+    | Назад
+  br
+  br
+  small.text-muted= "Клиент ##{customer.id}"
+  h1
+    .pull-left
+      = customer.name_id
+      | &nbsp;&nbsp;
+    - if policy(customer).edit?
+      .pull-left
+        = link_to 'Изменить', edit_organization_customer_path(organization, customer), class: 'btn btn-default'
+    - if policy(customer).destroy?
+      .pull-right
+        = link_to 'Удалить', organization_customer_path(organization, customer), 
+          method: :delete, "data-confirm": "Удалить клиента #{customer.name_id}?", class: 'btn btn-danger'
+
+    .clearfix
