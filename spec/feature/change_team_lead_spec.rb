@@ -220,8 +220,8 @@ RSpec.feature "Change team lead", type: :feature do
       date_to: 1.second.ago
     )
     expect(member_3_form.valid?).to eq true
-    expect(member_3_form.executor_tasks(organization)).to eq [task_3, task_5]
-    expect(member_3_form.team_lead_tasks(organization)).to eq [task_1, task_2]
+    expect(member_3_form.executor_tasks(organization)).to eq [task_5]
+    expect(member_3_form.team_lead_tasks(organization)).to eq []
     expect(member_3_form.account_manager_tasks(organization)).to eq []
 
     member_3_invoice = UserInvoice.new(
@@ -233,8 +233,8 @@ RSpec.feature "Change team lead", type: :feature do
     )
     expect(member_3_invoice.save).to eq true
 
-    expect(member_3_invoice.executor_tasks).to eq [task_3, task_5]
-    expect(member_3_invoice.team_lead_tasks).to eq [task_1, task_2]
+    expect(member_3_invoice.executor_tasks).to eq [task_5]
+    expect(member_3_invoice.team_lead_tasks).to eq []
     expect(member_3_invoice.account_manager_tasks).to eq []
 
 
@@ -245,7 +245,8 @@ RSpec.feature "Change team lead", type: :feature do
       date_to: 1.second.ago
     )
     expect(member_2_form.valid?).to eq true
-    expect(member_2_form.executor_tasks(organization)).to eq [task_2, task_4]
+    expect(member_2_form.executor_tasks(organization)).to eq [task_4]
+    expect(member_2_form.team_lead_tasks(organization).count).to eq 1
     expect(member_2_form.team_lead_tasks(organization)).to eq [task_5]
     expect(member_2_form.account_manager_tasks(organization)).to eq []
 
@@ -258,8 +259,8 @@ RSpec.feature "Change team lead", type: :feature do
     )
     expect(member_2_invoice.save).to eq true
 
-    expect(member_2_invoice.executor_tasks).to eq [task_2]
-    expect(member_2_invoice.team_lead_tasks).to eq []
+    expect(member_2_invoice.executor_tasks).to eq [task_4]
+    expect(member_2_invoice.team_lead_tasks).to eq [task_5]
     expect(member_2_invoice.account_manager_tasks).to eq []
   end
 end
