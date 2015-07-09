@@ -5,12 +5,19 @@ FactoryGirl.define do
     password_confirmation 'password'
     sequence(:name){ |i| "User_#{i}" }
 
-    factory :sample_superadmin_user do
+    factory :sample_user do
       email 'nik@email.ru'
       password '123456789'
       password_confirmation '123456789'
       name 'User'
       superadmin true
+    end
+
+    factory :sample_superadmin_user do
+      sequence(:email){ |i| "mail_#{i}@email.ru" }
+      password 'password'
+      password_confirmation 'password'
+      sequence(:name){ |i| "User_#{i}" }
 
       factory :user_with_organization_membership_booker do
         after(:create) do |user|
