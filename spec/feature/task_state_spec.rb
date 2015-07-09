@@ -114,202 +114,45 @@ RSpec.feature "Task states", type: :feature do
     expect(task_1.current_state).to eq 'deferred'
   end
 
-  scenario "No deffered state" do
+  scenario "Only MAXIMUM_DEFERRED_TASKS defer tasks for assignee" do
+    expect(milestone.current_state).to eq 'idea'
 
-    # expect(milestone.tasks).to eq [task_3, task_2, task_1]
-    # expect(milestone.not_ready_for_approval_tasks.count).to eq 0
-    # expect(milestone.tasks.present?).to eq true
-    # expect(milestone.aim.present?).to eq true
-    #
-    # milestone.trigger! :negotiate
-    # expect(milestone.current_state).to eq 'approval'
-    # milestone.trigger! :start
-    # expect(milestone.current_state).to eq 'current'
-    #
-    # task_1.trigger! :start
-    # expect(task_1.current_state).to eq 'current'
-    # task_1.trigger! :finish
-    # expect(task_1.current_state).to eq 'resolved'
-    # task_1.trigger! :accept
-    # expect(task_1.current_state).to eq 'done'
-    #
-    # task_2.trigger! :start
-    # expect(task_2.current_state).to eq 'current'
-    # task_2.trigger! :finish
-    # expect(task_2.current_state).to eq 'resolved'
-    # task_2.trigger! :accept
-    # expect(task_2.current_state).to eq 'done'
-    #
-    # task_3.trigger! :start
-    # expect(task_3.current_state).to eq 'current'
-    # task_3.trigger! :finish
-    # expect(task_3.current_state).to eq 'resolved'
-    # task_3.trigger! :accept
-    # expect(task_3.current_state).to eq 'done'
-    #
-    # expect(milestone.tasks.not_finished.count).to eq 0
-    # # milestone.trigger! :finish
-    # # expect(milestone.current_state).to eq 'resolved'
-    #
-    # # Account
-    # member_3_form = UserInvoiceRequestForm.new(
-    #   user_id: member_3.id,
-    #   date_from: 1.day.ago,
-    #   date_to: 1.second.ago
-    # )
-    # expect(member_3_form.valid?).to eq true
-    # expect(member_3_form.executor_tasks(organization)).to eq [task_3]
-    # expect(member_3_form.team_lead_tasks(organization)).to eq [task_1, task_2]
-    # expect(member_3_form.account_manager_tasks(organization)).to eq []
-    #
-    # member_3_invoice = UserInvoice.new(
-    #   organization: organization,
-    #   user: member_3,
-    #   executor_tasks: member_3_form.executor_tasks(organization),
-    #   team_lead_tasks: member_3_form.team_lead_tasks(organization),
-    #   account_manager_tasks: member_3_form.account_manager_tasks(organization)
-    # )
-    # expect(member_3_invoice.save).to eq true
-    #
-    # expect(member_3_invoice.executor_tasks).to eq [task_3]
-    # expect(member_3_invoice.team_lead_tasks).to eq [task_1, task_2]
-    # expect(member_3_invoice.account_manager_tasks).to eq []
-    #
-    # ####################
-    #
-    # member_2_form = UserInvoiceRequestForm.new(
-    #   user_id: member_2.id,
-    #   date_from: 1.day.ago,
-    #   date_to: 1.second.ago
-    # )
-    # expect(member_2_form.valid?).to eq true
-    # expect(member_2_form.executor_tasks(organization)).to eq [task_2]
-    # expect(member_2_form.team_lead_tasks(organization)).to eq []
-    # expect(member_2_form.account_manager_tasks(organization)).to eq []
-    #
-    # member_2_invoice = UserInvoice.new(
-    #   organization: organization,
-    #   user: member_2,
-    #   executor_tasks: member_2_form.executor_tasks(organization),
-    #   team_lead_tasks: member_2_form.team_lead_tasks(organization),
-    #   account_manager_tasks: member_2_form.account_manager_tasks(organization)
-    # )
-    # expect(member_2_invoice.save).to eq true
-    #
-    # expect(member_2_invoice.executor_tasks).to eq [task_2]
-    # expect(member_2_invoice.team_lead_tasks).to eq []
-    # expect(member_2_invoice.account_manager_tasks).to eq []
-    #
-    # #-----Change team lead
-    #
-    # tm_3.role = TeamMembership::ROLES[:member]
-    # tm_3.save
-    # tm_2.role = TeamMembership::ROLES[:team_lead]
-    # tm_2.save
-    #
-    # milestone.trigger! :hold
-    # expect(milestone.current_state).to eq 'idea'
-    # milestone.trigger! :negotiate
-    # expect(milestone.current_state).to eq 'approval'
-    # milestone.trigger! :start
-    # expect(milestone.current_state).to eq 'current'
-    #
-    # task_4 = Task.create(
-    #   title: 'Task-4',
-    #   aim: 'aim-4',
-    #   milestone: milestone,
-    #   project: project,
-    #   assignee: member_2,
-    #   owner: owner,
-    #   planned_time: 4,
-    #   task_level: task_level_tech
-    # )
-    # task_5 = Task.create(
-    #   title: 'Task-5',
-    #   aim: 'aim-5',
-    #   milestone: milestone,
-    #   project: project,
-    #   assignee: member_3,
-    #   owner: owner,
-    #   planned_time: 4,
-    #   task_level: task_level_tech
-    # )
-    # expect(milestone.tasks.count).to eq 5
-    # # expect(milestone.tasks).to eq [task_5, task_4, task_3, task_2, task_1]
-    #
-    # task_4.trigger! :negotiate
-    # expect(task_4.current_state).to eq 'approval'
-    # task_4.trigger! :approve
-    # expect(task_4.current_state).to eq 'todo'
-    # task_4.trigger! :start
-    # expect(task_4.current_state).to eq 'current'
-    # task_4.trigger! :finish
-    # expect(task_4.current_state).to eq 'resolved'
-    # task_4.trigger! :accept
-    # expect(task_4.current_state).to eq 'done'
-    #
-    # task_5.trigger! :negotiate
-    # expect(task_5.current_state).to eq 'approval'
-    # task_5.trigger! :approve
-    # expect(task_5.current_state).to eq 'todo'
-    # task_5.trigger! :start
-    # expect(task_5.current_state).to eq 'current'
-    # task_5.trigger! :finish
-    # expect(task_5.current_state).to eq 'resolved'
-    # task_5.trigger! :accept
-    # expect(task_5.current_state).to eq 'done'
-    #
-    # expect(milestone.tasks.not_finished.count).to eq 0
-    #
-    # #------------
-    #
-    # member_3_form = UserInvoiceRequestForm.new(
-    #   user_id: member_3.id,
-    #   date_from: 1.day.ago,
-    #   date_to: 1.second.ago
-    # )
-    # expect(member_3_form.valid?).to eq true
-    # expect(member_3_form.executor_tasks(organization)).to eq [task_5]
-    # expect(member_3_form.team_lead_tasks(organization)).to eq []
-    # expect(member_3_form.account_manager_tasks(organization)).to eq []
-    #
-    # member_3_invoice = UserInvoice.new(
-    #   organization: organization,
-    #   user: member_3,
-    #   executor_tasks: member_3_form.executor_tasks(organization),
-    #   team_lead_tasks: member_3_form.team_lead_tasks(organization),
-    #   account_manager_tasks: member_3_form.account_manager_tasks(organization)
-    # )
-    # expect(member_3_invoice.save).to eq true
-    #
-    # expect(member_3_invoice.executor_tasks).to eq [task_5]
-    # expect(member_3_invoice.team_lead_tasks).to eq []
-    # expect(member_3_invoice.account_manager_tasks).to eq []
-    #
-    #
-    #
-    # member_2_form = UserInvoiceRequestForm.new(
-    #   user_id: member_2.id,
-    #   date_from: 1.day.ago,
-    #   date_to: 1.second.ago
-    # )
-    # expect(member_2_form.valid?).to eq true
-    # expect(member_2_form.executor_tasks(organization)).to eq [task_4]
-    # expect(member_2_form.team_lead_tasks(organization).count).to eq 1
-    # expect(member_2_form.team_lead_tasks(organization)).to eq [task_5]
-    # expect(member_2_form.account_manager_tasks(organization)).to eq []
-    #
-    # member_2_invoice = UserInvoice.new(
-    #   organization: organization,
-    #   user: member_2,
-    #   executor_tasks: member_2_form.executor_tasks(organization),
-    #   team_lead_tasks: member_2_form.team_lead_tasks(organization),
-    #   account_manager_tasks: member_2_form.account_manager_tasks(organization)
-    # )
-    # expect(member_2_invoice.save).to eq true
-    #
-    # expect(member_2_invoice.executor_tasks).to eq [task_4]
-    # expect(member_2_invoice.team_lead_tasks).to eq [task_5]
-    # expect(member_2_invoice.account_manager_tasks).to eq []
+    tasks_arr = []
+    (1...(TaskStateMachine::MAXIMUM_DEFERRED_TASKS + 1)).to_a.each do |x|
+      tasks_arr << Task.create(
+        title: "Task-#{x}",
+        aim: "aim-#{x}",
+        milestone: milestone,
+        project: project,
+        assignee: member_1,
+        owner: owner,
+        planned_time: 4,
+        task_level: task_level_tech
+      )
+    end
+
+    milestone.trigger! :negotiate
+    expect(milestone.current_state).to eq 'approval'
+    milestone.trigger! :start
+    expect(milestone.current_state).to eq 'current'
+
+    tasks_arr.each do |task|
+      expect(task.current_state).to eq 'todo'
+    end
+
+    tasks_arr.each do |task|
+      if task.title == 'Task-3'
+        expect(task.trigger!(:start)).to raise_error(Statesman::GuardFailedError)
+      else
+        task.trigger! :start
+        expect(task.current_state).to eq 'current'
+        task.trigger! :defer
+        expect(task.current_state).to eq 'deferred'
+      end
+    end
+    expect(member_1.assigned_tasks.in_state(:deferred).count).to eq(
+      TaskStateMachine::MAXIMUM_DEFERRED_TASKS
+    )
   end
+
 end
