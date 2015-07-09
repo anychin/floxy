@@ -58,6 +58,7 @@ Floxy::Application.routes.draw do
               get :finish
               get :accept
               get :reject
+              get :cancel
             end
           end
         end

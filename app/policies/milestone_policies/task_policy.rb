@@ -47,6 +47,10 @@ class MilestonePolicies::TaskPolicy < MilestonePolicies::BasePolicy
     record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user) or record.assigned?(user)
   end
 
+  def cancel?
+    record.organization.owner?(user) or record.team.administrative?(user) or record.owner?(user) or record.assigned?(user)
+  end
+
   def permitted_attributes
     if record.present? and TaskStateMachine::EXECUTION_EDITABLE_STATES.include?(record.current_state.to_sym)
       [:assignee_id, :due_date]

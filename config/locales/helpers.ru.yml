@@ -18,6 +18,7 @@ ru:
       accept: Принять
       reject: Отклонить
       accepted: Принято
+      cancel: Отменить
     milestone_state_buttons:
       negotiate: На утверждение
       start: В производство

@@ -52,6 +52,10 @@ class TaskStateMachine
     transition from: :resolved, to: :todo
   end
 
+  event :cancel do
+    transition from: :current, to: :todo
+  end
+
   guard_transition(to: :approval) do |task|
     task.ready_for_approval?
   end

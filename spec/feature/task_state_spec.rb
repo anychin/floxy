@@ -98,7 +98,7 @@ RSpec.feature "Task states", type: :feature do
     expect(task_1.current_state).to eq 'current'
   end
 
-  scenario "No deferred task state" do
+  scenario "Deferred task state" do
     expect(task_1.valid?).to eq true
     expect(task_2.valid?).to eq true
 
@@ -155,4 +155,58 @@ RSpec.feature "Task states", type: :feature do
     )
   end
 
+  scenario "From start to cancel transition" do
+    expect(task_1.valid?).to eq true
+    expect(task_2.valid?).to eq true
+
+    expect(milestone.current_state).to eq 'idea'
+    milestone.trigger! :negotiate
+    expect(milestone.current_state).to eq 'approval'
+    milestone.trigger! :start
+    expect(milestone.current_state).to eq 'current'
+
+    task_1.trigger! :start
+    expect(task_1.current_state).to eq 'current'
+    task_1.trigger! :cancel
+    expect(task_1.current_state).to eq 'todo'
+  end
+
+  scenario "Any number of canceled tasks" do
+    NUM_OF_CANCELLED_TASKS = 20
+
+    expect(milestone.current_state).to eq 'idea'
+
+    tasks_arr = []
+    (1...(NUM_OF_CANCELLED_TASKS + 1)).to_a.each do |x|
+      tasks_arr << Task.create(
+        title: "Task-#{x}",
+        aim: "aim-#{x}",
+        milestone: milestone,
+        project: project,
+        assignee: member_1,
+        owner: owner,
+        planned_time: 4,
+        task_level: task_level_tech
+      )
+    end
+
+    milestone.trigger! :negotiate
+    expect(milestone.current_state).to eq 'approval'
+    milestone.trigger! :start
+    expect(milestone.current_state).to eq 'current'
+
+    tasks_arr.each do |task|
+      expect(task.current_state).to eq 'todo'
+    end
+
+    tasks_arr.each do |task|
+      task.trigger! :start
+      expect(task.current_state).to eq 'current'
+      task.trigger! :cancel
+      expect(task.current_state).to eq 'todo'
+    end
+    expect(member_1.assigned_tasks.in_state(:todo).count).to eq(
+      NUM_OF_CANCELLED_TASKS
+    )
+  end
 end
