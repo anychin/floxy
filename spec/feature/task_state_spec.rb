@@ -209,4 +209,47 @@ RSpec.feature "Task states", type: :feature do
       NUM_OF_CANCELLED_TASKS
     )
   end
+
+  describe "deferred_state:change" do
+    NUM_OF_DEFERRED_TASKS = 2
+
+    include_context "rake"
+    let(:task_name) { "deferred_state:change" }
+
+    before do
+      (1...(NUM_OF_DEFERRED_TASKS + 1)).to_a.each do |x|
+        Task.create(
+          title: "Task-#{x}",
+          aim: "aim-#{x}",
+          milestone: milestone,
+          project: project,
+          assignee: member_1,
+          owner: owner,
+          planned_time: 4,
+          task_level: task_level_tech
+        )
+      end
+
+      milestone.trigger! :negotiate
+      milestone.trigger! :start
+    end
+
+    it 'should change deferred to todo' do
+      Task.all.each do |task|
+        task.trigger! :start
+        expect(task.current_state).to eq 'current'
+        task.trigger! :defer
+        expect(task.current_state).to eq 'deferred'
+      end
+
+      subject.invoke
+
+      Task.all.each do |task|
+        expect(task.current_state).to eq 'todo'
+      end
+      expect(member_1.assigned_tasks.in_state(:todo).count).to eq(
+        NUM_OF_DEFERRED_TASKS
+      )
+    end
+  end
 end
