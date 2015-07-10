@@ -16,10 +16,11 @@ class UserInvoiceRequestForm < ModelPretender
   end
 
   def team_lead_tasks organization
+    # .joins('LEFT OUTER JOIN team_lead_task_to_user_invoices ON team_lead_task_to_user_invoices.task.id = task.id')
     tasks_scope(organization)
       .by_team_lead_user(user)
       .joins{team_lead_task_to_user_invoices.outer}
-      .where(:task_to_user_invoices=>{:id=>nil})
+      .where(task_to_user_invoices: {id: nil})
   end
 
   def account_manager_tasks organization

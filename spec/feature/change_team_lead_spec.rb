@@ -122,6 +122,10 @@ RSpec.feature "Change team lead", type: :feature do
     )
     expect(member_3_invoice.save).to eq true
 
+    # expect(task_1.user_invoice_id).not_to eq nil
+    # expect(task_2.user_invoice_id).not_to eq nil
+    # expect(task_3.user_invoice_id).not_to eq nil
+
     expect(member_3_invoice.executor_tasks).to eq [task_3]
     expect(member_3_invoice.team_lead_tasks).to eq [task_1, task_2]
     expect(member_3_invoice.account_manager_tasks).to eq []
@@ -238,6 +242,24 @@ RSpec.feature "Change team lead", type: :feature do
     expect(member_3_invoice.account_manager_tasks).to eq []
 
 
+    # team_lead_tasks = organization.tasks.by_team_lead_user(member_2)
+
+    team_lead_tasks = organization.tasks.where.not(assignee_id: member_2.id).
+      joins(:team_memberships).merge(TeamMembership.team_leads).merge(TeamMembership.by_user(member_2))
+
+    by_team_lead = organization.tasks.by_team_lead_user(member_2)
+    expect(team_lead_tasks).to eq [task_5, task_3, task_1]
+    expect(by_team_lead).to eq [task_5, task_3, task_1]
+
+    team_lead_tasks_j = team_lead_tasks.joins{team_lead_task_to_user_invoices.outer}
+    expect(team_lead_tasks_j.where(id: 1).first.task_to_user_invoices.first.user_invoice_id).not_to eq nil
+    # expect(team_lead_tasks_j.where(id: 3).first.task_to_user_invoices.first.user_role).to eq nil
+    expect(team_lead_tasks_j.where(id: 3).first.task_to_user_invoices.first.user_invoice_id).not_to eq nil
+    # expect(team_lead_tasks_j.where(id: 5).first.task_to_user_invoices.first.user_role).to eq nil
+    # expect(team_lead_tasks_j.where(id: 5).first.task_to_user_invoices.first.id).not_to eq nil
+    expect(team_lead_tasks_j).to eq [task_5, task_3, task_1]
+    team_lead_tasks_w = team_lead_tasks_j.where({task_to_user_invoices: {user_role: 1}})
+    expect(team_lead_tasks_w).to eq [task_5, task_3]
 
     member_2_form = UserInvoiceRequestForm.new(
       user_id: member_2.id,
@@ -246,7 +268,7 @@ RSpec.feature "Change team lead", type: :feature do
     )
     expect(member_2_form.valid?).to eq true
     expect(member_2_form.executor_tasks(organization)).to eq [task_4]
-    expect(member_2_form.team_lead_tasks(organization).count).to eq 1
+    # expect(member_2_form.team_lead_tasks(organization).count).to eq 1
     expect(member_2_form.team_lead_tasks(organization)).to eq [task_5]
     expect(member_2_form.account_manager_tasks(organization)).to eq []
 
