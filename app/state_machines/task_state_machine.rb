@@ -9,6 +9,9 @@ class TaskStateMachine
   state :resolved
   state :done
 
+  MAXIMUM_CURRENT_TASKS  = 1
+  MAXIMUM_DEFERRED_TASKS = 2
+
   NOT_EDITABLE_STATES = [:current, :resolved, :done]
   EXECUTION_EDITABLE_STATES = [:approval, :todo, :deferred]
   PLANNING_STATES = [:idea, :approval]
@@ -49,6 +52,10 @@ class TaskStateMachine
     transition from: :resolved, to: :todo
   end
 
+  event :cancel do
+    transition from: :current, to: :todo
+  end
+
   guard_transition(to: :approval) do |task|
     task.ready_for_approval?
   end
@@ -58,12 +65,7 @@ class TaskStateMachine
   end
 
   guard_transition(to: :current) do |task|
-    assignee = task.assignee
-    milestone = task.milestone
-    assignee_tasks = task.organization.tasks.by_assigned_user(assignee)
-    assignee_ready = assignee.present? && assignee_tasks.in_state(:current).count < 1 && assignee_tasks.in_state(:deferred).count <= 2
-    milestone_ready = milestone.present? && milestone.current_state == "current"
-    assignee_ready && milestone_ready
+    assignee_ready(task) && milestone_ready(task)
   end
 
   after_transition(to: :done) do |task, transition|
@@ -72,4 +74,27 @@ class TaskStateMachine
     task.save
   end
 
+  private
+
+  def self.assignee_ready(task)
+    assignee = task.assignee
+    assignee_tasks = task.organization.tasks.by_assigned_user(assignee)
+    assignee.present? &&
+      current_tasks_maximum?(assignee_tasks) &&
+      deferred_tasks_maximum?(assignee_tasks)
+  end
+
+  def self.milestone_ready(task)
+    milestone = task.milestone
+    milestone.present? &&
+      milestone.current_state == "current"
+  end
+
+  def self.current_tasks_maximum?(tasks)
+    tasks.in_state(:current).count < MAXIMUM_CURRENT_TASKS
+  end
+
+  def self.deferred_tasks_maximum?(tasks)
+    tasks.in_state(:deferred).count <= MAXIMUM_DEFERRED_TASKS
+  end
 end

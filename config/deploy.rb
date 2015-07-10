@@ -53,4 +53,14 @@ namespace :deploy do
     end
   end
 
+  desc "Change TaskTransition state from deferred to todo (canceled)"
+  task :change_deferred_state do
+    on roles(:app) do
+      within "#{current_path}" do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "deferred_state:change"
+        end
+      end
+    end
+  end
 end

@@ -59,7 +59,7 @@ module TasksHelper
     else
       events = task.available_events
       html = ''
-      events.reject{|e| e == :hold}.each do |event|
+      events.reject{|e| e == :hold || e == :defer}.each do |event|
         #unless (event == :start && task.assignee != current_user)
         html << link_to(t("helpers.task_state_buttons.#{event}"), send("#{event}_organization_project_milestone_task_path", task.organization, task.project, task.milestone, task), method: :get, class: "btn-task-state-#{event} #{args[:css_class]}")
       end
