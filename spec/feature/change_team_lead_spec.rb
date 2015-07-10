@@ -244,21 +244,32 @@ RSpec.feature "Change team lead", type: :feature do
 
     # team_lead_tasks = organization.tasks.by_team_lead_user(member_2)
 
-    team_lead_tasks = organization.tasks.where.not(assignee_id: member_2.id).
-      joins(:team_memberships).merge(TeamMembership.team_leads).merge(TeamMembership.by_user(member_2))
+    team_lead_tasks = organization.tasks.
+      where.not(assignee_id: member_2.id).
+      where(user_invoice_id: nil)
+      # joins('LEFT OUTER JOIN task_to_user_invoices ON task_to_user_invoices.user_invoice_id = tasks.user_invoice_id').
+      # where({task_to_user_invoices: {user_invoice_id: nil}})
+
+      # joins(:team_memberships).
+      # where({team_membership: {role: 1, user_id: member_2.id}})
+      # merge(TeamMembership.team_leads).
+      # merge(TeamMembership.by_user(member_2))
+
+    expect(team_lead_tasks).to eq [task_5]
+    expect(team_lead_tasks).to eq [task_5, task_3, task_1]
 
     by_team_lead = organization.tasks.by_team_lead_user(member_2)
-    expect(team_lead_tasks).to eq [task_5, task_3, task_1]
     expect(by_team_lead).to eq [task_5, task_3, task_1]
 
     team_lead_tasks_j = team_lead_tasks.joins{team_lead_task_to_user_invoices.outer}
     expect(team_lead_tasks_j.where(id: 1).first.task_to_user_invoices.first.user_invoice_id).not_to eq nil
     # expect(team_lead_tasks_j.where(id: 3).first.task_to_user_invoices.first.user_role).to eq nil
-    expect(team_lead_tasks_j.where(id: 3).first.task_to_user_invoices.first.user_invoice_id).not_to eq nil
+    # expect(team_lead_tasks_j.where(id: 3).first.task_to_user_invoices.first.user_invoice_id).not_to eq nil
     # expect(team_lead_tasks_j.where(id: 5).first.task_to_user_invoices.first.user_role).to eq nil
     # expect(team_lead_tasks_j.where(id: 5).first.task_to_user_invoices.first.id).not_to eq nil
     expect(team_lead_tasks_j).to eq [task_5, task_3, task_1]
-    team_lead_tasks_w = team_lead_tasks_j.where({task_to_user_invoices: {user_role: 1}})
+    # expect(team_lead_tasks_j).to eq []
+    team_lead_tasks_w = team_lead_tasks_j.where({task_to_user_invoices: {user_invoice_id: nil}})
     expect(team_lead_tasks_w).to eq [task_5, task_3]
 
     member_2_form = UserInvoiceRequestForm.new(
