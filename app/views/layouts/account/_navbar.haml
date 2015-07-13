@@ -1,0 +1,6 @@
+.nav
+  .container
+    = link_to Settings.app.title, root_url, :class => 'navbar-brand'
+    = render_navigation :context => :user_organizations, :expand_all => true
+    = render_navigation :context => :organization, :expand_all => true
+    = render_navigation :context => :user, :expand_all => true
