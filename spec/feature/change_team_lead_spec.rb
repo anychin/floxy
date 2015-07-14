@@ -22,7 +22,7 @@ RSpec.feature "Change team lead", type: :feature do
 
   let(:task_level_tech) { FactoryGirl.create(:task_level_tech, organization: organization) }
 
-  def ar_create_task_for(user, num)
+  def ar_create_task_for(user, owner, num)
     Task.create(
       title: "Task-#{num}",
       aim: "aim-#{num}",
@@ -35,7 +35,7 @@ RSpec.feature "Change team lead", type: :feature do
     )
   end
 
-  def create_task_for(user)
+  def create_task_for(user, owner)
     FactoryGirl.create(:task,
                        milestone:  milestone,
                        project:    project,
@@ -88,9 +88,11 @@ RSpec.feature "Change team lead", type: :feature do
   end
 
   scenario "invoices should be correct" do
-    task_1 = create_task_for member_1
-    task_2 = create_task_for member_2
-    task_3 = create_task_for member_3
+    team_lead = member_3
+
+    task_1 = create_task_for member_1, team_lead
+    task_2 = create_task_for member_2, team_lead
+    task_3 = create_task_for member_3, team_lead
 
     expect(tm_1.role).to eq "member"
     expect(tm_2.role).to eq "member"
@@ -172,11 +174,12 @@ RSpec.feature "Change team lead", type: :feature do
     tm_3.save
     tm_2.role = TeamMembership::ROLES[:team_lead]
     tm_2.save
+    team_lead = member_2
 
     milestone_restart milestone
 
-    task_4 = create_task_for member_2
-    task_5 = create_task_for member_3
+    task_4 = create_task_for member_2, team_lead
+    task_5 = create_task_for member_3, team_lead
 
     expect(milestone.tasks.count).to eq 5
     # expect(milestone.tasks).to eq [task_5, task_4, task_3, task_2, task_1]
@@ -210,51 +213,6 @@ RSpec.feature "Change team lead", type: :feature do
     expect(member_3_invoice.executor_tasks).to eq [task_5]
     expect(member_3_invoice.team_lead_tasks).to eq []
     expect(member_3_invoice.account_manager_tasks).to eq []
-
-
-    # team_lead_tasks = organization.tasks.by_team_lead_user(member_2)
-
-    team_lead_tasks = organization.tasks.
-      where(user_invoice_id: nil).
-      where.not(assignee_id: member_2.id)
-      # by_team_lead_user(member_2).
-      # joins{team_lead_task_to_user_invoices.outer}.
-
-      # joins('LEFT OUTER JOIN task_to_user_invoices ON task_to_user_invoices.user_invoice_id = tasks.user_invoice_id').
-      # where({task_to_user_invoices: {user_invoice_id: nil}})
-
-      # joins(:team_memberships).
-      # where({team_membership: {role: 1, user_id: member_2.id}})
-      # merge(TeamMembership.team_leads).
-      # merge(TeamMembership.by_user(member_2))
-
-    def where_i_team_lead(tasks, user)
-      arr = []
-      tasks.each do |t|
-        team = t.milestone.team
-        if TeamMembership.where(user: user, team: team).first.role == 'team_lead'
-          arr << t
-        end
-      end
-      arr
-    end
-    team_lead_tasks = where_i_team_lead(team_lead_tasks, member_2)
-    expect(team_lead_tasks).to eq [task_5]
-    expect(team_lead_tasks).to eq [task_5, task_3, task_1]
-
-    by_team_lead = organization.tasks.by_team_lead_user(member_2)
-    expect(by_team_lead).to eq [task_5, task_3, task_1]
-
-    team_lead_tasks_j = team_lead_tasks.joins{team_lead_task_to_user_invoices.outer}
-    expect(team_lead_tasks_j.where(id: 1).first.task_to_user_invoices.first.user_invoice_id).not_to eq nil
-    # expect(team_lead_tasks_j.where(id: 3).first.task_to_user_invoices.first.user_role).to eq nil
-    # expect(team_lead_tasks_j.where(id: 3).first.task_to_user_invoices.first.user_invoice_id).not_to eq nil
-    # expect(team_lead_tasks_j.where(id: 5).first.task_to_user_invoices.first.user_role).to eq nil
-    # expect(team_lead_tasks_j.where(id: 5).first.task_to_user_invoices.first.id).not_to eq nil
-    expect(team_lead_tasks_j).to eq [task_5, task_3, task_1]
-    # expect(team_lead_tasks_j).to eq []
-    team_lead_tasks_w = team_lead_tasks_j.where({task_to_user_invoices: {user_invoice_id: nil}})
-    expect(team_lead_tasks_w).to eq [task_5, task_3]
 
 
     # Create invoice for member_2
