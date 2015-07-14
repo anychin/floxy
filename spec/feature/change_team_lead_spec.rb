@@ -215,8 +215,11 @@ RSpec.feature "Change team lead", type: :feature do
     # team_lead_tasks = organization.tasks.by_team_lead_user(member_2)
 
     team_lead_tasks = organization.tasks.
-      where.not(assignee_id: member_2.id).
-      where(user_invoice_id: nil)
+      where(user_invoice_id: nil).
+      where.not(assignee_id: member_2.id)
+      # by_team_lead_user(member_2).
+      # joins{team_lead_task_to_user_invoices.outer}.
+
       # joins('LEFT OUTER JOIN task_to_user_invoices ON task_to_user_invoices.user_invoice_id = tasks.user_invoice_id').
       # where({task_to_user_invoices: {user_invoice_id: nil}})
 
@@ -225,6 +228,17 @@ RSpec.feature "Change team lead", type: :feature do
       # merge(TeamMembership.team_leads).
       # merge(TeamMembership.by_user(member_2))
 
+    def where_i_team_lead(tasks, user)
+      arr = []
+      tasks.each do |t|
+        team = t.milestone.team
+        if TeamMembership.where(user: user, team: team).first.role == 'team_lead'
+          arr << t
+        end
+      end
+      arr
+    end
+    team_lead_tasks = where_i_team_lead(team_lead_tasks, member_2)
     expect(team_lead_tasks).to eq [task_5]
     expect(team_lead_tasks).to eq [task_5, task_3, task_1]
 
