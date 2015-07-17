@@ -24,7 +24,7 @@ gem 'switch_user'
 # gem 'phony_rails', :git => 'git://github.com/joost/phony_rails.git'
 
 # View Objects
-gem 'model_pretender', git: 'git://github.com/quant2012/model_pretender/tree/gemspec_fix.git'
+gem 'model_pretender', git: 'git://github.com/quant2012/model_pretender.git', branch: 'gemspec_fix'
 
 # Admin
 # gem 'activeadmin', github: 'activeadmin'
