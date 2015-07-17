@@ -6,10 +6,10 @@
         = f.input :user_id, as: :select, collection: members, label_method: :to_s
     .col-sm-3
       .form-group
-        = f.input :date_from, as: :string, input_html: {role: 'datetimepicker'}
+        - f.input :date_from, as: :string, input_html: {role: 'datetimepicker'}
     .col-sm-3
       .form-group
-        = f.input :date_to, as: :string, input_html: {role: 'datetimepicker'}
+        - f.input :date_to, as: :string, input_html: {role: 'datetimepicker'}
 
     .col-sm-2
       .form-group
