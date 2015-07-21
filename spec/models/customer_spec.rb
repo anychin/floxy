@@ -16,12 +16,17 @@ RSpec.describe Customer, :type => :model do
       expect(customer.save).to eq false
     end
 
+    it 'should not be special characters' do
+      customer = Customer.new(name_id: 'jks;;;')
+      expect(customer.save).to eq false
+    end
+
     it 'should not be less then 4 and greater then 9' do
       customer = Customer.new(name_id: 'abc')
       expect(customer.save).to eq false
 
       customer = Customer.new(name_id: 'abcdefghijklmn')
-      expect(customer.save).to eq false 
+      expect(customer.save).to eq false
     end
 
     it 'should have length 4..9 symbols' do
