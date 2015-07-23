@@ -39,7 +39,7 @@ class Organization::UserInvoicesController < Organization::BaseController
 
   def destroy
     authorize(current_user_invoice)
-    if current_user_invoice.destroy
+    if current_user_invoice.really_destroy!
       flash[:notice] = 'Выплата удалена'
     else
       flash[:alert] = 'Ошибочка вышла, выплата не удалена'
