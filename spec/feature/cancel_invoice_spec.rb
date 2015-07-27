@@ -7,24 +7,14 @@ RSpec.feature "Change team lead", type: :feature do
 
   include TaskUtils
   include StateUtils
+  include InvoiceUtils
 
   include_context "create owner and 3 members in team"
   include_context "create and accept 3 tasks"
 
   before :each do
-    @member_3_form = UserInvoiceRequestForm.new(
-      user_id: @member_3.id,
-      date_from: 1.day.ago,
-      date_to: 1.second.ago
-    )
-
-    @member_3_invoice = UserInvoice.new(
-      organization: @organization,
-      user: @member_3,
-      executor_tasks: @member_3_form.executor_tasks(@organization),
-      team_lead_tasks: @member_3_form.team_lead_tasks(@organization),
-      account_manager_tasks: @member_3_form.account_manager_tasks(@organization)
-    )
+    @member_3_form = build_invoice_form_for @member_3
+    @member_3_invoice = build_user_invoice_for @member_3, @organization, @member_3_form
     @member_3_invoice.save
   end
 
@@ -40,18 +30,8 @@ RSpec.feature "Change team lead", type: :feature do
     expect(UserInvoice.first.destroy).to eq @member_3_invoice
     expect(UserInvoice.first).to eq nil
 
-    member_3_form = UserInvoiceRequestForm.new(
-      user_id: @member_3.id,
-      date_from: 1.day.ago,
-      date_to: 1.second.ago
-    )
-    member_3_invoice = UserInvoice.new(
-      organization: @organization,
-      user: @member_3,
-      executor_tasks: member_3_form.executor_tasks(@organization),
-      team_lead_tasks: member_3_form.team_lead_tasks(@organization),
-      account_manager_tasks: member_3_form.account_manager_tasks(@organization)
-    )
+    member_3_form = build_invoice_form_for @member_3
+    member_3_invoice = build_user_invoice_for @member_3, @organization, @member_3_form
     member_3_invoice.save
     expect(member_3_invoice.executor_tasks).to eq [@task_3]
     expect(member_3_invoice.team_lead_tasks).to eq [@task_3, @task_2, @task_1]
