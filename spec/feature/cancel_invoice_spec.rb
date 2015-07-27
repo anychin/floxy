@@ -111,6 +111,12 @@ RSpec.feature "Change team lead", type: :feature do
     accept_task @task_1
     accept_task @task_2
     accept_task @task_3
+    @task_1.accepted_by_id = team_lead.id
+    @task_2.accepted_by_id = team_lead.id
+    @task_3.accepted_by_id = team_lead.id
+    @task_1.save
+    @task_2.save
+    @task_3.save
 
     @member_3_form = UserInvoiceRequestForm.new(
       user_id: @member_3.id,
@@ -131,7 +137,7 @@ RSpec.feature "Change team lead", type: :feature do
 
   scenario "invoice should include tasks" do
     expect(@member_3_invoice.executor_tasks).to eq [@task_3]
-    expect(@member_3_invoice.team_lead_tasks).to eq [@task_2, @task_1]
+    expect(@member_3_invoice.team_lead_tasks).to eq [@task_3, @task_2, @task_1]
     expect(@member_3_invoice.account_manager_tasks).to eq []
   end
 
@@ -154,7 +160,7 @@ RSpec.feature "Change team lead", type: :feature do
     )
     member_3_invoice.save
     expect(member_3_invoice.executor_tasks).to eq [@task_3]
-    expect(member_3_invoice.team_lead_tasks).to eq [@task_2, @task_1]
+    expect(member_3_invoice.team_lead_tasks).to eq [@task_3, @task_2, @task_1]
     expect(member_3_invoice.account_manager_tasks).to eq []
   end
 
