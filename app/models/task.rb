@@ -52,6 +52,8 @@ class Task < ActiveRecord::Base
   validates :milestone, :owner, :title, presence: true
   validates :planned_time, numericality: { less_than_or_equal_to: 8 }
 
+  before_save :store_costs
+
   def state_machine
      @state_machine ||= TaskStateMachine.new(self, transition_class: TaskTransition)
   end
@@ -199,4 +201,19 @@ class Task < ActiveRecord::Base
     TaskStateMachine.initial_state
   end
 
+  def store_costs
+    if task_level_id
+      task_level = TaskLevel.find(task_level_id)
+
+      self.stored_currency = task_level.team_lead_rate_value.currency.id.to_s
+      self.stored_team_lead_cost_cents = ((task_level.team_lead_rate_value.fractional) * planned_time)
+      self.stored_executor_cost_cents  = ((task_level.executor_rate_value.fractional)  * planned_time)
+      self.stored_client_cost_cents = ((task_level.client_rate_value.fractional) * planned_time)
+
+      self.stored_team_lead_rate_value = task_level.team_lead_rate_value
+      self.stored_executor_rate_value = task_level.executor_rate_value
+      self.stored_client_rate_value = task_level.client_rate_value
+      self.stored_account_manager_rate_value = task_level.account_manager_rate_value
+    end
+  end
 end

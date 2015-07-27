@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623102933) do
+ActiveRecord::Schema.define(version: 20150727114811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,14 @@ ActiveRecord::Schema.define(version: 20150623102933) do
   add_index "milestones", ["deleted_at"], name: "index_milestones_on_deleted_at", using: :btree
   add_index "milestones", ["project_id"], name: "index_milestones_on_project_id", using: :btree
 
+  create_table "money_transactions", force: :cascade do |t|
+    t.integer  "money",       default: 0
+    t.integer  "user_id",                 null: false
+    t.integer  "customer_id",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "organization_memberships", force: :cascade do |t|
     t.integer  "user_id",                     null: false
     t.integer  "organization_id",             null: false
@@ -101,6 +109,7 @@ ActiveRecord::Schema.define(version: 20150623102933) do
     t.integer  "organization_id", null: false
     t.integer  "team_id",         null: false
     t.datetime "deleted_at"
+    t.integer  "account_manager"
   end
 
   add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
@@ -183,6 +192,9 @@ ActiveRecord::Schema.define(version: 20150623102933) do
     t.integer  "stored_account_manager_rate_value_cents"
     t.datetime "due_date"
     t.datetime "deleted_at"
+    t.integer  "accepted_by_id"
+    t.decimal  "stored_team_lead_cost_cents"
+    t.string   "stored_currency"
   end
 
   add_index "tasks", ["accepted_at"], name: "index_tasks_on_accepted_at", using: :btree

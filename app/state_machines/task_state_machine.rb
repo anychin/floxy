@@ -61,7 +61,7 @@ class TaskStateMachine
   end
 
   after_transition(to: :approval) do |task|
-    task.store_rates_and_costs
+    #task.store_rates_and_costs
   end
 
   guard_transition(to: :current) do |task|
