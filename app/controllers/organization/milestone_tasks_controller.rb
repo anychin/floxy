@@ -59,7 +59,7 @@ class Organization::MilestoneTasksController < Organization::BaseController
     end
   end
 
-  [:negotiate, :approve, :hold, :start, :finish, :defer, :accept, :reject, :cancel].each do |state_event|
+  [:negotiate, :approve, :hold, :start, :finish, :defer, :reject, :cancel].each do |state_event|
     define_method "#{state_event}" do
       trigger_state_event current_task, state_event
     end
