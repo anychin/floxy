@@ -180,11 +180,11 @@ class Task < ActiveRecord::Base
   end
 
   def user_invoice_executor_summary
-    "#{title} / #{planned_time} / #{executor_cost}"
+    "#{title} / #{planned_time} / #{Money.new(stored_executor_cost_cents, stored_currency)}"
   end
 
   def user_invoice_team_lead_summary
-    "#{title} / #{planned_time} / #{team_lead_cost}"
+    "#{title} / #{planned_time} / #{Money.new(stored_team_lead_cost_cents, stored_currency)}"
   end
 
   def user_invoice_account_manager_summary
