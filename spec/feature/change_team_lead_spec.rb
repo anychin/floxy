@@ -4,264 +4,162 @@ require 'rails_helper'
 
 RSpec.feature "Change team lead", type: :feature do
 
-  def ar_create_task_for(user, owner, num)
-    Task.create(
-      title: "Task-#{num}",
-      aim: "aim-#{num}",
-      milestone: @milestone,
-      project: @project,
-      assignee: user,
-      owner: owner,
-      planned_time: 4,
-      task_level: @task_level_tech
+  include TaskUtils
+  include StateUtils
+
+  def build_user_invoice_for(user, organization, form)
+    UserInvoice.new(
+      organization: organization,
+      user: user,
+      executor_tasks: form.executor_tasks(organization),
+      team_lead_tasks: form.team_lead_tasks(organization),
+      account_manager_tasks: form.account_manager_tasks(organization)
     )
   end
 
-  def create_task_for(user, owner)
-    FactoryGirl.create(:task,
-                       milestone:  @milestone,
-                       project:    @project,
-                       assignee:   user,
-                       owner:      owner,
-                       task_level: @task_level_tech
-                      )
-  end
-
-  def milestone_start(milestone)
-    milestone.trigger! :negotiate
-    expect(milestone.current_state).to eq 'approval'
-    milestone.trigger! :start
-    expect(milestone.current_state).to eq 'current'
-  end
-
-  def milestone_restart(milestone)
-    milestone.trigger! :hold
-    expect(milestone.current_state).to eq 'idea'
-    milestone.trigger! :negotiate
-    expect(milestone.current_state).to eq 'approval'
-    milestone.trigger! :start
-    expect(milestone.current_state).to eq 'current'
-  end
-
-  def accept_task(task)
-    task.trigger! :start
-    expect(task.current_state).to eq 'current'
-    task.trigger! :finish
-    expect(task.current_state).to eq 'resolved'
-    task.trigger! :accept
-    expect(task.current_state).to eq 'done'
-  end
-
-  def restart_and_accept_task(task)
-    task.trigger! :negotiate
-    expect(task.current_state).to eq 'approval'
-    task.trigger! :approve
-    expect(task.current_state).to eq 'todo'
-    task.trigger! :start
-    expect(task.current_state).to eq 'current'
-    task.trigger! :finish
-    expect(task.current_state).to eq 'resolved'
-    task.trigger! :accept
-    expect(task.current_state).to eq 'done'
-  end
-
-  # create invoice
-  before :each do
-    @owner = FactoryGirl.create(:user_with_organization_membership_owner,
-                                email: "mail@email.com"
-                               )
-    @member_1 = FactoryGirl.create(:user_with_organization_membership_member,
-                                   email: "mail_1@email.com"
-                                  )
-    @member_2 = FactoryGirl.create(:user_with_organization_membership_member,
-                                   email: "mail_2@email.com"
-                                  )
-    @member_3 = FactoryGirl.create(:user_with_organization_membership_member,
-                                   email: "mail_3@email.com"
-                                  )
-
-    @organization = @owner.organization_memberships.first.organization
-    @team = FactoryGirl.create(:sample_team, organization_id: @organization.id)
-
-    @tm_owner = FactoryGirl.create(:team_membership, user: @owner, team: @team)
-    @tm_1 = FactoryGirl.create(:team_membership, user: @member_1, team: @team)
-    @tm_2 = FactoryGirl.create(:team_membership, user: @member_2, team: @team)
-    @tm_3 = FactoryGirl.create(:team_membership_team_lead, user: @member_3, team: @team)
-
-    @project = FactoryGirl.create(:sample_project,
-                                  organization: @organization,
-                                  team: @team
-                                 )
-    @milestone = FactoryGirl.create(:sample_milestone,
-                                    organization: @organization,
-                                    project: @project
-                                   )
-
-    @task_level_tech = FactoryGirl.create(:task_level_tech, organization: @organization)
-  end
-
-  scenario "invoices should be correct" do
-    team_lead = @member_3
-    @task_1 = create_task_for @member_1, team_lead
-    @task_2 = create_task_for @member_2, team_lead
-    @task_3 = create_task_for @member_3, team_lead
-
-
-    expect(@tm_1.role).to eq "member"
-    expect(@tm_2.role).to eq "member"
-    expect(@tm_3.role).to eq "team_lead"
-
-    expect(@task_1.estimated?).to eq true
-    expect(@task_1.ready_for_approval?).to eq true
-
-    expect(@milestone.tasks).to eq [@task_3, @task_2, @task_1]
-    expect(@milestone.not_ready_for_approval_tasks.count).to eq 0
-    expect(@milestone.tasks.present?).to eq true
-    expect(@milestone.aim.present?).to eq true
-
-    milestone_start @milestone
-
-    accept_task @task_1
-    accept_task @task_2
-    accept_task @task_3
-
-    @task_1.accepted_by_id = team_lead.id
-    @task_2.accepted_by_id = team_lead.id
-    @task_3.accepted_by_id = team_lead.id
-    @task_1.save
-    @task_2.save
-    @task_3.save
-
-    expect(@milestone.tasks.not_finished.count).to eq 0
-
-
-    # Create invoice for member_3
-    member_3_form = UserInvoiceRequestForm.new(
-      user_id: @member_3.id,
+  def build_invoice_form_for(user)
+    UserInvoiceRequestForm.new(
+      user_id: user.id,
       date_from: 1.day.ago,
       date_to: 1.second.ago
     )
-    expect(member_3_form.valid?).to eq true
-    expect(member_3_form.executor_tasks(@organization)).to eq [@task_3]
-    expect(member_3_form.team_lead_tasks(@organization)).to eq [@task_3, @task_2, @task_1]
-    expect(member_3_form.account_manager_tasks(@organization)).to eq []
+  end
 
-    member_3_invoice = UserInvoice.new(
-      organization: @organization,
-      user: @member_3,
-      executor_tasks: member_3_form.executor_tasks(@organization),
-      team_lead_tasks: member_3_form.team_lead_tasks(@organization),
-      account_manager_tasks: member_3_form.account_manager_tasks(@organization)
-    )
-    expect(member_3_invoice.save).to eq true
+  include_context "create owner and 3 members in team"
+  include_context "create 3 tasks"
 
-    # expect(task_1.user_invoice_id).not_to eq nil
-    # expect(task_2.user_invoice_id).not_to eq nil
-    # expect(task_3.user_invoice_id).not_to eq nil
+  describe "invoices should be correct" do
 
-    expect(member_3_invoice.executor_tasks).to eq [@task_3]
-    expect(member_3_invoice.team_lead_tasks).to eq [@task_3, @task_2, @task_1]
-    expect(member_3_invoice.account_manager_tasks).to eq []
+    context "preset" do
+      it 'should be one team lead' do
+        expect(@tm_1.role).to eq "member"
+        expect(@tm_2.role).to eq "member"
+        expect(@tm_3.role).to eq "team_lead"
+      end
 
+      it 'team lead should be @member_3' do
+        expect(@team_lead).to eq @member_3
+      end
 
-    # Create invoice for member_2
-    member_2_form = UserInvoiceRequestForm.new(
-      user_id: @member_2.id,
-      date_from: 1.day.ago,
-      date_to: 1.second.ago
-    )
-    expect(member_2_form.valid?).to eq true
-    expect(member_2_form.executor_tasks(@organization)).to eq [@task_2]
-    expect(member_2_form.team_lead_tasks(@organization)).to eq []
-    expect(member_2_form.account_manager_tasks(@organization)).to eq []
+      it 'tasks should be estimated' do
+        expect(@task_1.estimated?).to eq true
+        expect(@task_2.estimated?).to eq true
+        expect(@task_3.estimated?).to eq true
+      end
 
-    member_2_invoice = UserInvoice.new(
-      organization: @organization,
-      user: @member_2,
-      executor_tasks: member_2_form.executor_tasks(@organization),
-      team_lead_tasks: member_2_form.team_lead_tasks(@organization),
-      account_manager_tasks: member_2_form.account_manager_tasks(@organization)
-    )
-    expect(member_2_invoice.save).to eq true
+      it 'tasks should be ready for approval' do
+        expect(@task_1.ready_for_approval?).to eq true
+        expect(@task_2.ready_for_approval?).to eq true
+        expect(@task_3.ready_for_approval?).to eq true
+      end
 
-    expect(member_2_invoice.executor_tasks).to eq [@task_2]
-    expect(member_2_invoice.team_lead_tasks).to eq []
-    expect(member_2_invoice.account_manager_tasks).to eq []
+      it 'milestone should include all tasks' do
+        expect(@milestone.tasks).to eq [@task_3, @task_2, @task_1]
+      end
 
+      it 'all milestone tasks should should be ready for approval' do
+        expect(@milestone.tasks.present?).to eq true
+        expect(@milestone.not_ready_for_approval_tasks.count).to eq 0
+      end
 
-    # Change team lead from member_3 to member_2
-    @tm_3.role = TeamMembership::ROLES[:member]
-    @tm_3.save
-    @tm_2.role = TeamMembership::ROLES[:team_lead]
-    @tm_2.save
-    team_lead = @member_2
+      it 'milestone aim should be present' do
+        expect(@milestone.aim.present?).to eq true
+      end
+    end
 
-    milestone_restart @milestone
+    context 'start milestone and accept tasks' do
+      before do
+        milestone_start @milestone
 
-    task_4 = create_task_for @member_2, team_lead
-    task_5 = create_task_for @member_3, team_lead
+        accept_task @task_1, @team_lead
+        accept_task @task_2, @team_lead
+        accept_task @task_3, @team_lead
+      end
 
-    expect(@milestone.tasks.count).to eq 5
-    # expect(milestone.tasks).to eq [task_5, task_4, task_3, task_2, task_1]
+      it 'all tasks should be finished' do
+        expect(@milestone.tasks.not_finished.count).to eq 0
+      end
 
-    restart_and_accept_task task_4
-    restart_and_accept_task task_5
-    task_4.accepted_by_id = team_lead.id
-    task_5.accepted_by_id = team_lead.id
-    task_4.save
-    task_5.save
+      context 'create invoice form' do
 
-    expect(@milestone.tasks.not_finished.count).to eq 0
+        before do
+          @member_form  = build_invoice_form_for @member_2
+          @team_lead_form = build_invoice_form_for @team_lead
+        end
 
+        it 'should be valid' do
+          expect(@member_form.valid?).to eq true
+          expect(@team_lead_form.valid?).to eq true
+        end
 
-    # Create invoice for member_3
-    member_3_form = UserInvoiceRequestForm.new(
-      user_id: @member_3.id,
-      date_from: 1.day.ago,
-      date_to: 1.second.ago
-    )
-    expect(member_3_form.valid?).to eq true
-    expect(member_3_form.executor_tasks(@organization)).to eq [task_5]
-    expect(member_3_form.team_lead_tasks(@organization)).to eq []
-    expect(member_3_form.account_manager_tasks(@organization)).to eq []
+        it '@team_lead_form should include tasks' do
+          expect(@team_lead_form.executor_tasks(@organization)).to eq [@task_3]
+          expect(@team_lead_form.team_lead_tasks(@organization)).to eq [@task_3, @task_2, @task_1]
+          expect(@team_lead_form.account_manager_tasks(@organization)).to eq []
+        end
 
-    member_3_invoice = UserInvoice.new(
-      organization: @organization,
-      user: @member_3,
-      executor_tasks: member_3_form.executor_tasks(@organization),
-      team_lead_tasks: member_3_form.team_lead_tasks(@organization),
-      account_manager_tasks: member_3_form.account_manager_tasks(@organization)
-    )
-    expect(member_3_invoice.save).to eq true
+        # member
+        it '@member_form should include tasks' do
+          expect(@member_form.executor_tasks(@organization)).to eq [@task_2]
+          expect(@member_form.team_lead_tasks(@organization)).to eq []
+          expect(@member_form.account_manager_tasks(@organization)).to eq []
+        end
 
-    expect(member_3_invoice.executor_tasks).to eq [task_5]
-    expect(member_3_invoice.team_lead_tasks).to eq []
-    expect(member_3_invoice.account_manager_tasks).to eq []
+        context 'build user invoice' do
+          before do
+            @team_lead_invoice = build_user_invoice_for @team_lead, @organization, @team_lead_form
+            @member_invoice = build_user_invoice_for @member_2, @organization, @member_form
+          end
 
+          it 'should be saved' do
+            expect(@team_lead_invoice.save).to eq true
+            expect(@member_invoice.save).to eq true
+          end
 
-    # Create invoice for member_2
-    member_2_form = UserInvoiceRequestForm.new(
-      user_id: @member_2.id,
-      date_from: 1.day.ago,
-      date_to: 1.second.ago
-    )
-    expect(member_2_form.valid?).to eq true
-    expect(member_2_form.executor_tasks(@organization)).to eq [task_4]
-    # expect(member_2_form.team_lead_tasks(organization).count).to eq 1
-    expect(member_2_form.team_lead_tasks(@organization)).to eq [task_5, task_4]
-    expect(member_2_form.account_manager_tasks(@organization)).to eq []
+          context 'change team lead' do
+            before do
+              @tm_3.role = TeamMembership::ROLES[:member]
+              @tm_3.save
+              @tm_2.role = TeamMembership::ROLES[:team_lead]
+              @tm_2.save
+              @team_lead = @member_2
 
-    member_2_invoice = UserInvoice.new(
-      organization: @organization,
-      user: @member_2,
-      executor_tasks: member_2_form.executor_tasks(@organization),
-      team_lead_tasks: member_2_form.team_lead_tasks(@organization),
-      account_manager_tasks: member_2_form.account_manager_tasks(@organization)
-    )
-    expect(member_2_invoice.save).to eq true
+              milestone_restart @milestone
 
-    expect(member_2_invoice.executor_tasks).to eq [task_4]
-    expect(member_2_invoice.team_lead_tasks).to eq [task_5, task_4]
-    expect(member_2_invoice.account_manager_tasks).to eq []
+              @task_4 = create_task_for @member_2, @team_lead
+              @task_5 = create_task_for @member_3, @team_lead
+              restart_and_accept_task @task_4, @team_lead
+              restart_and_accept_task @task_5, @team_lead
+
+              @member_invoice.save
+              @team_lead_invoice.save
+              @member_form_2  = build_invoice_form_for @member_3
+              @team_lead_form_2 = build_invoice_form_for @team_lead
+
+              @team_lead_invoice_2 = build_user_invoice_for @team_lead, @organization, @team_lead_form_2
+              @member_invoice_2 = build_user_invoice_for @member_3, @organization, @member_form_2
+            end
+
+            it 'should be saved' do
+              expect(@team_lead_invoice_2.save).to eq true
+              expect(@member_invoice_2.save).to eq true
+            end
+
+            it '@team_lead_form_2 should include tasks' do
+              expect(@team_lead_form_2.executor_tasks(@organization)).to eq [@task_4]
+              expect(@team_lead_form_2.team_lead_tasks(@organization)).to eq [@task_5, @task_4]
+              expect(@team_lead_form_2.account_manager_tasks(@organization)).to eq []
+            end
+
+            it '@member_form_2 should include tasks' do
+              expect(@member_form_2.executor_tasks(@organization)).to eq [@task_5]
+              expect(@member_form_2.team_lead_tasks(@organization)).to eq []
+              expect(@member_form_2.account_manager_tasks(@organization)).to eq []
+            end
+
+          end
+        end
+      end
+    end
   end
 end

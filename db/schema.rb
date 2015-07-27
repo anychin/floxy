@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727114811) do
+ActiveRecord::Schema.define(version: 20150727205550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(version: 20150727114811) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "title"
-    t.decimal  "planned_time",                            default: 0.0
+    t.float    "planned_time",                            default: 0.0
     t.datetime "created_at",                                            null: false
     t.datetime "updated_at",                                            null: false
     t.integer  "owner_id",                                              null: false
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 20150727114811) do
     t.datetime "due_date"
     t.datetime "deleted_at"
     t.integer  "accepted_by_id"
-    t.decimal  "stored_team_lead_cost_cents"
+    t.float    "stored_team_lead_cost_cents"
     t.string   "stored_currency"
   end
 
