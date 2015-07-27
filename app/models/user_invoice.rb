@@ -45,8 +45,8 @@ class UserInvoice < ActiveRecord::Base
 
 
   def update_costs
-    self.executor_cost = executor_tasks.map(&:stored_executor_cost_cents).compact.inject(:+)
-    self.team_lead_cost = team_lead_tasks.map(&:stored_team_lead_cost_cents).compact.inject(:+)
+    self.executor_cost = executor_tasks.map(&:executor_cost).compact.inject(:+)
+    self.team_lead_cost = team_lead_tasks.map(&:team_lead_cost).compact.inject(:+)
     self.account_manager_cost = account_manager_tasks.map(&:account_manager_cost).compact.inject(:+)
     self.save
   end
