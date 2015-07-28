@@ -7,10 +7,10 @@ class TaskLevel < ActiveRecord::Base
 
   validates :title, :organization, :rate_type, presence: true
 
-  monetize :executor_rate_value_cents, :with_currency=>:rub, :allow_nil => false, :numericality => { :greater_than => 0 }
-  monetize :team_lead_rate_value_cents, :with_currency=>:rub, :allow_nil => false, :numericality => { :greater_than => 0 }
-  monetize :account_manager_rate_value_cents, :with_currency=>:rub, :allow_nil => false, :numericality => { :greater_than => 0 }
-  monetize :client_rate_value_cents, :with_currency=>:rub, :allow_nil => false, :numericality => { :greater_than => 0 }
+  monetize :executor_rate_value_cents,        with_currency: :rub, allow_nil: false, numericality: { greater_than: 0 }
+  monetize :team_lead_rate_value_cents,       with_currency: :rub, allow_nil: false, numericality: { greater_than: 0 }
+  monetize :client_rate_value_cents,          with_currency: :rub, allow_nil: false, numericality: { greater_than: 0 }
+  monetize :account_manager_rate_value_cents, with_currency: :rub, allow_nil: false, numericality: { greater_than: 0 }
 
   scope :ordered_by_id, ->() { order(:id) }
 
