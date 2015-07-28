@@ -51,7 +51,15 @@ class Organization::MilestoneTasksController < Organization::BaseController
     redirect_to (get_session_return_to || organization_project_milestone_path(current_organization, current_project, current_milestone))
   end
 
-  [:negotiate, :approve, :hold, :start, :finish, :defer, :accept, :reject, :cancel].each do |state_event|
+  def accept
+    trigger_state_event current_task, :accept
+    if current_task.current_state == 'done'
+      current_task.accepted_by_id = current_user.id
+      current_task.save
+    end
+  end
+
+  [:negotiate, :approve, :hold, :start, :finish, :defer, :reject, :cancel].each do |state_event|
     define_method "#{state_event}" do
       trigger_state_event current_task, state_event
     end

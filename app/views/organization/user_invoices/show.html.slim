@@ -41,7 +41,7 @@
           th= t("activerecord.attributes.task_to_user_invoice.#{field}")
     tbody
       - invoice.task_to_user_invoices.includes(:task).each do |t|
-        - t= TaskToUserInvoiceDecorator.new(t)
+        - t= TaskToUserInvoiceStoreDecorator.new(t)
         tr
           - task_columns.each do |field|
             td= t.send(field)

@@ -8,15 +8,24 @@ class UserInvoiceRequestForm < ModelPretender
   end
 
   def executor_tasks organization
-    tasks_scope(organization).by_assigned_user(user).joins{executor_task_to_user_invoices.outer}.where(:executor_task_to_user_invoices=>{:id=>nil})
+    tasks_scope(organization).
+      where(assignee_id: user.id).
+      joins{executor_task_to_user_invoices.outer}.
+      where(task_to_user_invoices: {id: nil})
   end
 
   def team_lead_tasks organization
-    tasks_scope(organization).by_team_lead_user(user).joins{team_lead_task_to_user_invoices.outer}.where(:task_to_user_invoices=>{:id=>nil})
+    tasks_scope(organization).
+      where(accepted_by_id: user.id).
+      joins{team_lead_task_to_user_invoices.outer}.
+      where(task_to_user_invoices: {id: nil})
   end
 
   def account_manager_tasks organization
-    tasks_scope(organization).by_account_manager_user(user).joins{account_manager_task_to_user_invoices.outer}.where(:task_to_user_invoices=>{:id=>nil})
+    tasks_scope(organization)
+      .by_account_manager_user(user)
+      .joins{account_manager_task_to_user_invoices.outer}
+      .where(:task_to_user_invoices=>{:id=>nil})
   end
 
   private

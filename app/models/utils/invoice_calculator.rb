@@ -1,0 +1,2 @@
+class Utils::InvoiceCalculator
+end
