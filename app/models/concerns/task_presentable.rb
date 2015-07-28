@@ -20,16 +20,22 @@ module TaskPresentable
     task_level.account_manager_rate_value * planned_time
   end
 
+  TaskToUserInvoice::USER_ROLES.each do |role, v|
+    define_method "task_stored_#{role}_cost" do
+      self.send("stored_#{role}_cost")
+    end
+  end
+
   def user_invoice_executor_summary
-    "#{title} / #{planned_time} / #{executor_cost}"
+    "#{title} / #{planned_time} / #{task_stored_executor_cost}"
   end
 
   def user_invoice_team_lead_summary
-    "#{title} / #{planned_time} / #{team_lead_cost}"
+    "#{title} / #{planned_time} / #{task_stored_team_lead_cost}"
   end
 
   def user_invoice_account_manager_summary
-    "#{title} / #{planned_time} / #{account_manager_cost}"
+    "#{title} / #{planned_time} / #{task_stored_account_manager_cost}"
   end
 
 end

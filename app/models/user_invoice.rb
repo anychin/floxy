@@ -57,14 +57,14 @@ class UserInvoice < ActiveRecord::Base
   # end
 
   def total_cost
-    [executor_cost, team_lead_cost, account_manager_cost].compact.inject(&:+)
+    [executor_cost, team_lead_cost, account_manager_cost].compact.inject(&:+) || 0
   end
 
 
   def update_costs
-    self.account_manager_cost = account_manager_tasks.map(&:account_manager_cost).compact.inject(:+)
-    self.executor_cost        = executor_tasks.map(&:executor_cost).compact.inject(:+)
-    self.team_lead_cost       = team_lead_tasks.map(&:team_lead_cost).compact.inject(:+)
+    self.account_manager_cost = account_manager_tasks.map(&:account_manager_cost).compact.inject(:+) || 0
+    self.executor_cost        = executor_tasks.map(&:executor_cost).compact.inject(:+)   || 0
+    self.team_lead_cost       = team_lead_tasks.map(&:team_lead_cost).compact.inject(:+) || 0
     self.save
   end
 end
