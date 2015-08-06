@@ -5,7 +5,6 @@
 #= require moment
 #= require bootstrap-datetimepicker
 #= require moment/ru
-#= require metrika
 #= require cocoon
 
 $ ->
@@ -23,4 +22,3 @@ $ ->
     format: 'DD/MM/YYYY'
 
   $('@tooltip').tooltip()
-

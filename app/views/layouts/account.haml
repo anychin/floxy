@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+    = render 'layouts/account/head'
+  %body{:class => "#{controller_name} #{action_name}"}
+    .application-container
+      = render 'layouts/account/navbar'
+      = render 'layouts/messages'
+      = yield
+
+    %footer.footer
+      .container

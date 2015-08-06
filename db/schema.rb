@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 20150623102933) do
 
   create_table "task_to_user_invoices", force: :cascade do |t|
     t.integer  "user_invoice_id",             null: false
-    t.integer  "task_id",                     null: false
+    t.integer  "task_id",         default: 0, null: false
     t.integer  "user_role",       default: 0, null: false
     t.datetime "deleted_at"
   end
