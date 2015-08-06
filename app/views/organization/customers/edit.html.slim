@@ -1,0 +1,10 @@
+.container
+  = link_to organization_customers_path(current_organization) do
+    i.fa.fa-angle-left
+    | &nbsp;
+    | Назад
+
+  h2
+    | Редактировать данные клиента
+  br
+  = render partial: 'form', locals: {customer: customer}

@@ -1,4 +1,6 @@
 class Organization::TasksController < Organization::BaseController
+  layout 'account'
+
   def index
     authorize Task
     tasks = policy_scope(current_organization.tasks.not_in_state(:done).ordered_by_id).group_by{|t| t.current_state}

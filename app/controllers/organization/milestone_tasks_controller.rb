@@ -51,7 +51,7 @@ class Organization::MilestoneTasksController < Organization::BaseController
     redirect_to (get_session_return_to || organization_project_milestone_path(current_organization, current_project, current_milestone))
   end
 
-  [:negotiate, :approve, :hold, :start, :finish, :defer, :accept, :reject].each do |state_event|
+  [:negotiate, :approve, :hold, :start, :finish, :defer, :accept, :reject, :cancel].each do |state_event|
     define_method "#{state_event}" do
       trigger_state_event current_task, state_event
     end

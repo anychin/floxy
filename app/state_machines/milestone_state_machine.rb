@@ -8,6 +8,8 @@ class MilestoneStateMachine
   state :done
 
   NOT_EDITABLE_STATES = [:current, :resolved, :done]
+  PLANNING_STATES = [:idea, :approval]
+  PRODUCTION_STATES = [:current, :resolved]
 
   event :negotiate do
     transition from: :idea, to: :approval

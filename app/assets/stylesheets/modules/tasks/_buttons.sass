@@ -1,4 +1,4 @@
-@each $e in negotiate btn-default, approve btn-default, hold btn-warning, start btn-primary, finish btn-success, defer btn-warning, accept btn-success, reject btn-danger
+@each $e in negotiate btn-default, approve btn-default, hold btn-warning, start btn-primary, finish btn-success, defer btn-warning, accept btn-success, reject btn-danger, cancel btn-warning
   .btn-task-state-#{nth($e, 1)}
     @extend .btn
     @extend .#{nth($e, 2)}

@@ -1,4 +1,6 @@
 class Milestone < ActiveRecord::Base
+  acts_as_paranoid
+
   include Statesman::Adapters::ActiveRecordQueries
 
   validates :title, :project, presence: true
@@ -8,7 +10,7 @@ class Milestone < ActiveRecord::Base
   has_one :team, :through => :project
   has_many :team_memberships, :through => :team
 
-  has_many :tasks, dependent: :nullify
+  has_many :tasks, dependent: :destroy
   has_many :milestone_transitions, dependent: :destroy
 
   # scope :ordered_by_id, -> { order("id asc") }

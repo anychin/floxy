@@ -12,6 +12,7 @@ ru:
       team: Команда
       task_level: Уровень задачи
       user_invoice: Выплата
+      customer: Клиент
     attributes:
       project:
         title: Название

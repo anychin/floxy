@@ -15,6 +15,9 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require "pundit/rspec"
+require 'factory_girl_rails'
+
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f}
 
 RSpec.configure do |config|
