@@ -16,10 +16,12 @@ class Organization::ProjectMilestonesController < Organization::BaseController
     end
   end
 
-  def show
-    authorize current_milestone
-    tasks = MilestonePolicies::TaskPolicy::Scope.new(current_user, current_milestone.tasks.ordered_by_created_at, current_milestone).resolve
-    render locals:{milestone: current_milestone, user: current_user, tasks: tasks}
+  {show: TaskStateMachine::PRODUCTION_STATES, planning: TaskStateMachine::PLANNING_STATES, done: :done}.each_pair do |section, states|
+    define_method "#{section}" do
+      authorize current_milestone
+      tasks = milestone_tasks.in_state(states)
+      render :show, locals:{milestone: current_milestone, user: current_user, tasks: tasks}
+    end
   end
 
   def edit
@@ -74,6 +76,10 @@ class Organization::ProjectMilestonesController < Organization::BaseController
 
   def milestone_params
     params.require(:milestone).permit(policy(resource_policy_class).permitted_attributes)
+  end
+
+  def milestone_tasks
+    MilestonePolicies::TaskPolicy::Scope.new(current_user, current_milestone.tasks.ordered_by_created_at, current_milestone).resolve
   end
 
   def policy(record)

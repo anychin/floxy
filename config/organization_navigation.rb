@@ -14,6 +14,12 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :projects, 'Выплаты', organization_user_invoices_url(current_organization), highlights_on: lambda{ controller.is_a?(Organization::UserInvoicesController)}
     settings_policy_class = OrganizationPolicies::SettingsPolicy
     primary.item :settings, 'Настройки', organization_settings_path(current_organization), highlights_on: lambda{ controller.is_a?(Organization::SettingsController)}, :if => ->{settings_policy_class.new(current_user, current_organization, current_organization).show?}
+    customer_policy_class = OrganizationPolicies::CustomerPolicy
+    primary.item :customers,
+      'Клиенты',
+      organization_customers_path(current_organization),
+      highlights_on: lambda{ controller.is_a?(Organization::CustomersController)},
+      if: ->{customer_policy_class.new(current_user, current_organization, current_organization).show?}
 
     # you can turn off auto highlighting for a specific level
     primary.auto_highlight = true

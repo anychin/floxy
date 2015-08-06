@@ -1,0 +1,11 @@
+%nav
+  .navbar-container
+    = link_to 'F', root_url, :class => 'navbar-logotype button'
+    = link_to 'Webium Digital', root_url, :class => 'navbar-account button'
+    = link_to 'Team Lead', root_url, :class => 'navbar-user button'
+    %ul.navbar-menu
+      %li
+        = link_to 'T', root_url, :class => 'navbar-menu__item button'
+      %li
+        = link_to 'P', root_url, :class => 'navbar-menu__item button'
+    = link_to 'Add filters', root_url, :class => 'navbar-filter button'

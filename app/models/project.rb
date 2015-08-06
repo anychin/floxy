@@ -1,6 +1,8 @@
 class Project < ActiveRecord::Base
+  acts_as_paranoid
+
   validates :title, :organization, :team, presence: true
-  has_many :milestones, dependent: :nullify
+  has_many :milestones, dependent: :destroy
 
   belongs_to :organization
   belongs_to :team

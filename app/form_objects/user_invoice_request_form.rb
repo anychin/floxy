@@ -3,10 +3,6 @@ class UserInvoiceRequestForm < ModelPretender
   date_attr_accessor :date_to
   integer_attr_accessor :user_id
 
-  validates :date_from, :date_to, :user_id, :presence => true
-
-  before_validation :swap_dates
-
   def user
     User.find(user_id)
   end
@@ -26,7 +22,7 @@ class UserInvoiceRequestForm < ModelPretender
   private
 
   def tasks_scope organization
-    organization.tasks.by_accepted_date(date_period)
+    organization.tasks
   end
 
   def date_period

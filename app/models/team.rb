@@ -1,8 +1,10 @@
 class Team < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :organization
   has_many :team_memberships, dependent: :destroy, :inverse_of => :team
   has_many :members, :through => :team_memberships, :source => :user
-  has_many :projects, dependent: :nullify
+  has_many :projects, dependent: :destroy
 
 
   scope :ordered_by_id, ->{ order("id asc") }

@@ -24,7 +24,7 @@ gem 'switch_user'
 # gem 'phony_rails', :git => 'git://github.com/joost/phony_rails.git'
 
 # View Objects
-gem 'model_pretender', :git => 'git://github.com/TinkerDev/model_pretender.git'
+gem 'model_pretender', git: 'git://github.com/quant2012/model_pretender.git', branch: 'gemspec_fix'
 
 # Admin
 # gem 'activeadmin', github: 'activeadmin'
@@ -79,11 +79,11 @@ gem 'uglifier', '~> 1.3'
 gem 'coffee-rails'
 
 # Css
+gem 'sass-rails'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'compass'
 gem 'compass-rails'
 gem 'sprockets-rails'
-gem 'sass-rails'
 
 # Queue
 #gem 'redis-namespace'
@@ -137,6 +137,9 @@ gem 'hashie'
 gem 'puma'
 gem 'pundit', :git=>'git://github.com/elabs/pundit.git'
 
+# Soft delete
+gem "paranoia", "~> 2.0"
+
 group :development, :staging do
   gem "better_errors"
 end
@@ -176,13 +179,12 @@ group :development do
 end
 
 
-gem 'rspec-rails', :group => [:development, :test]
-
 group :test do
   # Minimum pack
   gem "capybara"
   gem 'poltergeist'
   gem "database_cleaner"
+  gem 'factory_girl_rails'
 
   # Seeds
   # gem 'forgery'
@@ -217,6 +219,8 @@ group :development, :test do
   gem 'spring'
   gem 'railroady'
   gem "rails-erd"
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
 end
 
 # group :deploy do

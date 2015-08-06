@@ -1,4 +1,6 @@
 class TaskLevel < ActiveRecord::Base
+  acts_as_paranoid
+
   enum rate_type:{ hourly: 0, monthly: 1 }
   belongs_to :organization
   has_many :tasks

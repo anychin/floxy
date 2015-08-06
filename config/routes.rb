@@ -16,6 +16,7 @@ Floxy::Application.routes.draw do
       post :create_membership
     end
     scope :module=>:organization do
+      resources :customers
       resources :tasks, only: [:index] do
         get 'done', on: :collection
         get 'without_milestone', on: :collection
@@ -30,6 +31,11 @@ Floxy::Application.routes.draw do
       end
       resources :milestones, only: [:index]
       resources :projects do
+        member do
+          get :planning
+          get :done
+          get :empty
+        end
         resources :milestones, :except=>[:index], :controller => 'project_milestones' do
           member do
             get :negotiate
@@ -39,6 +45,8 @@ Floxy::Application.routes.draw do
             get :accept
             get :reject
             get :print
+            get :planning
+            get :done
           end
           resources :tasks, :except=>[:index], :controller => 'milestone_tasks' do
             member do
@@ -50,6 +58,7 @@ Floxy::Application.routes.draw do
               get :finish
               get :accept
               get :reject
+              get :cancel
             end
           end
         end

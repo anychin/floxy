@@ -7,6 +7,18 @@ class ProjectPolicies::MilestonePolicy < ProjectPolicies::BasePolicy
     project.organization.owner_or_booker?(user) or project.team.members.include?(user)
   end
 
+  def production?
+    show?
+  end
+
+  def planning?
+    show?
+  end
+
+  def done?
+    show?
+  end
+
   def update?
     project.organization.owner?(user) or project.team.administrative?(user)
   end
