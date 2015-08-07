@@ -1,6 +1,6 @@
-.task-stack
+.task-current
 
-.task-stack__row-info
+.task-current__row-info
   width: 100%
   height: 18px
   font-size: 9px
@@ -15,17 +15,20 @@
     &:hover
       text-decoration: underline
 
-.task-stack__row-body
+.task-current__row-body
   width: 100%
   height: 52px
   &:hover
     background: #3A3B40
 
-.task-stack__content
+.task-current__content
   @include clearfix()
 
-  button.task-action.hour
-    background: #1C1D1F
+  button.task-action.finish
+    background: #16AEE9
+    font-size: 10px
+    text-transform: uppercase
+    color: #fff
     display: block
     float: left
 
@@ -34,9 +37,23 @@
     width: 426px
     display: block
     float: left
-    padding: 6px 20px 5px 20px
+    padding: 6px 20px 0px 20px
     font-size: 14px
-    color: #BEBFC2
+    color: #2C2E45
+    background: #fff
     letter-spacing: 0.2px
     line-height: 19px
+    box-sizing: border-box
+
+  .cost
+    height: 52px
+    width: 104px
+    display: block
+    float: left
+    padding: 12px 14px 0px 14px
+    font-size: 11px
+    color: #fff
+    background: #16AEE9
+    letter-spacing: 0.2px
+    line-height: 15px
     box-sizing: border-box
