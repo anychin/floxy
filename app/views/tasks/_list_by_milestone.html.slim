@@ -1,5 +1,0 @@
-- milestones.each do |milestone|
-  .panel.panel-default.tasks-list__milestone
-    .panel-body
-      = render :partial=>'milestones/list_item_header', locals: {milestone: milestone}
-      = render :partial=>'tasks/block_list', locals: {tasks: milestone.tasks, organization: milestone.organization }
