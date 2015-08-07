@@ -39,6 +39,36 @@ section.tasks
           .col4
 
       //Стек задач назначенных на юзера
+      .tasks-list__item.task-lead
+        .task-grid.task-lead__row-info
+          .col1
+          .project.col2-merge__col3
+            = link_to 'izatlashevoru', root_url, class: 'project-link';
+
+          .col4
+        .task-grid.task-lead__row-body
+          .col1
+          .col2-merge__col3.task-lead__content
+            button.task-action.hour
+              | 17h
+            .description
+              p
+                | Оптимизация, Яндекс.Директ, Услуги ТВЧ
+                br
+                | Для Увелечение конверсии в 2 раза
+            .cost
+              p
+                | 2 h
+                br
+                | 1 500 000 RUB
+            .master
+              = link_to root_url do
+                | Anton
+                br
+                | Anuchin
+          .col4
+
+      //Стек задач назначенных на юзера
       .tasks-list__item.task-stack
         .task-grid.task-stack__row-info
           .col1
