@@ -1,18 +1,26 @@
-= render :partial=> 'my_nav', locals: {organization: organization}
-.container
-  - if tasks.any?
-    - task_states_order = [:resolved, :deferred, :current, :todo, :approval, :idea]
-    - task_states_order.each do |state|
-      - if tasks[state.to_s].present?
-        h4= t("activerecord.attributes.task.states.#{state}")
-        - tasks_by_project = tasks[state.to_s].group_by{|t| t.project}
-        - tasks_by_project.each_with_index do |(project, tasks, i)|
-          - if project.present?
-            h5= "#{t('activerecord.models.project')} #{project}"
-          - else
-            h5
-              | Без проекта
-          = render :partial=>'tasks/block_list', locals:{ tasks: tasks }
-        hr
-  - else
-    = render :partial=>'tasks/empty'
+section.tasks
+  .tasks-wrapper
+    .tasks-list__header.task-grid
+      .tasks-list__header-title.col1
+        | Необходимо выполнить
+
+
+    .tasks-list__items
+      .tasks-list__item-work
+      .tasks-list__item-plane
+      - if tasks.any?
+        - task_states_order = [:resolved, :deferred, :current, :todo, :approval, :idea]
+        - task_states_order.each do |state|
+          - if tasks[state.to_s].present?
+            h4= t("activerecord.attributes.task.states.#{state}")
+            - tasks_by_project = tasks[state.to_s].group_by{|t| t.project}
+            - tasks_by_project.each_with_index do |(project, tasks, i)|
+              - if project.present?
+                h5= "#{t('activerecord.models.project')} #{project}"
+              - else
+                h5
+                  | Без проекта
+              = render :partial=>'tasks/block_list', locals:{ tasks: tasks }
+            hr
+      - else
+        = render :partial=>'tasks/empty'

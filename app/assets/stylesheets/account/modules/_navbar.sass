@@ -15,24 +15,45 @@ nav
   a
     display: block
     text-decoration: none
-    color: #F0EEEE
 
-  .button
-    display: inline-block
-    text-align: center
-    vertical-align: middle
-    height: 38px
-    &:hover
-      background: #3C3E46
-
-
-  .navbar-container
+  .navbar-wrapper
     width: 1000px
     margin: 0 auto 0 auto
 
+  .navbar-menu
+    @include clearfix()
+    display: block
+    width: 500px
+
+
+  .navbar-menu__item
+    float: left
+    font-size: 14px
+    width: 38px
+    height: 26px
+    padding: 12px 0px 0px 0px
+
 
   .navbar-logotype
+    font-size: 14px
     width: 38px
+    height: 26px
+    padding: 12px 0px 0px 0px
+    float: left
 
-  .navbar-menu
-    display: inline-block
+  .navbar-account
+    float: left
+    font-size: 14px
+    text-transform: uppercase
+    letter-spacing: 1.2
+    width: 83px
+    height: 26px
+    padding: 12px 38px 0px 3px
+    float: left
+
+  .navbar-user
+    width: 98px
+    font-size: 11px
+    height: 26px
+    padding: 12px 3px 0px 3px
+    float: left
